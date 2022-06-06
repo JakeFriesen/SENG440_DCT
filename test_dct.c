@@ -56,13 +56,13 @@ int leoffler (float *line_arr){
 
 
 int main(void){
-    printf("Hello World!");
+    printf("Hello World!\n");
     return 0;
     float test_arr [8] = {255, 0, 100, 50, 255, 30, 255, 0};
     float out [8];
     leoffler(&test_arr[0]);
     for(int i = 0; i < 8; i++){
-        printf("%f", test_arr[i]);
+        printf("%f ", test_arr[i]);
     }
 
 }
