@@ -62,7 +62,7 @@ int main(void){
     float out [8];
     leoffler(&test_arr[0]);
     for(int i = 0; i < 8; i++){
-        printf("%f ", test_arr[i]);
+        printf("i=%d : %f \n", i, test_arr[i]);
     }
 
 }
