@@ -7,6 +7,7 @@
 #define SIN3 0.55557023
 #define SIN6 0.92387953
 #define SQRT2 1.1421356
+#define SQRT8 2.8284271
 #define PI 3.1415927
 
 int leoffler (float *line_arr){
@@ -42,14 +43,14 @@ int leoffler (float *line_arr){
     stage3[6] = stage2[7] - stage2[5];
     stage3[7] = stage2[7] + stage2[5];
     //Stage 4
-    line_arr[0] = stage3[0];
-    line_arr[4] = stage3[1];
-    line_arr[2] = stage3[2];
-    line_arr[6] = stage3[3];
-    line_arr[7] = stage3[7] - stage3[4];
-    line_arr[1] = stage3[7] + stage3[4];
-    line_arr[3] = stage3[5]*SQRT2;
-    line_arr[5] = stage3[6]*SQRT2;
+    line_arr[0] = stage3[0] / SQRT8;
+    line_arr[4] = stage3[1] / SQRT8;
+    line_arr[2] = stage3[2] / SQRT8;
+    line_arr[6] = stage3[3] / SQRT8;
+    line_arr[7] = (stage3[7] - stage3[4]) / SQRT8;
+    line_arr[1] = (stage3[7] + stage3[4]) / SQRT8;
+    line_arr[3] = stage3[5]*SQRT2 / SQRT8;
+    line_arr[5] = stage3[6]*SQRT2 / SQRT8;
 
     return 1;
 }
