@@ -39,10 +39,11 @@ int leoffler (float *line_arr){
     stage3[2] = SQRT2*COS6*stage2[2] + SQRT2*SIN6*stage2[3];
     stage3[3] = -SQRT2*SIN6*stage2[2] + SQRT2*COS6*stage2[3];
     stage3[4] = stage2[4] + stage2[6];
-    stage3[5] = stage2[4] - stage2[6];
-    stage3[6] = stage2[7] - stage2[5];
+    stage3[6] = stage2[4] - stage2[6];
+    stage3[5] = stage2[7] - stage2[5];
     stage3[7] = stage2[7] + stage2[5];
     //Stage 4
+    //The renormalization is NOT required, I have it here to verify against MATLAB
     line_arr[0] = stage3[0] / SQRT8;
     line_arr[4] = stage3[1] / SQRT8;
     line_arr[2] = stage3[2] / SQRT8;
@@ -67,3 +68,25 @@ int main(void){
     return 0;
 
 }
+/*
+i=0 : 334.107971 
+i=1 : 18.485962 
+i=2 : 0.662828  - 
+i=3 : 94.884583  -
+i=4 : 61.871845 
+i=5 : 123.972336  - 
+i=6 : -54.359993  - 
+i=7 : 225.341156 
+
+Proper values:
+  334.1080
+   18.4859
+    0.8207
+  153.5049
+   61.8718
+  117.4879
+  -67.3096
+  225.3411
+
+
+*/
