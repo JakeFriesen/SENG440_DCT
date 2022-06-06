@@ -16,6 +16,7 @@
 	.global	__aeabi_dmul
 	.global	__aeabi_dadd
 	.global	__aeabi_d2f
+	.global	__aeabi_ddiv
 	.section	.rodata
 	.align	2
 .LC1:
@@ -349,14 +350,14 @@ leoffler:
 	mov	r0, r3
 	bl	__aeabi_fsub
 	mov	r3, r0
-	str	r3, [fp, #-28]	@ float
+	str	r3, [fp, #-24]	@ float
 	ldr	r3, [fp, #-52]	@ float
 	ldr	r2, [fp, #-60]	@ float
 	mov	r1, r2
 	mov	r0, r3
 	bl	__aeabi_fsub
 	mov	r3, r0
-	str	r3, [fp, #-24]	@ float
+	str	r3, [fp, #-28]	@ float
 	ldr	r3, [fp, #-52]	@ float
 	ldr	r2, [fp, #-60]	@ float
 	mov	r1, r2
@@ -364,43 +365,118 @@ leoffler:
 	bl	__aeabi_fadd
 	mov	r3, r0
 	str	r3, [fp, #-20]	@ float
-	ldr	r2, [fp, #-48]	@ float
-	ldr	r3, [fp, #-120]
-	str	r2, [r3]	@ float
-	ldr	r3, [fp, #-120]
-	add	r3, r3, #16
-	ldr	r2, [fp, #-44]	@ float
-	str	r2, [r3]	@ float
-	ldr	r3, [fp, #-120]
-	add	r3, r3, #8
-	ldr	r2, [fp, #-40]	@ float
-	str	r2, [r3]	@ float
-	ldr	r3, [fp, #-120]
-	add	r3, r3, #24
-	ldr	r2, [fp, #-36]	@ float
-	str	r2, [r3]	@ float
-	ldr	r2, [fp, #-20]	@ float
-	ldr	r1, [fp, #-32]	@ float
-	ldr	r3, [fp, #-120]
-	add	r4, r3, #28
+	ldr	r3, [fp, #-48]	@ float
+	mov	r0, r3
+	bl	__aeabi_f2d
+	ldr	r2, .L4+56
+	ldr	r3, .L4+60
+	bl	__aeabi_ddiv
+	mov	r2, r0
+	mov	r3, r1
 	mov	r0, r2
-	bl	__aeabi_fsub
+	mov	r1, r3
+	bl	__aeabi_d2f
+	mov	r2, r0
+	ldr	r3, [fp, #-120]
+	str	r2, [r3]	@ float
+	ldr	r3, [fp, #-44]	@ float
+	mov	r0, r3
+	bl	__aeabi_f2d
+	ldr	r2, .L4+56
+	ldr	r3, .L4+60
+	bl	__aeabi_ddiv
+	mov	r2, r0
+	mov	r3, r1
+	mov	r0, r2
+	mov	r1, r3
+	ldr	r3, [fp, #-120]
+	add	r4, r3, #16
+	bl	__aeabi_d2f
 	mov	r3, r0
 	str	r3, [r4]	@ float
-	ldr	r2, [fp, #-20]	@ float
-	ldr	r1, [fp, #-32]	@ float
+	ldr	r3, [fp, #-40]	@ float
+	mov	r0, r3
+	bl	__aeabi_f2d
+	ldr	r2, .L4+56
+	ldr	r3, .L4+60
+	bl	__aeabi_ddiv
+	mov	r2, r0
+	mov	r3, r1
+	mov	r0, r2
+	mov	r1, r3
+	ldr	r3, [fp, #-120]
+	add	r4, r3, #8
+	bl	__aeabi_d2f
+	mov	r3, r0
+	str	r3, [r4]	@ float
+	ldr	r3, [fp, #-36]	@ float
+	mov	r0, r3
+	bl	__aeabi_f2d
+	ldr	r2, .L4+56
+	ldr	r3, .L4+60
+	bl	__aeabi_ddiv
+	mov	r2, r0
+	mov	r3, r1
+	mov	r0, r2
+	mov	r1, r3
+	ldr	r3, [fp, #-120]
+	add	r4, r3, #24
+	bl	__aeabi_d2f
+	mov	r3, r0
+	str	r3, [r4]	@ float
+	ldr	r3, [fp, #-20]	@ float
+	ldr	r2, [fp, #-32]	@ float
+	mov	r1, r2
+	mov	r0, r3
+	bl	__aeabi_fsub
+	mov	r3, r0
+	mov	r0, r3
+	bl	__aeabi_f2d
+	ldr	r2, .L4+56
+	ldr	r3, .L4+60
+	bl	__aeabi_ddiv
+	mov	r2, r0
+	mov	r3, r1
+	mov	r0, r2
+	mov	r1, r3
+	ldr	r3, [fp, #-120]
+	add	r4, r3, #28
+	bl	__aeabi_d2f
+	mov	r3, r0
+	str	r3, [r4]	@ float
+	ldr	r3, [fp, #-20]	@ float
+	ldr	r2, [fp, #-32]	@ float
+	mov	r1, r2
+	mov	r0, r3
+	bl	__aeabi_fadd
+	mov	r3, r0
+	mov	r0, r3
+	bl	__aeabi_f2d
+	ldr	r2, .L4+56
+	ldr	r3, .L4+60
+	bl	__aeabi_ddiv
+	mov	r2, r0
+	mov	r3, r1
+	mov	r0, r2
+	mov	r1, r3
 	ldr	r3, [fp, #-120]
 	add	r4, r3, #4
-	mov	r0, r2
-	bl	__aeabi_fadd
+	bl	__aeabi_d2f
 	mov	r3, r0
 	str	r3, [r4]	@ float
 	ldr	r3, [fp, #-28]	@ float
 	mov	r0, r3
 	bl	__aeabi_f2d
+	ldr	r2, .L4+64
+	ldr	r3, .L4+68
+	bl	__aeabi_dmul
+	mov	r2, r0
+	mov	r3, r1
+	mov	r0, r2
+	mov	r1, r3
 	ldr	r2, .L4+56
 	ldr	r3, .L4+60
-	bl	__aeabi_dmul
+	bl	__aeabi_ddiv
 	mov	r2, r0
 	mov	r3, r1
 	mov	r0, r2
@@ -413,9 +489,16 @@ leoffler:
 	ldr	r3, [fp, #-24]	@ float
 	mov	r0, r3
 	bl	__aeabi_f2d
+	ldr	r2, .L4+64
+	ldr	r3, .L4+68
+	bl	__aeabi_dmul
+	mov	r2, r0
+	mov	r3, r1
+	mov	r0, r2
+	mov	r1, r3
 	ldr	r2, .L4+56
 	ldr	r3, .L4+60
-	bl	__aeabi_dmul
+	bl	__aeabi_ddiv
 	mov	r2, r0
 	mov	r3, r1
 	mov	r0, r2
@@ -450,13 +533,15 @@ leoffler:
 	.word	1072652951
 	.word	940918071
 	.word	1070135480
-	.word	698025003
-	.word	1071380751
-	.word	-482274165
-	.word	1072751124
-	.word	-1074732524
-	.word	-90599758
-	.word	1072842287
+	.word	2039657844
+	.word	1071731066
+	.word	-1883621286
+	.word	1073014702
+	.word	-1074468946
+	.word	1663890946
+	.word	1074176158
+	.word	1708926943
+	.word	1073127582
 	.size	leoffler, .-leoffler
 	.section	.rodata
 	.align	2
@@ -464,6 +549,19 @@ leoffler:
 	.ascii	"Hello World!\000"
 	.align	2
 .LC3:
+	.ascii	"i=%d : %f \012\000"
+	.align	2
+.LC0:
+	.word	1132396544
+	.word	0
+	.word	1120403456
+	.word	1112014848
+	.word	1132396544
+	.word	1106247680
+	.word	1132396544
+	.word	0
+	.align	2
+.LC4:
 	.word	__stack_chk_guard
 	.text
 	.align	2
@@ -478,30 +576,65 @@ main:
 	push	{fp, lr}
 	add	fp, sp, #4
 	sub	sp, sp, #40
-	ldr	r3, .L9
+	ldr	r3, .L11
 	ldr	r3, [r3]
 	str	r3, [fp, #-8]
 	mov	r3,#0
-	ldr	r0, .L9+4
-	bl	printf
+	ldr	r0, .L11+4
+	bl	puts
+	ldr	r3, .L11+8
+	sub	ip, fp, #40
+	mov	lr, r3
+	ldmia	lr!, {r0, r1, r2, r3}
+	stmia	ip!, {r0, r1, r2, r3}
+	ldm	lr, {r0, r1, r2, r3}
+	stm	ip, {r0, r1, r2, r3}
+	sub	r3, fp, #40
+	mov	r0, r3
+	bl	leoffler
 	mov	r3, #0
-	ldr	r2, .L9
+	str	r3, [fp, #-44]
+	b	.L7
+.L8:
+	ldr	r3, [fp, #-44]
+	lsl	r3, r3, #2
+	sub	r2, fp, #4
+	add	r3, r2, r3
+	ldr	r3, [r3, #-36]	@ float
+	mov	r0, r3
+	bl	__aeabi_f2d
+	mov	r2, r0
+	mov	r3, r1
+	ldr	r1, [fp, #-44]
+	ldr	r0, .L11+12
+	bl	printf
+	ldr	r3, [fp, #-44]
+	add	r3, r3, #1
+	str	r3, [fp, #-44]
+.L7:
+	ldr	r3, [fp, #-44]
+	cmp	r3, #7
+	ble	.L8
+	mov	r3, #0
+	ldr	r2, .L11
 	ldr	r1, [r2]
 	ldr	r2, [fp, #-8]
 	eors	r1, r2, r1
 	mov	r2, #0
-	beq	.L8
+	beq	.L10
 	bl	__stack_chk_fail
-.L8:
+.L10:
 	mov	r0, r3
 	sub	sp, fp, #4
 	@ sp needed
 	pop	{fp, pc}
-.L10:
+.L12:
 	.align	2
-.L9:
-	.word	.LC3
+.L11:
+	.word	.LC4
 	.word	.LC2
+	.word	.LC0
+	.word	.LC3
 	.size	main, .-main
 	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
 	.section	.note.GNU-stack,"",%progbits
