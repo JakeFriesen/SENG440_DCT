@@ -9,7 +9,7 @@ int main(void){
     fp = fopen ("file.txt", "r");
     while(1) {
       c = fgetc(fp);
-      if( feof(fp) ) { 
+      if( feof(fp) ) {
          break ;
       }
       printf("%c", c);
