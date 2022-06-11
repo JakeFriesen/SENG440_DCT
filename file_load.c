@@ -4,9 +4,9 @@
 int main(void){
     FILE * fp;
     int c;
-    printf("Hello World!");
+    printf("Hello World!\n");
 
-    fp = fopen ("file.txt", "w+");
+    fp = fopen ("file.txt", "r");
     while(1) {
       c = fgetc(fp);
       if( feof(fp) ) { 
@@ -15,7 +15,7 @@ int main(void){
       printf("%c", c);
    }
    fclose(fp);
-   printf("Done!");
+   printf("\nDone!\n");
 
     return 0;
 }
