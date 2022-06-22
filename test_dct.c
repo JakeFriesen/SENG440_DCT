@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #define COS1 0.98078528
 #define COS3 0.83146961
 #define COS6 0.38268343
@@ -10,7 +12,7 @@
 #define SQRT8 2.8284271
 #define PI 3.1415927
 
-int leoffler (float *line_arr){
+int loeffler (float *line_arr){
     //TODO: Move everything to short ints
     float stage1 [8];
     float stage2 [8];
@@ -57,14 +59,61 @@ int leoffler (float *line_arr){
     return 1;
 }
 
+int loeffler2d(float arr[8][8]){
+    int i = 0, j = 0;
+    float buffer[8];
+    
+    for(i = 0; i < 8; i++){
+        // Copy row to buffer
+        for(j = 0; j < 8; j++){
+            buffer[i] = arr[i][j];
+        }
+        
+        loeffler(buffer);
+
+        // Copy back to array
+        for(j = 0; j < 8; j++){
+            arr[i][j] = buffer[i];
+        }
+    }
+    for(i = 0; i < 8; i++){
+        // Copy row to buffer
+        for(j = 0; j < 8; j++){
+            buffer[i] = arr[j][i];
+        }
+        
+        loeffler(buffer);
+
+        // Copy back to array
+        for(j = 0; j < 8; j++){
+            arr[j][i] = buffer[i];
+        }
+    }
+    return 1;
+}
+
 
 int main(void){
-    printf("Hello World!\n");
+    printf("1-D DCT:\n");
     float test_arr [8] = {255, 0, 100, 50, 255, 30, 255, 0};
-    leoffler(&test_arr[0]);
-    for(int i = 0; i < 8; i++){
+    loeffler(&test_arr[0]);
+    int i = 0;
+    for(i = 0; i < 8; i++){
         printf("i=%d : %f \n", i, test_arr[i]);
     }
+
+
+    printf("2-D DCT:\n");
+
+    float test_arr2[8][8] = {{10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80},
+                            {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}};
+
+    loeffler2d(test_arr2);
+
+    for(i = 0; i < 8; i++){
+        printf("i=%d : %f \n", i, test_arr2[0][i]);
+    }
+
     return 0;
 
 }
