@@ -85,8 +85,6 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int8_t * image, char * fil
     fclose(fp);
 }
 
-//TODO: Make a file to read data from a file in 8x8 chuncks, return the 8x8 matrix
-
 int load_from_file(char * filename, u_int8_t * image)
 {
     FILE * fp;
@@ -175,20 +173,40 @@ int load_from_file(char * filename, u_int8_t * image)
     fclose(fp);
 }
 
+int get_matrix(u_int8_t * image, int width, int height, int mat_w, int mat_h, u_int8_t * matrix)
+{
+    for (int i = 0; i <  8; i++){
+        for(int j = 0; j < 8; j++){
+            *(matrix + i*8+j) = *(image + ((i+(mat_h*8))*width) + (j+ 8*(mat_w)));
+        }
+    }
+}
 
+int print_matrix(u_int8_t* matrix)
+{
+    for(int i = 0; i < 8; i++){
+        for(int j = 0; j < 8; j++){
+            printf("%3d ", *(matrix + i*8 + j));
+        }
+        printf("\n");
+    }
+}
 
 //TODO: This main should be removed once testing is finished
 int main(void)
 {
-    u_int16_t width = 320;
-    u_int16_t height = 240;
+    u_int16_t width = 16;
+    u_int16_t height = 8;
     u_int8_t test_image[width][height];
     u_int8_t new_image[width][height];
+    u_int8_t matrix [8][8];
     image_gen(width, height, (u_int8_t*)test_image);
     // print_image(width, height, (u_int8_t*)test_image);
     save_to_file(width, height, (u_int8_t*)test_image, "Image");
     load_from_file("Image", (u_int8_t*)new_image);
     // print_image(width, height, (u_int8_t*)new_image);
     save_to_file(width, height, (u_int8_t*)new_image, "New_Image");
+    get_matrix((u_int8_t*)new_image, width, height, 1, 0, (u_int8_t*)matrix);
+    print_matrix((u_int8_t*)matrix);
     return 0;
 }
