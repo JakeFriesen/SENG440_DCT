@@ -85,6 +85,11 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int8_t * image, char * fil
     fclose(fp);
 }
 
+/*
+* load_from_file
+* Function to load a pgm file from a filename string 
+* and store it in the given image matrix
+*/
 int load_from_file(char * filename, u_int8_t * image)
 {
     FILE * fp;
@@ -173,6 +178,10 @@ int load_from_file(char * filename, u_int8_t * image)
     fclose(fp);
 }
 
+/*
+* get_matrix
+* Given an image matrix, will return an 8x8 matrix at a given location
+*/
 int get_matrix(u_int8_t * image, int width, int height, int mat_w, int mat_h, u_int8_t * matrix)
 {
     for (int i = 0; i <  8; i++){
@@ -182,6 +191,10 @@ int get_matrix(u_int8_t * image, int width, int height, int mat_w, int mat_h, u_
     }
 }
 
+/*
+* print_matrix
+* Will print out an 8x8 matrix to console
+*/
 int print_matrix(u_int8_t* matrix)
 {
     for(int i = 0; i < 8; i++){
