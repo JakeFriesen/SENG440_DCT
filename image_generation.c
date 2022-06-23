@@ -95,7 +95,10 @@ int load_from_file(char * filename, u_int8_t * image)
     int height = 0;
     int cur_num = 0;
     int ascii [2];
+    int dimensions[100];
+    int i = 0;
     int c;
+    int mul [4] = {1000, 100, 10, 1};
     sprintf(filename_ext, "%s.pgm", filename);
     fp = fopen(filename_ext, "r");
     if(fp == NULL)
@@ -117,16 +120,23 @@ int load_from_file(char * filename, u_int8_t * image)
     do{
         c = getc(fp);
     }while(c != 0x0a);
-    // Read Dimensions
-    for(int i = 1; i <1000; i=i*10){
+
+    //Read Dimensions
+    for(int i = 0; i < 4; i++){
         c = getc(fp);
-        if(c == 0x20) break;
-        else width += (c-48)*i;
+        if(c == 0x20){
+            width = width / (mul[i-1]);
+            break;
+        } 
+        else width += (c-48)*mul[i];
     }
-    for(int i = 1; i < 1000; i=i*10){
+    for(int i = 0; i < 4; i++){
         c = getc(fp);
-        if(c == 0x20) break;
-        else height += (c-48)*i;
+        if(c == 0x20){ 
+            height = height / (mul[i-1]);
+            break;
+        }
+        else height += (c-48)*mul[i];
     }
     printf("Width:%d, Height:%d\n", width, height);
 
@@ -170,8 +180,8 @@ int load_from_file(char * filename, u_int8_t * image)
 //TODO: This main should be removed once testing is finished
 int main(void)
 {
-    u_int16_t width = 4;
-    u_int16_t height = 4;
+    u_int16_t width = 320;
+    u_int16_t height = 240;
     u_int8_t test_image[width][height];
     u_int8_t new_image[width][height];
     image_gen(width, height, (u_int8_t*)test_image);
