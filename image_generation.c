@@ -234,11 +234,11 @@ int main(void)
     save_to_file(width, height, (u_int8_t*)test_image, "Image");
     load_from_file("Image", (u_int8_t*)new_image);
     print_image(width, height, (u_int8_t*)new_image);
-    // save_to_file(width, height, (u_int8_t*)new_image, "New_Image");
-    // get_matrix((u_int8_t*)new_image, width, height, 0, 0, (u_int8_t*)matrix);
-    // print_matrix((u_int8_t*)matrix);
-    // matrix[0][0] = 111;
-    // put_matrix((u_int8_t*)new_image, width, height, 0, 0, (u_int8_t*)matrix);
-    // print_image(width, height, (u_int8_t*)new_image);
+    save_to_file(width, height, (u_int8_t*)new_image, "New_Image");
+    get_matrix((u_int8_t*)new_image, width, height, 0, 0, (u_int8_t*)matrix);
+    print_matrix((u_int8_t*)matrix);
+    matrix[0][0] = 111;
+    put_matrix((u_int8_t*)new_image, width, height, 0, 0, (u_int8_t*)matrix);
+    print_image(width, height, (u_int8_t*)new_image);
     return 0;
 }
