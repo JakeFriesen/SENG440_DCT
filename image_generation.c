@@ -12,8 +12,9 @@ specified size.
 * image_gen
 * Given a width, height, and image pointer, will create a matrix image 
 * with values from 0 to 255
+* TODO: Needs random value test generator
 */
-int image_gen(u_int16_t width, u_int16_t height, u_int8_t * image)
+int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image)
 {
     //image is a matrix of width x height
     for(int i = 0; i < height; i++){
@@ -29,7 +30,7 @@ int image_gen(u_int16_t width, u_int16_t height, u_int8_t * image)
 * Given the width, height, and pointer to an image, print out the 
 * image matrix to the console in decimal format
 */
-int print_image(u_int16_t width, u_int16_t height, u_int8_t * image)
+int print_image(u_int16_t width, u_int16_t height, u_int16_t * image)
 {
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
@@ -45,7 +46,7 @@ int print_image(u_int16_t width, u_int16_t height, u_int8_t * image)
 * Function that takes the width, height, image matrix, and a filename (without extension),
 * and writes it to a file in .pgm format
 */
-int save_to_file(u_int16_t width, u_int16_t height, u_int8_t * image, char * filename)
+int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * filename)
 {
     FILE * fp;
     char filename_ext [100];
@@ -72,7 +73,8 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int8_t * image, char * fil
     // Write the image data
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
-            u_int8_t cur_bit = *((image+i*width)+j);
+            u_int16_t cur_bit = *((image+i*width)+j);
+            //TODO: Support larger values, should be variable based on input scale?
             int ascii[3] = {(cur_bit/100)+48, ((cur_bit/10)%10)+48, (cur_bit%10)+48 };
 
             for (int k = 0; k < 3; k++){
@@ -91,7 +93,7 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int8_t * image, char * fil
 * Function to load a pgm file from a filename string 
 * and store it in the given image matrix
 */
-int load_from_file(char * filename, u_int8_t * image)
+int load_from_file(char * filename, u_int16_t * image)
 {
     FILE * fp;
     char filename_ext [100];
@@ -184,7 +186,7 @@ int load_from_file(char * filename, u_int8_t * image)
 * Given an image matrix, will return an 8x8 matrix at a given location
 * TODO: This indexing method is pretty terrible, consider revising
 */
-int get_matrix(u_int8_t * image, int width, int height, int mat_w, int mat_h, u_int8_t * matrix)
+int get_matrix(u_int16_t * image, int width, int height, int mat_w, int mat_h, u_int16_t * matrix)
 {
     for (int i = 0; i <  8; i++){
         for(int j = 0; j < 8; j++){
@@ -198,7 +200,7 @@ int get_matrix(u_int8_t * image, int width, int height, int mat_w, int mat_h, u_
 * Given an 8x8 matrix, will put the matrix into a given image at a specified location
 * TODO: This indexing method is pretty terrible, consider revising
 */
-int put_matrix(u_int8_t * image, int width, int height, int mat_w, int mat_h, u_int8_t * matrix)
+int put_matrix(u_int16_t * image, int width, int height, int mat_w, int mat_h, u_int16_t * matrix)
 {
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
@@ -211,7 +213,7 @@ int put_matrix(u_int8_t * image, int width, int height, int mat_w, int mat_h, u_
 * print_matrix
 * Will print out an 8x8 matrix to console
 */
-int print_matrix(u_int8_t* matrix)
+int print_matrix(u_int16_t* matrix)
 {
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
