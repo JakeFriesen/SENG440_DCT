@@ -6,6 +6,7 @@ arm : CFLAGS= -static
 
 binaries= test_dct test_dct_arm test_image_gen dct_image_compression
 assembly = test_dct_arm dct_image_compression_arm
+images = image Decompressed_Image Compressed_Image
 
 all: clean native arm
 
@@ -21,4 +22,4 @@ image_gen : image_generation.c test_image_gen.c
 .PHONY: clean
 
 clean: 
-	rm -f $(binaries) *.o
+	rm -f $(binaries) *.o $(images) *.pgm

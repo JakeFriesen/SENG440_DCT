@@ -19,7 +19,7 @@ int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image)
     //image is a matrix of width x height
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
-            *((image+i*width) + j) = i+j;
+            *((image+i*width) + j) = rand()%255;//i+j;
         }
     }
     return 1;
@@ -75,11 +75,19 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * fi
         for(int j = 0; j < width; j++){
             u_int16_t cur_bit = *((image+i*width)+j);
             //TODO: Support larger values, should be variable based on input scale?
-            int ascii[3] = {(cur_bit/100)+48, ((cur_bit/10)%10)+48, (cur_bit%10)+48 };
+            int ascii [10];
+            int mult = 1;
+            int i = 0;
+            do{
+                ascii [i] = ((cur_bit/mult)%10) + 48;
+                i++;
+                mult*= 10;
+            }while(cur_bit/mult != 0 && i < 10);
 
-            for (int k = 0; k < 3; k++){
-                fputc(ascii[k], fp);
+            for(int j = 0; j < i; j++){
+                fputc(ascii[i-j-1], fp);
             }
+
             fputc(32, fp);//add a space
         }
         fputc(10, fp);//add a newline
@@ -158,12 +166,26 @@ int load_from_file(char * filename, u_int16_t * image)
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             cur_num = 0;
-            for(int mul = 100; mul != 0; mul /= 10){
+            int num_arr [10];
+            int idx = 0;
+            int mult = 1;
+            do{
                 c = fgetc(fp);
-                cur_num += (c-48)*mul;
+                num_arr[idx] = c;
+                idx ++;
+            }while(c != 0x20);
+            //num_arr is also storing the space, so index up to idx-1, use idx-k-2
+            for(int k = 0; k < idx-1; k++){
+                cur_num += (num_arr[idx-k-2] - 48)*mult;
+                mult *= 10;
             }
+
+            // for(int mul = 100; mul != 0; mul /= 10){
+            //     c = fgetc(fp);
+            //     cur_num += (c-48)*mul;
+            // }
             *((image+i*width)+j) = cur_num;
-            c = fgetc(fp); //read the space
+            // c = fgetc(fp); //read the space
             if(c != 0x20){
                 printf("Not a Space, Invalid File!");
                 return -1;
