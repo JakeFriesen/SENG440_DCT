@@ -10,7 +10,7 @@ int main(void)
     u_int16_t test_image[width][height];
     u_int16_t new_image[width][height];
     u_int16_t matrix [8][8];
-    image_gen(width, height, (u_int16_t*)test_image);
+    image_gen(width, height, (u_int16_t*)test_image, 1);
     print_image(width, height, (u_int16_t*)test_image);
     save_to_file(width, height, (u_int16_t*)test_image, "Image");
     load_from_file("Image", (u_int16_t*)new_image);

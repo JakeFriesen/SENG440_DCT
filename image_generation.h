@@ -1,4 +1,4 @@
-int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image);
+int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image, int random);
 int print_image(u_int16_t width, u_int16_t height, u_int16_t * image);
 int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * filename);
 int load_from_file(char * filename, u_int16_t * image);

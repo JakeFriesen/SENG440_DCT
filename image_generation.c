@@ -14,12 +14,12 @@ specified size.
 * with values from 0 to 255
 * TODO: Needs random value test generator
 */
-int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image)
+int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image, int random)
 {
     //image is a matrix of width x height
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
-            *((image+i*width) + j) = rand()%255;//i+j;
+            *((image+i*width) + j) = (random == 1) ? (rand()%255) : (i+j);
         }
     }
     return 1;
@@ -244,26 +244,3 @@ int print_matrix(u_int16_t* matrix)
         printf("\n");
     }
 }
-
-//TODO: This main should be removed once testing is finished
-// int main(void)
-// {
-//     printf("Image Generation Tests");
-//     u_int16_t width = 16;
-//     u_int16_t height = 8;
-//     u_int8_t test_image[width][height];
-//     u_int8_t new_image[width][height];
-//     u_int8_t matrix [8][8];
-//     image_gen(width, height, (u_int8_t*)test_image);
-//     print_image(width, height, (u_int8_t*)test_image);
-//     save_to_file(width, height, (u_int8_t*)test_image, "Image");
-//     load_from_file("Image", (u_int8_t*)new_image);
-//     print_image(width, height, (u_int8_t*)new_image);
-//     save_to_file(width, height, (u_int8_t*)new_image, "New_Image");
-//     get_matrix((u_int8_t*)new_image, width, height, 0, 0, (u_int8_t*)matrix);
-//     print_matrix((u_int8_t*)matrix);
-//     matrix[0][0] = 111;
-//     put_matrix((u_int8_t*)new_image, width, height, 0, 0, (u_int8_t*)matrix);
-//     print_image(width, height, (u_int8_t*)new_image);
-//     return 0;
-// }
