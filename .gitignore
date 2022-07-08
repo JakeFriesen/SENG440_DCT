@@ -1,7 +1,6 @@
 test_dct
 *tmp/*
 test_dct_arm
-dct_image_compression.c
 Compressed_Image.pgm
 Decompressed_Image.pgm
 Image.pgm
@@ -10,3 +9,4 @@ dct_image_compression
 .vscode/dryrun.log
 .vscode/settings.json
 .vscode/targets.log
+apollonian_gasket.ascii.pgm:Zone.Identifier

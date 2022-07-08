@@ -7,6 +7,7 @@ Image Generation
 Create a matrix of 8 bit grayscale values in a 
 specified size.
 ****************************************************/
+//TODO: Convert u_int16_t values to int16_t 
 
 /*
 * image_gen
@@ -74,7 +75,6 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * fi
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             u_int16_t cur_bit = *((image+i*width)+j);
-            //TODO: Support larger values, should be variable based on input scale?
             int ascii [10];
             int mult = 1;
             int i = 0;
@@ -90,6 +90,7 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * fi
 
             fputc(32, fp);//add a space
         }
+        //TODO: Maybe keep constant line length (32?) and add columns based on width*height
         fputc(10, fp);//add a newline
     }
     // Close the File
@@ -113,6 +114,8 @@ int load_from_file(char * filename, u_int16_t * image)
     int i = 0;
     int c;
     int mul [4] = {1000, 100, 10, 1};
+
+    //Open the File
     sprintf(filename_ext, "%s.pgm", filename);
     fp = fopen(filename_ext, "r");
     if(fp == NULL)
@@ -130,15 +133,17 @@ int load_from_file(char * filename, u_int16_t * image)
         printf("Header is: %c%c", ascii[0], ascii[1]);
         return -1;
     }
+
     //Find newline
     do{
         c = getc(fp);
     }while(c != 0x0a);
 
     //Read Dimensions
+    //TODO: Possibly clean this up
     for(int i = 0; i < 4; i++){
         c = getc(fp);
-        if(c == 0x20){
+        if(c == 0x20 || c == 0x0a){
             width = width / (mul[i-1]);
             break;
         } 
@@ -146,7 +151,7 @@ int load_from_file(char * filename, u_int16_t * image)
     }
     for(int i = 0; i < 4; i++){
         c = getc(fp);
-        if(c == 0x20){ 
+        if(c == 0x20 || c == 0x0a){ 
             height = height / (mul[i-1]);
             break;
         }
@@ -154,7 +159,7 @@ int load_from_file(char * filename, u_int16_t * image)
     }
     printf("Width:%d, Height:%d\n", width, height);
 
-    //Find newline * 2
+    //Find newline * 2, skip over max num 
     for(int i = 0; i < 2; i++){
         do{
             c = getc(fp);
@@ -169,34 +174,31 @@ int load_from_file(char * filename, u_int16_t * image)
             int num_arr [10];
             int idx = 0;
             int mult = 1;
+
+            //Grab the current number, break if a space or newline
             do{
                 c = fgetc(fp);
+                if(c == 0x0a)break;
                 num_arr[idx] = c;
                 idx ++;
             }while(c != 0x20);
+
             //num_arr is also storing the space, so index up to idx-1, use idx-k-2
-            for(int k = 0; k < idx-1; k++){
-                cur_num += (num_arr[idx-k-2] - 48)*mult;
-                mult *= 10;
+            if(c != 0x0a){
+                for(int k = 0; k < idx-1; k++){
+                    cur_num += (num_arr[idx-k-2] - 48)*mult;
+                    mult *= 10;
+                }
+            
+                *((image+i*width)+j) = cur_num;
+                
+                if(c != 0x20){
+                    printf("Not a Space, Invalid File!");
+                    return -1;
+                }
             }
 
-            // for(int mul = 100; mul != 0; mul /= 10){
-            //     c = fgetc(fp);
-            //     cur_num += (c-48)*mul;
-            // }
-            *((image+i*width)+j) = cur_num;
-            // c = fgetc(fp); //read the space
-            if(c != 0x20){
-                printf("Not a Space, Invalid File!");
-                return -1;
-            }
         }   
-        c = fgetc(fp);//read the newline
-        if(c != 0x0A && c != EOF){
-            printf("Not a Newline, Invalid File!");
-            printf("i=%d, c=%x", i, c);
-            return -1;
-        }
     }
 
     // Close the File
