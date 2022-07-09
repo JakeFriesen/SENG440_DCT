@@ -10,3 +10,4 @@ dct_image_compression
 .vscode/settings.json
 .vscode/targets.log
 apollonian_gasket.ascii.pgm:Zone.Identifier
+test_optimize

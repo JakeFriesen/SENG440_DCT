@@ -22,10 +22,10 @@ int main(){
 
     // 2-D test
     printf("2-D DCT:\n");
-    loeffler2d(test_arr3);
-    for(i = 0; i < 8; i++){
-        printf("i=%d : %f \n", i, test_arr3[0][i]);
-    }
+    // loeffler2d(test_arr3);
+    // for(i = 0; i < 8; i++){
+    //     printf("i=%d : %f \n", i, test_arr3[0][i]);
+    // }
 
     return 0;
 
