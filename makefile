@@ -10,8 +10,8 @@ images = image.pgm Decompressed_Image.pgm Compressed_Image.pgm
 
 all: clean native arm
 
-native : image_generation.c dct_image_compression.c
-	$(CC) -o dct_image_compression  $(CFLAGS) dct_image_compression.c image_generation.c
+native : image_generation.c dct_image_compression.c dct_optimized.c
+	$(CC) -o dct_image_compression  $(CFLAGS) dct_image_compression.c image_generation.c dct_optimized.c
 
 arm : dct_image_compression.c image_generation.c
 	$(CC) -o dct_image_compression_arm  $(CFLAGS) dct_image_compression.c image_generation.c

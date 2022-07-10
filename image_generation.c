@@ -45,6 +45,7 @@ int print_image(u_int16_t width, u_int16_t height, u_int16_t * image)
 * save_to_file
 * Function that takes the width, height, image matrix, and a filename (without extension),
 * and writes it to a file in .pgm format
+* TODO: Print negative numbers
 */
 int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * filename)
 {
@@ -100,6 +101,7 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * fi
 * load_from_file
 * Function to load a pgm file from a filename string 
 * and store it in the given image matrix
+* TODO: Read negative numbers
 */
 int load_from_file(char * filename, u_int16_t * image)
 {
@@ -204,7 +206,7 @@ int load_from_file(char * filename, u_int16_t * image)
     fclose(fp);
 }
 
-/*
+/*DEPRECATED - Remove
 * get_matrix
 * Given an image matrix, will return an 8x8 matrix at a given location
 * TODO: This indexing method is pretty terrible, consider revising
@@ -218,7 +220,7 @@ int get_matrix(u_int16_t * image, int width, int height, int mat_w, int mat_h, u
     }
 }
 
-/*
+/*DEPRECATED - Remove
 * put_matrix
 * Given an 8x8 matrix, will put the matrix into a given image at a specified location
 * TODO: This indexing method is pretty terrible, consider revising
@@ -232,7 +234,7 @@ int put_matrix(u_int16_t * image, int width, int height, int mat_w, int mat_h, u
     }
 }
 
-/*
+/*DEPRECATED - Remove
 * print_matrix
 * Will print out an 8x8 matrix to console
 */
