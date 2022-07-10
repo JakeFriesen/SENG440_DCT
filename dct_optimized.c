@@ -4,6 +4,17 @@
 #include "dct_optimized.h"
 #include "image_generation.h"
 
+/****************************************************
+        Discrete Cosine Transform Operations
+Functions for performing DCT oprerations on an image
+pointer.
+****************************************************/
+
+
+/*
+* butterfly
+* 
+*/
 u_int32_t butterfly(int32_t packed_in, int32_t packed_constant){
     int16_t temp1 = (packed_in & 0xffff0000)>>16;
     int16_t temp2 = packed_in & 0xffff;
@@ -14,22 +25,33 @@ u_int32_t butterfly(int32_t packed_in, int32_t packed_constant){
     u_int32_t result = (res1<<16) & (res2);
 }
 
-int fbutterfly(float in[2], float out[2], float constant[2]){
-    out[0] = constant[0]*in[0] + constant[1]*in[1];
-    out[1] = -constant[1]*in[0] + constant[0]*in[1];
-}
+/*
+* loeffler_opt
+* this function performs a 1D DCT via the Loeffler Algorithm
+* For every DCT operation, the input bit value increases by 4 bit
+*   i.e 1D- original 8-bit values to 12-bit
+*       2D- 12-bit from 1D up to 16-bit
+* Optimizations: 
+*   -Even and Odd Sections performed individually to minimize local variables
+*   -Local Variables set as register
+*   -Fixed Point Arithmetic used to eliminate float operations
+*   -Image Pointer is passed in to reduce mem copies
+*/
+int loeffler_opt (int16_t *image, int start, int colsel){
+    //TODO: reorder for better software pipelining if possible
+    //TODO: Get butterfly inline function working
+    register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
+    register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
+    register int inc;
 
-
-int loeffler_opt (int16_t *line_arr){
-    //TODO: pass in image pointer and positions of 1d array
-    int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
-    int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to line_arr
+    //Determine increment method
+    inc = (colsel == 0) ? 1 : colsel;
 
     //Stage 1 - Even Section
-    local1 = line_arr[0] + line_arr[7];  //9-bit
-    local2 = line_arr[1] + line_arr[6];  //9-bit
-    local3 = line_arr[2] + line_arr[5];  //9-bit
-    local4 = line_arr[3] + line_arr[4];  //9-bit
+    local1 = *(image + start) + *(image + start + inc*7);  //9-bit
+    local2 = *(image + start + inc*1) + *(image + start + inc*6);  //9-bit
+    local3 = *(image + start + inc*2) + *(image + start + inc*5);  //9-bit
+    local4 = *(image + start + inc*3) + *(image + start + inc*4);  //9-bit
 
     //Stage 2 - Even Section
     temp1 = local1 + local4;   //10-bit
@@ -56,14 +78,14 @@ int loeffler_opt (int16_t *line_arr){
 
     //Stage 4 - Even Section AND Stage 1 - Odd Section
     temp1 = local1;
-    local1 = line_arr[3] - line_arr[4];  //9-bit
-    line_arr[4] = local2 << 1;           //12bit, SF 1
-    local2 = line_arr[2] - line_arr[5];  //9-bit
-    line_arr[2] = local3;                //12bit, SF 1
-    local3 = line_arr[1] - line_arr[6];  //9-bit
-    line_arr[6] = local4;                //12bit, SF 1
-    local4 = line_arr[0] - line_arr[7];  //9-bit
-    line_arr[0] = temp1 << 1;            //12bit, SF 1
+    local1 = *(image + start + inc*3) - *(image + start + inc*4);  //9-bit
+    *(image + start + inc*4) = local2 << 1;           //12bit, SF 1
+    local2 = *(image + start + inc*2) - *(image + start + inc*5);  //9-bit
+    *(image + start + inc*2) = local3;                //12bit, SF 1
+    local3 = *(image + start + inc*1) - *(image + start + inc*6);  //9-bit
+    *(image + start + inc*6) = local4;                //12bit, SF 1
+    local4 = *(image + start) - *(image + start + inc*7);  //9-bit
+    *(image + start) = temp1 << 1;            //12bit, SF 1
 
     //Stage 2 - Odd Section
     temp1 = local1*COS3FP;            //9*8bit 
@@ -93,10 +115,10 @@ int loeffler_opt (int16_t *line_arr){
     //Stage 4 - Odd Section
     temp1 = (local4 - local1) >> 1;
     temp2 = (local4 + local1) >> 1;
-    line_arr[7] = temp1; //12bit, SF 1
-    line_arr[1] = temp2; //12bit, SF 1
-    line_arr[3] = (local2*SQRT2FP) >> 9;     //12bit, SF 1
-    line_arr[5] = (local3*SQRT2FP) >> 9;     //12bit, SF 1
+    *(image + start + inc*7) = temp1; //12bit, SF 1
+    *(image + start + inc*1) = temp2; //12bit, SF 1
+    *(image + start + inc*3) = (local2*SQRT2FP) >> 9;     //12bit, SF 1
+    *(image + start + inc*5) = (local3*SQRT2FP) >> 9;     //12bit, SF 1
 
     return 1;
 }
@@ -106,23 +128,18 @@ int main(void){
     int16_t test_arr3[8][8] = {{10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {255, 0, 100, 50, 255, 30, 255, 0}, {10, 20, 30, 40, 50, 60, 70, 80},
                             {255, 0, 100, 50, 255, 30, 255, 0}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}};
     int16_t buf [8];
-    //Expected output without scaling   
-    //945.0000   52.2862    2.3214  434.1773  175.0000  332.3058 -190.3802  637.3610
+
     int sf [8] = {1,1,1,1,1,1,1,1};
-    int sf2d [8] = {2,2,2,2,2,2,2,2};
+
     //1D
     for(int i = 0; i < 8; i++){
-        loeffler_opt(test_arr3[i]);
+        loeffler_opt((int16_t*)test_arr3, 8*i, 0);
     }
+    //2D
     for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            buf[j] = test_arr3[j][i];
-        }
-        loeffler_opt(buf);
-        for(int j = 0; j < 8; j++){
-            test_arr3[j][i] = buf[j];
-        }
+        loeffler_opt((int16_t*)test_arr3, i, 8);
     }
+
     printf("2D Fixed point results\n");
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
@@ -134,7 +151,8 @@ int main(void){
 
 
 
-
+    //Expected output without scaling   
+    //945.0000   52.2862    2.3214  434.1773  175.0000  332.3058 -190.3802  637.3610
     // loeffler_opt(test_arr);
     // printf("Results with SF included\n");
     // for(int i = 0; i < 8; i++){
@@ -148,24 +166,7 @@ int main(void){
     // printf("\n");
 }
 /*
-1-D DCT:
-Stage1
-255.000 255.000 130.000 305.000 -205.000 70.000 -255.000 255.000 
-Stage2
-560.000 385.000 125.000 -50.000 -28.781 18.907 -263.757 325.917 
-Stage3
-945.000 175.000 2.321 -190.380 -292.537 307.010 234.976 344.824 
-i=0 : 945.000000 
-i=1 : 52.286194 
-i=2 : 2.321364 
-i=3 : 434.177277 
-i=4 : 175.000000 
-i=5 : 332.305847 
-i=6 : -190.380173 
-i=7 : 637.361023 
-
-*/
-/*
+2D Test results from MATLAB
   506.2500 -123.5908    0.5803   94.2582   43.7500   78.8147  -47.5950  158.2647
    37.2788   14.9435    0.1479   28.8815   11.1518   21.5381  -12.1319   40.7069
  -135.1174  -54.1630   -0.5362 -104.6814  -40.4197  -78.0651   43.9721 -147.5424

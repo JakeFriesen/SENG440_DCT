@@ -13,7 +13,6 @@ specified size.
 * image_gen
 * Given a width, height, and image pointer, will create a matrix image 
 * with values from 0 to 255
-* TODO: Needs random value test generator
 */
 int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image, int random)
 {
