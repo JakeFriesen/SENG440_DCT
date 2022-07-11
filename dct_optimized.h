@@ -5,6 +5,6 @@
 #define SIN3FP 142      //SF of 2^8
 #define SIN6FP 237      //SF of 2^8
 #define SQRT2COS6 139   //SF of 2^8
-#define SQRT2SIN6 167   //SF of 2^7
+#define SQRT2SIN6 334   //SF of 2^7
 #define SQRT2FP 362     //SF of 2^8 (9bit)
 int loeffler_opt (int16_t *image, int start, int colsel);

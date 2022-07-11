@@ -27,26 +27,26 @@ int main(void){
     for(int i = 0; i < 8; i++){
         for(int j = 0; j < 8; j++){
             float f = (float)test_arr3[i][j] / (1<<5);
-            printf("%.2f ", f );
+            printf("%.2f\t", f );
         }
         printf("\n");
     }
 
-    image_gen(width, height, (u_int16_t*)image, 0);
-    // save_to_file(width, height, (u_int16_t*)image, "Image");
-    // load_from_file("apollonian_gasket.ascii", (u_int16_t*)image);
-    for(int w = 0; w < width/8; w++){
-        for(int h = 0; h < height/8; h++){
+    // image_gen(width, height, (u_int16_t*)image, 0);
+    // // save_to_file(width, height, (u_int16_t*)image, "Image");
+    // // load_from_file("apollonian_gasket.ascii", (u_int16_t*)image);
+    // for(int w = 0; w < width/8; w++){
+    //     for(int h = 0; h < height/8; h++){
 
-            for(int i = 0; i < 8; i++){
-                loeffler_opt((u_int16_t*)image, (i+ 8*h)*width + 8*w, 0);
-            }
-            for(int i = 0; i < 8; i++){
-                loeffler_opt((u_int16_t*)image, (8*h*width + 8*w) + i, width);
-            }
-        }
-    }
-    save_to_file(width, height, (u_int16_t*)image, "Compressed_Image");
+    //         for(int i = 0; i < 8; i++){
+    //             loeffler_opt((u_int16_t*)image, (i+ 8*h)*width + 8*w, 0);
+    //         }
+    //         for(int i = 0; i < 8; i++){
+    //             loeffler_opt((u_int16_t*)image, (8*h*width + 8*w) + i, width);
+    //         }
+    //     }
+    // }
+    // save_to_file(width, height, (u_int16_t*)image, "Compressed_Image");
 
     return 0;
 }
