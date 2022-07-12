@@ -43,19 +43,38 @@ static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int1
 * Performs the 2D Discrete Cosine Transform in 8x8 matrices.
 * Given the image pointer, width and height, run 1D DCT for 
 * every row and every column in each 8x8 matrix
-* TODO: Optimize these for loops!!!
+* Optimizations:
+*   -For loop intitialization optimized with i ^= i
+*   -Operator strength reduction for exit condition 
+*    and intermediate signals
+*   -Loop unrolling for 1D and 2D DCT
+*   -1D and 2D DCT must be done sequentially
 */
 void dct_2d (int16_t* image, int16_t width, int16_t height){
-    int w, h, i;
+    int w, h, i, temp;
     for(w ^= w; w < (width>>3); w++){
         for(h ^= h; h < (height>>3); h++){
+            // 1D DCT
+            temp = w << 3;
+            loeffler_opt(image, (0+ (h<<3))*width + temp, 0);
+            loeffler_opt(image, (1+ (h<<3))*width + temp, 0);
+            loeffler_opt(image, (2+ (h<<3))*width + temp, 0);
+            loeffler_opt(image, (3+ (h<<3))*width + temp, 0);
+            loeffler_opt(image, (4+ (h<<3))*width + temp, 0);
+            loeffler_opt(image, (5+ (h<<3))*width + temp, 0);
+            loeffler_opt(image, (6+ (h<<3))*width + temp, 0);
+            loeffler_opt(image, (7+ (h<<3))*width + temp, 0);
 
-            for(i ^= i; i < 8; i++){
-                loeffler_opt(image, (i+ (h<<3))*width + (w<<3), 0);
-            }
-            for(i ^= i; i < 8; i++){
-                loeffler_opt(image, ((h<<3)*width + (w<<3)) + i, width);
-            }
+            // 2D DCT
+            temp = (h<<3)*width + (w<<3);
+            loeffler_opt(image, temp + 0, width);
+            loeffler_opt(image, temp + 1, width);
+            loeffler_opt(image, temp + 2, width);
+            loeffler_opt(image, temp + 3, width);
+            loeffler_opt(image, temp + 4, width);
+            loeffler_opt(image, temp + 5, width);
+            loeffler_opt(image, temp + 6, width);
+            loeffler_opt(image, temp + 7, width);
         }
     }
 }
