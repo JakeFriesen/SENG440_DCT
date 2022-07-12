@@ -50,10 +50,9 @@ TODO Checklist:
     - There are improvements, but it breaks at the moment when converting to 32 bit
 [ ] Try out compiler optimization flags
 [ ] Check for saturation vs wraparound addition
-[ ] Optimize for loops in dct_2d function
+[X] Optimize for loops in dct_2d function
 [ ] Figure out how the butterfly macro is eliminating the multiplies
 File Handling:
 [ ] Negative number support in write/read to file functions
 [ ] Constant line length for saving images
 
- arm-linux-gnueabi-gcc -S -static dct_optimized.c

@@ -28,92 +28,182 @@ dct_2d:
 	mov	r3, r2	@ movhi
 	strh	r3, [fp, #-28]	@ movhi
 	mov	r3, #0
-	str	r3, [fp, #-20]
-	b	.L2
-.L9:
-	mov	r3, #0
 	str	r3, [fp, #-16]
-	b	.L3
-.L8:
+	b	.L2
+.L5:
 	mov	r3, #0
 	str	r3, [fp, #-12]
-	b	.L4
-.L5:
+	b	.L3
+.L4:
 	ldr	r3, [fp, #-16]
-	lsl	r2, r3, #3
+	lsl	r3, r3, #3
+	str	r3, [fp, #-8]
 	ldr	r3, [fp, #-12]
-	add	r3, r2, r3
+	lsl	r3, r3, #3
 	ldrsh	r2, [fp, #-26]
 	mul	r2, r3, r2
-	ldr	r3, [fp, #-20]
-	lsl	r3, r3, #3
+	ldr	r3, [fp, #-8]
 	add	r3, r2, r3
 	mov	r2, #0
 	mov	r1, r3
 	ldr	r0, [fp, #-24]
 	bl	loeffler_opt
 	ldr	r3, [fp, #-12]
+	lsl	r3, r3, #3
 	add	r3, r3, #1
-	str	r3, [fp, #-12]
-.L4:
-	ldr	r3, [fp, #-12]
-	cmp	r3, #7
-	ble	.L5
-	mov	r3, #0
-	str	r3, [fp, #-8]
-	b	.L6
-.L7:
-	ldrsh	r3, [fp, #-26]
-	ldr	r2, [fp, #-16]
+	ldrsh	r2, [fp, #-26]
 	mul	r2, r3, r2
-	ldr	r3, [fp, #-20]
-	add	r3, r2, r3
-	lsl	r2, r3, #3
 	ldr	r3, [fp, #-8]
 	add	r3, r2, r3
+	mov	r2, #0
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-12]
+	lsl	r3, r3, #3
+	add	r3, r3, #2
+	ldrsh	r2, [fp, #-26]
+	mul	r2, r3, r2
+	ldr	r3, [fp, #-8]
+	add	r3, r2, r3
+	mov	r2, #0
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-12]
+	lsl	r3, r3, #3
+	add	r3, r3, #3
+	ldrsh	r2, [fp, #-26]
+	mul	r2, r3, r2
+	ldr	r3, [fp, #-8]
+	add	r3, r2, r3
+	mov	r2, #0
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-12]
+	lsl	r3, r3, #3
+	add	r3, r3, #4
+	ldrsh	r2, [fp, #-26]
+	mul	r2, r3, r2
+	ldr	r3, [fp, #-8]
+	add	r3, r2, r3
+	mov	r2, #0
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-12]
+	lsl	r3, r3, #3
+	add	r3, r3, #5
+	ldrsh	r2, [fp, #-26]
+	mul	r2, r3, r2
+	ldr	r3, [fp, #-8]
+	add	r3, r2, r3
+	mov	r2, #0
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-12]
+	lsl	r3, r3, #3
+	add	r3, r3, #6
+	ldrsh	r2, [fp, #-26]
+	mul	r2, r3, r2
+	ldr	r3, [fp, #-8]
+	add	r3, r2, r3
+	mov	r2, #0
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-12]
+	lsl	r3, r3, #3
+	add	r3, r3, #7
+	ldrsh	r2, [fp, #-26]
+	mul	r2, r3, r2
+	ldr	r3, [fp, #-8]
+	add	r3, r2, r3
+	mov	r2, #0
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-12]
+	lsl	r3, r3, #3
+	ldrsh	r2, [fp, #-26]
+	mul	r2, r3, r2
+	ldr	r3, [fp, #-16]
+	lsl	r3, r3, #3
+	add	r3, r2, r3
+	str	r3, [fp, #-8]
+	ldrsh	r3, [fp, #-26]
+	mov	r2, r3
+	ldr	r1, [fp, #-8]
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-8]
+	add	r3, r3, #1
 	ldrsh	r2, [fp, #-26]
 	mov	r1, r3
 	ldr	r0, [fp, #-24]
 	bl	loeffler_opt
 	ldr	r3, [fp, #-8]
-	add	r3, r3, #1
-	str	r3, [fp, #-8]
-.L6:
+	add	r3, r3, #2
+	ldrsh	r2, [fp, #-26]
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
 	ldr	r3, [fp, #-8]
-	cmp	r3, #7
-	ble	.L7
+	add	r3, r3, #3
+	ldrsh	r2, [fp, #-26]
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-8]
+	add	r3, r3, #4
+	ldrsh	r2, [fp, #-26]
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-8]
+	add	r3, r3, #5
+	ldrsh	r2, [fp, #-26]
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-8]
+	add	r3, r3, #6
+	ldrsh	r2, [fp, #-26]
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-8]
+	add	r3, r3, #7
+	ldrsh	r2, [fp, #-26]
+	mov	r1, r3
+	ldr	r0, [fp, #-24]
+	bl	loeffler_opt
+	ldr	r3, [fp, #-12]
+	add	r3, r3, #1
+	str	r3, [fp, #-12]
+.L3:
+	ldrsh	r3, [fp, #-28]
+	asr	r3, r3, #3
+	lsl	r3, r3, #16
+	asr	r3, r3, #16
+	mov	r2, r3
+	ldr	r3, [fp, #-12]
+	cmp	r3, r2
+	blt	.L4
 	ldr	r3, [fp, #-16]
 	add	r3, r3, #1
 	str	r3, [fp, #-16]
-.L3:
-	ldrsh	r3, [fp, #-28]
-	add	r2, r3, #7
-	cmp	r3, #0
-	movlt	r3, r2
-	movge	r3, r3
+.L2:
+	ldrsh	r3, [fp, #-26]
 	asr	r3, r3, #3
 	lsl	r3, r3, #16
 	asr	r3, r3, #16
 	mov	r2, r3
 	ldr	r3, [fp, #-16]
 	cmp	r3, r2
-	blt	.L8
-	ldr	r3, [fp, #-20]
-	add	r3, r3, #1
-	str	r3, [fp, #-20]
-.L2:
-	ldrsh	r3, [fp, #-26]
-	add	r2, r3, #7
-	cmp	r3, #0
-	movlt	r3, r2
-	movge	r3, r3
-	asr	r3, r3, #3
-	lsl	r3, r3, #16
-	asr	r3, r3, #16
-	mov	r2, r3
-	ldr	r3, [fp, #-20]
-	cmp	r3, r2
-	blt	.L9
+	blt	.L5
 	nop
 	nop
 	sub	sp, fp, #4
@@ -121,6 +211,7 @@ dct_2d:
 	pop	{fp, pc}
 	.size	dct_2d, .-dct_2d
 	.align	2
+	.global	loeffler_opt
 	.syntax unified
 	.arm
 	.fpu softvfp
@@ -137,12 +228,12 @@ loeffler_opt:
 	str	r2, [fp, #-40]
 	ldr	r3, [fp, #-40]
 	cmp	r3, #0
-	beq	.L11
+	beq	.L7
 	ldr	r3, [fp, #-40]
-	b	.L12
-.L11:
+	b	.L8
+.L7:
 	mov	r3, #1
-.L12:
+.L8:
 	mov	r10, r3
 	ldr	r3, [fp, #-36]
 	lsl	r3, r3, #1
@@ -314,7 +405,7 @@ loeffler_opt:
 	lsl	r2, r3, #16
 	lsr	r2, r2, #16
 	mov	r1, r6
-	ldr	r3, .L14
+	ldr	r3, .L10
 	mul	r0, r3, r1
 	mov	r1, r5
 	mov	r3, r1
@@ -666,9 +757,9 @@ loeffler_opt:
 	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, r10, fp}
 	bx	lr
-.L15:
+.L11:
 	.align	2
-.L14:
+.L10:
 	.word	-334
 	.size	loeffler_opt, .-loeffler_opt
 	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"

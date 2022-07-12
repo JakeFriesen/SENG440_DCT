@@ -91,7 +91,7 @@ void dct_2d (int16_t* image, int16_t width, int16_t height){
 *   -Fixed Point Arithmetic used to eliminate float operations
 *   -Image Pointer is passed in to reduce mem copies
 */
-static int loeffler_opt (int16_t *image, int start, int colsel){
+int loeffler_opt (int16_t *image, int start, int colsel){
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
     register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
     register int inc; //Increment method to choose between row and columns

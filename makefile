@@ -17,6 +17,7 @@ all: clean native arm
 
 native : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression  $(CFLAGS) $(SRC)
+	./$(DIR_O)/dct_image_compression
 
 arm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_arm  $(CFLAGS) $(SRC)
@@ -25,10 +26,7 @@ image_gen : image_generation.c test_image_gen.c
 	$(CC) -o $(DIR_O)/test_image_gen $(CFLAGS) $(DIR_S)/test_image_gen.c $(DIR_S)/image_generation.c
 
 asm : $(DIR_S)/dct_optimized.c
-	arm-linux-gnueabi-gcc -o $(DIR_ASM)/dct_optimized.s -S -static $(DIR_S)/dct_optimized.c
-
-opt_dct : dct_optimized.c image_generation.c
-	$(CC) -o $(DIR_O)/test_optimize $(CFLAGS) $(DIR_S)/dct_optimized.c $(DIR_S)/image_generation.c
+	arm-linux-gnueabi-gcc -o $(DIR_ASM)/dct_optimized.s -S -static  -O3 -ftree-vectorize $(DIR_S)/dct_optimized.c
 
 .PHONY: clean
 
