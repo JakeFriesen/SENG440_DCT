@@ -8,7 +8,7 @@
 	.eabi_attribute 30, 6
 	.eabi_attribute 34, 0
 	.eabi_attribute 18, 4
-	.file	"dct_optimized.c"
+	.file	"dct_optimized_asm_instr.c"
 	.text
 	.align	2
 	.global	dct_2d
@@ -292,42 +292,20 @@ loeffler_opt:
 	asr	r8, r3, #16
 	lsl	r3, r4, #16
 	asr	r7, r3, #16
-	mov	r2, r6
-	mov	r3, r2
-	lsl	r3, r3, #4
-	add	r3, r3, r2
-	lsl	r3, r3, #2
-	add	r3, r3, r2
-	lsl	r3, r3, #1
-	add	r0, r3, r2
-	mov	r1, r5
-	mov	r2, r1
-	lsl	r2, r2, #1
-	add	r2, r2, r1
-	lsl	r3, r2, #3
-	sub	r3, r3, r2
-	lsl	r3, r3, #3
-	sub	r3, r3, r1
-	lsl	r3, r3, #1
-	add	r3, r0, r3
-	asr	r3, r3, #5
+	mov	r3, r6
 	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r6
-	ldr	r3, .L14
-	mul	r0, r3, r1
-	mov	r1, r5
-	mov	r3, r1
-	lsl	r3, r3, #4
-	add	r3, r3, r1
-	lsl	r3, r3, #2
-	add	r3, r3, r1
-	lsl	r3, r3, #1
-	add	r3, r3, r1
-	add	r3, r0, r3
-	asr	r3, r3, #5
+	mov	r3, r5
 	lsl	r3, r3, #16
+	lsr	r3, r3, #16
 	orr	r4, r2, r3
+	ldr	r9, .L14
+	.syntax divided
+@ 105 "dct_optimized_asm_instr.c" 1
+	 butterfly 	r3 , r4 , r9 n
+@ 0 "" 2
+	.arm
+	.syntax unified
+	mov	r4, r3
 	lsl	r3, r4, #16
 	asr	r6, r3, #16
 	asr	r3, r6, #2
@@ -487,76 +465,40 @@ loeffler_opt:
 	lsl	r2, r2, #16
 	asr	r2, r2, #16
 	strh	r2, [r3]	@ movhi
-	mov	r2, r7
-	mov	r3, r2
-	lsl	r3, r3, #3
-	add	r3, r3, r2
-	lsl	r3, r3, #3
-	sub	r3, r3, r2
-	lsl	r2, r3, #2
-	sub	r1, r2, r3
-	mov	r2, r5
-	mov	r3, r2
-	lsl	r3, r3, #3
-	add	r3, r3, r2
-	lsl	r3, r3, #3
-	sub	r3, r3, r2
-	lsl	r3, r3, #1
-	add	r3, r1, r3
-	asr	r3, r3, #5
+	mov	r3, r6
 	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r7
-	mvn	r3, #141
-	mul	r0, r3, r1
-	mov	r1, r5
-	mov	r3, r1
-	lsl	r3, r3, #3
-	add	r3, r3, r1
-	lsl	r3, r3, #3
-	sub	r3, r3, r1
-	lsl	r1, r3, #2
-	sub	r3, r1, r3
-	add	r3, r0, r3
-	asr	r3, r3, #5
+	mov	r3, r5
 	lsl	r3, r3, #16
+	lsr	r3, r3, #16
 	orr	r4, r2, r3
+	ldr	r9, .L14
+	.syntax divided
+@ 132 "dct_optimized_asm_instr.c" 1
+	 butterfly 	r3 , r4 , r9 n
+@ 0 "" 2
+	.arm
+	.syntax unified
+	mov	r4, r3
 	lsl	r3, r4, #16
 	asr	r7, r3, #16
 	mov	r3, r4
 	lsr	r3, r3, #16
 	lsl	r3, r3, #16
 	asr	r5, r3, #16
-	mov	r2, r8
-	mov	r3, r2
-	lsl	r3, r3, #6
-	sub	r3, r3, r2
-	lsl	r3, r3, #2
-	sub	r2, r3, r2
-	mov	r1, r6
-	mov	r3, r1
-	lsl	r3, r3, #2
-	add	r3, r3, r1
-	lsl	r1, r3, #2
-	add	r3, r3, r1
-	lsl	r3, r3, #1
-	add	r3, r2, r3
-	asr	r3, r3, #5
+	mov	r3, r6
 	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r8
-	mvn	r3, #49
-	mul	r0, r3, r1
-	mov	r1, r6
-	mov	r3, r1
-	lsl	r3, r3, #6
-	sub	r3, r3, r1
-	lsl	r3, r3, #2
-	sub	r3, r3, r1
-	add	r3, r0, r3
-	asr	r3, r3, #5
+	mov	r3, r5
 	lsl	r3, r3, #16
+	lsr	r3, r3, #16
 	orr	r4, r2, r3
+	ldr	r9, .L14
+	.syntax divided
+@ 144 "dct_optimized_asm_instr.c" 1
+	 butterfly 	r3 , r4 , r9 n
+@ 0 "" 2
+	.arm
+	.syntax unified
+	mov	r4, r3
 	lsl	r3, r4, #16
 	asr	r8, r3, #16
 	mov	r3, r4
@@ -669,7 +611,7 @@ loeffler_opt:
 .L15:
 	.align	2
 .L14:
-	.word	-334
+	.word	9109838
 	.size	loeffler_opt, .-loeffler_opt
 	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
 	.section	.note.GNU-stack,"",%progbits

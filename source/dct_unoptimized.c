@@ -2,11 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "header/dct.h"
+#include "../header/dct.h"
 
 // 1-D DCT using Loeffler method
 int loeffler (float *line_arr){
-    //TODO: Move everything to short ints
     float stage1 [8];
     float stage2 [8];
     float stage3 [8];

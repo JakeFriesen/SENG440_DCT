@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "header/image_generation.h"
-#include "header/dct_optimized.h"
+#include "../header/image_generation.h"
+#include "../header/dct_optimized.h"
 
 
 int main(void){

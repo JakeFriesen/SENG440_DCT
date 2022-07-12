@@ -34,14 +34,6 @@ Seems like it will be a lot of work, but could be useful
 5. Saturation vs Wrap-around?
 Probably want saturation?
 
-6. What parts need to be optimized?
-Should the file handling parts be optimized too? Seems unnessesary, but that might be what Sima wants?
-
-7. Matrix handling optimizations
-- Given the image pointer, would be best to directly manipulate those values?
-- When would copying a small amount be beneficial (if its always an array I don't think it will always be stored in mem)
-- Currently: Copy to matrix array, and also copy to a buffer
-
 8. Hardware
 - The simple project needs to be revised to match what is said on the slides 
 - Could also get the ocsilliscope timing
@@ -49,8 +41,19 @@ Should the file handling parts be optimized too? Seems unnessesary, but that mig
 - 
 
 9. Others
-- Move functions inside dct.h into its own .c file with the header file separate
 - Test that the makefile compiles with the flags for arm
-10.
-- Butterfly instruction as its own inline function.
 
+
+TODO Checklist:
+[X] Copy dct_optimized and write with the embedded ASM instruction
+[ ] Test out 16 vs 32 bit temporary variables, see if there are improvements
+    - There are improvements, but it breaks at the moment when converting to 32 bit
+[ ] Try out compiler optimization flags
+[ ] Check for saturation vs wraparound addition
+[ ] Optimize for loops in dct_2d function
+[ ] Figure out how the butterfly macro is eliminating the multiplies
+File Handling:
+[ ] Negative number support in write/read to file functions
+[ ] Constant line length for saving images
+
+ arm-linux-gnueabi-gcc -S -static dct_optimized.c

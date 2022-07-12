@@ -143,307 +143,33 @@ loeffler_opt:
 .L11:
 	mov	r3, #1
 .L12:
-	mov	r10, r3
+	mov	r9, r3
 	ldr	r3, [fp, #-36]
 	lsl	r3, r3, #1
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
 	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r2, r3, #16
-	mov	r1, r10
-	mov	r3, r1
-	lsl	r3, r3, #3
-	sub	r1, r3, r1
-	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
-	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	add	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r7, r3, #16
-	ldr	r3, [fp, #-36]
-	mov	r2, r10
-	add	r3, r3, r2
-	lsl	r3, r3, #1
-	ldr	r2, [fp, #-32]
-	add	r3, r2, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r2, r3, #16
-	mov	r1, r10
-	mov	r3, r1
-	lsl	r3, r3, #1
-	add	r3, r3, r1
-	lsl	r3, r3, #1
 	mov	r1, r3
-	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
-	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	add	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r8, r3, #16
-	mov	r3, r10
-	lsl	r2, r3, #1
-	ldr	r3, [fp, #-36]
-	add	r3, r2, r3
-	lsl	r3, r3, #1
-	ldr	r2, [fp, #-32]
-	add	r3, r2, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r2, r3, #16
-	mov	r1, r10
-	mov	r3, r1
-	lsl	r3, r3, #2
-	add	r1, r3, r1
-	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
-	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	add	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r6, r3, #16
-	mov	r2, r10
+	mov	r2, r9
 	mov	r3, r2
-	lsl	r3, r3, #1
-	add	r2, r3, r2
-	ldr	r3, [fp, #-36]
-	add	r3, r2, r3
-	lsl	r3, r3, #1
-	ldr	r2, [fp, #-32]
-	add	r3, r2, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r2, r3, #16
-	mov	r3, r10
-	lsl	r1, r3, #2
-	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
-	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	add	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r5, r3, #16
-	mov	r2, r7
-	mov	r3, r5
-	add	r4, r2, r3
-	mov	r2, r8
-	mov	r3, r6
-	add	r9, r2, r3
-	lsl	r3, r8, #16
-	lsr	r2, r3, #16
-	lsl	r3, r6, #16
-	lsr	r3, r3, #16
-	sub	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r6, r3, #16
-	lsl	r3, r7, #16
-	lsr	r2, r3, #16
-	lsl	r3, r5, #16
-	lsr	r3, r3, #16
-	sub	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r5, r3, #16
-	lsl	r3, r4, #16
-	asr	r7, r3, #16
-	lsl	r3, r9, #16
-	asr	r8, r3, #16
-	mov	r2, r7
-	mov	r3, r8
-	add	r4, r2, r3
-	lsl	r3, r7, #16
-	lsr	r2, r3, #16
-	lsl	r3, r8, #16
-	lsr	r3, r3, #16
-	sub	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r8, r3, #16
-	lsl	r3, r4, #16
-	asr	r7, r3, #16
-	mov	r2, r6
-	mov	r3, r2
-	lsl	r3, r3, #4
-	add	r3, r3, r2
-	lsl	r3, r3, #2
-	add	r3, r3, r2
-	lsl	r3, r3, #1
-	add	r0, r3, r2
-	mov	r1, r5
-	mov	r2, r1
-	lsl	r2, r2, #1
-	add	r2, r2, r1
-	lsl	r3, r2, #3
-	sub	r3, r3, r2
 	lsl	r3, r3, #3
-	sub	r3, r3, r1
-	lsl	r3, r3, #1
-	add	r3, r0, r3
-	asr	r3, r3, #5
-	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r6
-	ldr	r3, .L14
-	mul	r0, r3, r1
-	mov	r1, r5
-	mov	r3, r1
-	lsl	r3, r3, #4
-	add	r3, r3, r1
-	lsl	r3, r3, #2
-	add	r3, r3, r1
-	lsl	r3, r3, #1
-	add	r3, r3, r1
-	add	r3, r0, r3
-	asr	r3, r3, #5
-	lsl	r3, r3, #16
-	orr	r4, r2, r3
-	lsl	r3, r4, #16
-	asr	r6, r3, #16
-	asr	r3, r6, #2
-	lsl	r3, r3, #16
-	asr	r6, r3, #16
-	mov	r3, r4
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r5, r3, #16
-	asr	r3, r5, #2
-	lsl	r3, r3, #16
-	asr	r5, r3, #16
-	mov	r4, r7
-	mov	r2, r10
-	mov	r3, r2
-	lsl	r3, r3, #1
-	add	r2, r3, r2
+	sub	r2, r3, r2
 	ldr	r3, [fp, #-36]
 	add	r3, r2, r3
 	lsl	r3, r3, #1
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
 	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r2, r3, #16
-	mov	r3, r10
-	lsl	r1, r3, #2
+	add	r7, r1, r3
 	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
-	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	sub	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r7, r3, #16
-	mov	r3, r8
-	lsl	r2, r3, #1
-	mov	r3, r10
-	lsl	r1, r3, #2
-	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
-	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
-	lsl	r2, r2, #16
-	asr	r2, r2, #16
-	strh	r2, [r3]	@ movhi
-	mov	r3, r10
-	lsl	r2, r3, #1
-	ldr	r3, [fp, #-36]
-	add	r3, r2, r3
-	lsl	r3, r3, #1
-	ldr	r2, [fp, #-32]
-	add	r3, r2, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r2, r3, #16
-	mov	r1, r10
-	mov	r3, r1
-	lsl	r3, r3, #2
-	add	r1, r3, r1
-	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
-	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	sub	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r8, r3, #16
-	mov	r3, r10
-	lsl	r2, r3, #1
-	ldr	r3, [fp, #-36]
-	add	r3, r2, r3
-	lsl	r3, r3, #1
-	ldr	r2, [fp, #-32]
-	add	r3, r2, r3
-	strh	r6, [r3]	@ movhi
-	ldr	r3, [fp, #-36]
-	mov	r2, r10
+	mov	r2, r9
 	add	r3, r3, r2
 	lsl	r3, r3, #1
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
 	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r2, r3, #16
-	mov	r1, r10
-	mov	r3, r1
-	lsl	r3, r3, #1
-	add	r3, r3, r1
-	lsl	r3, r3, #1
 	mov	r1, r3
-	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
-	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
-	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	sub	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r6, r3, #16
-	mov	r2, r10
+	mov	r2, r9
 	mov	r3, r2
 	lsl	r3, r3, #1
 	add	r3, r3, r2
@@ -454,151 +180,150 @@ loeffler_opt:
 	lsl	r3, r3, #1
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
-	strh	r5, [r3]	@ movhi
+	ldrsh	r3, [r3]
+	add	r6, r1, r3
+	mov	r3, r9
+	lsl	r2, r3, #1
 	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
 	lsl	r3, r3, #1
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
 	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r2, r3, #16
-	mov	r1, r10
-	mov	r3, r1
-	lsl	r3, r3, #3
-	sub	r1, r3, r1
+	mov	r1, r3
+	mov	r2, r9
+	mov	r3, r2
+	lsl	r3, r3, #2
+	add	r2, r3, r2
 	ldr	r3, [fp, #-36]
-	add	r3, r1, r3
+	add	r3, r2, r3
 	lsl	r3, r3, #1
-	ldr	r1, [fp, #-32]
-	add	r3, r1, r3
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
 	ldrsh	r3, [r3]
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	sub	r3, r2, r3
-	lsl	r3, r3, #16
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r5, r3, #16
-	lsl	r2, r4, #1
+	add	r4, r1, r3
+	mov	r2, r9
+	mov	r3, r2
+	lsl	r3, r3, #1
+	add	r2, r3, r2
 	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	ldrsh	r3, [r3]
+	mov	r1, r3
+	mov	r3, r9
+	lsl	r2, r3, #2
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	ldrsh	r3, [r3]
+	add	r5, r1, r3
+	add	r8, r7, r5
+	add	r10, r6, r4
+	sub	r4, r6, r4
+	sub	r5, r7, r5
+	mov	r7, r8
+	mov	r6, r10
+	add	r8, r7, r6
+	sub	r6, r7, r6
+	mov	r7, r8
+	mov	r3, r4
+	lsl	r3, r3, #4
+	add	r3, r3, r4
+	lsl	r3, r3, #2
+	add	r3, r3, r4
+	lsl	r3, r3, #1
+	add	r1, r3, r4
+	mov	r2, r5
+	lsl	r2, r2, #1
+	add	r2, r2, r5
+	lsl	r3, r2, #3
+	sub	r3, r3, r2
+	lsl	r3, r3, #3
+	sub	r3, r3, r5
+	lsl	r3, r3, #1
+	add	r3, r1, r3
+	asr	r3, r3, #5
+	lsl	r2, r3, #16
+	lsr	r2, r2, #16
+	ldr	r3, .L14
+	mul	r1, r3, r4
+	mov	r3, r5
+	lsl	r3, r3, #4
+	add	r3, r3, r5
+	lsl	r3, r3, #2
+	add	r3, r3, r5
+	lsl	r3, r3, #1
+	add	r3, r3, r5
+	add	r3, r1, r3
+	asr	r3, r3, #5
+	lsl	r3, r3, #16
+	orr	r8, r2, r3
+	lsl	r4, r8, #16
+	lsr	r4, r4, #16
+	asr	r4, r4, #2
+	mov	r3, r8
+	lsr	r3, r3, #16
+	mov	r5, r3
+	asr	r5, r5, #2
+	mov	r8, r7
+	mov	r2, r9
+	mov	r3, r2
+	lsl	r3, r3, #1
+	add	r2, r3, r2
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	ldrsh	r3, [r3]
+	mov	r1, r3
+	mov	r3, r9
+	lsl	r2, r3, #2
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	ldrsh	r3, [r3]
+	sub	r7, r1, r3
+	lsl	r2, r6, #1
+	mov	r3, r9
+	lsl	r1, r3, #2
+	ldr	r3, [fp, #-36]
+	add	r3, r1, r3
 	lsl	r3, r3, #1
 	ldr	r1, [fp, #-32]
 	add	r3, r1, r3
 	lsl	r2, r2, #16
 	asr	r2, r2, #16
 	strh	r2, [r3]	@ movhi
-	mov	r2, r7
-	mov	r3, r2
-	lsl	r3, r3, #3
-	add	r3, r3, r2
-	lsl	r3, r3, #3
-	sub	r3, r3, r2
-	lsl	r2, r3, #2
-	sub	r1, r2, r3
-	mov	r2, r5
-	mov	r3, r2
-	lsl	r3, r3, #3
-	add	r3, r3, r2
-	lsl	r3, r3, #3
-	sub	r3, r3, r2
+	mov	r3, r9
+	lsl	r2, r3, #1
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
 	lsl	r3, r3, #1
-	add	r3, r1, r3
-	asr	r3, r3, #5
-	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r7
-	mvn	r3, #141
-	mul	r0, r3, r1
-	mov	r1, r5
-	mov	r3, r1
-	lsl	r3, r3, #3
-	add	r3, r3, r1
-	lsl	r3, r3, #3
-	sub	r3, r3, r1
-	lsl	r1, r3, #2
-	sub	r3, r1, r3
-	add	r3, r0, r3
-	asr	r3, r3, #5
-	lsl	r3, r3, #16
-	orr	r4, r2, r3
-	lsl	r3, r4, #16
-	asr	r7, r3, #16
-	mov	r3, r4
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r5, r3, #16
-	mov	r2, r8
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	ldrsh	r3, [r3]
+	mov	r1, r3
+	mov	r2, r9
 	mov	r3, r2
-	lsl	r3, r3, #6
-	sub	r3, r3, r2
 	lsl	r3, r3, #2
-	sub	r2, r3, r2
-	mov	r1, r6
-	mov	r3, r1
-	lsl	r3, r3, #2
-	add	r3, r3, r1
-	lsl	r1, r3, #2
-	add	r3, r3, r1
+	add	r2, r3, r2
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
 	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
-	asr	r3, r3, #5
-	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r8
-	mvn	r3, #49
-	mul	r0, r3, r1
-	mov	r1, r6
-	mov	r3, r1
-	lsl	r3, r3, #6
-	sub	r3, r3, r1
-	lsl	r3, r3, #2
-	sub	r3, r3, r1
-	add	r3, r0, r3
-	asr	r3, r3, #5
-	lsl	r3, r3, #16
-	orr	r4, r2, r3
-	lsl	r3, r4, #16
-	asr	r8, r3, #16
-	mov	r3, r4
-	lsr	r3, r3, #16
-	lsl	r3, r3, #16
-	asr	r6, r3, #16
-	mov	r2, r7
-	mov	r3, r6
-	add	r3, r2, r3
-	asr	r4, r3, #1
-	mov	r2, r7
-	mov	r3, r6
-	sub	r3, r2, r3
-	asr	r3, r3, #1
-	lsl	r3, r3, #16
-	asr	r6, r3, #16
-	lsl	r3, r4, #16
-	asr	r7, r3, #16
-	mov	r2, r5
-	mov	r3, r8
-	sub	r3, r2, r3
-	asr	r4, r3, #1
-	mov	r2, r5
-	mov	r3, r8
-	add	r3, r2, r3
-	asr	r3, r3, #1
-	lsl	r3, r3, #16
-	asr	r5, r3, #16
-	lsl	r3, r4, #16
-	asr	r8, r3, #16
-	mov	r2, r5
-	mov	r3, r7
-	sub	r3, r2, r3
-	asr	r4, r3, #1
-	mov	r2, r5
-	mov	r3, r7
-	add	r3, r2, r3
-	asr	r9, r3, #1
-	mov	r2, r10
-	mov	r3, r2
-	lsl	r3, r3, #3
-	sub	r2, r3, r2
+	ldrsh	r3, [r3]
+	sub	r6, r1, r3
+	mov	r3, r9
+	lsl	r2, r3, #1
 	ldr	r3, [fp, #-36]
 	add	r3, r2, r3
 	lsl	r3, r3, #1
@@ -608,25 +333,176 @@ loeffler_opt:
 	asr	r2, r2, #16
 	strh	r2, [r3]	@ movhi
 	ldr	r3, [fp, #-36]
-	mov	r2, r10
+	mov	r2, r9
 	add	r3, r3, r2
 	lsl	r3, r3, #1
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
-	lsl	r2, r9, #16
+	ldrsh	r3, [r3]
+	mov	r1, r3
+	mov	r2, r9
+	mov	r3, r2
+	lsl	r3, r3, #1
+	add	r3, r3, r2
+	lsl	r3, r3, #1
+	mov	r2, r3
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	ldrsh	r3, [r3]
+	sub	r4, r1, r3
+	mov	r2, r9
+	mov	r3, r2
+	lsl	r3, r3, #1
+	add	r3, r3, r2
+	lsl	r3, r3, #1
+	mov	r2, r3
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	lsl	r2, r5, #16
 	asr	r2, r2, #16
 	strh	r2, [r3]	@ movhi
-	mov	r1, r8
-	mov	r2, r1
+	ldr	r3, [fp, #-36]
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	ldrsh	r3, [r3]
+	mov	r1, r3
+	mov	r2, r9
+	mov	r3, r2
+	lsl	r3, r3, #3
+	sub	r2, r3, r2
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	ldrsh	r3, [r3]
+	sub	r5, r1, r3
+	lsl	r2, r8, #1
+	ldr	r3, [fp, #-36]
+	lsl	r3, r3, #1
+	ldr	r1, [fp, #-32]
+	add	r3, r1, r3
+	lsl	r2, r2, #16
+	asr	r2, r2, #16
+	strh	r2, [r3]	@ movhi
+	mov	r3, r7
+	lsl	r3, r3, #3
+	add	r3, r3, r7
+	lsl	r3, r3, #3
+	sub	r3, r3, r7
+	lsl	r2, r3, #2
+	sub	r2, r2, r3
+	mov	r3, r5
+	lsl	r3, r3, #3
+	add	r3, r3, r5
+	lsl	r3, r3, #3
+	sub	r3, r3, r5
+	lsl	r3, r3, #1
+	add	r3, r2, r3
+	asr	r3, r3, #5
+	lsl	r2, r3, #16
+	lsr	r2, r2, #16
+	mvn	r3, #141
+	mul	r1, r3, r7
+	mov	r3, r5
+	lsl	r3, r3, #3
+	add	r3, r3, r5
+	lsl	r3, r3, #3
+	sub	r3, r3, r5
+	lsl	r0, r3, #2
+	sub	r3, r0, r3
+	add	r3, r1, r3
+	asr	r3, r3, #5
+	lsl	r3, r3, #16
+	orr	r8, r2, r3
+	lsl	r7, r8, #16
+	lsr	r7, r7, #16
+	mov	r3, r8
+	lsr	r3, r3, #16
+	mov	r5, r3
+	mov	r3, r6
+	lsl	r3, r3, #6
+	sub	r3, r3, r6
+	lsl	r3, r3, #2
+	sub	r2, r3, r6
+	mov	r3, r4
+	lsl	r3, r3, #2
+	add	r3, r3, r4
+	lsl	r1, r3, #2
+	add	r3, r3, r1
+	lsl	r3, r3, #1
+	add	r3, r2, r3
+	asr	r3, r3, #5
+	lsl	r2, r3, #16
+	lsr	r2, r2, #16
+	mvn	r3, #49
+	mul	r1, r3, r6
+	mov	r3, r4
+	lsl	r3, r3, #6
+	sub	r3, r3, r4
+	lsl	r3, r3, #2
+	sub	r3, r3, r4
+	add	r3, r1, r3
+	asr	r3, r3, #5
+	lsl	r3, r3, #16
+	orr	r8, r2, r3
+	lsl	r6, r8, #16
+	lsr	r6, r6, #16
+	mov	r3, r8
+	lsr	r3, r3, #16
+	mov	r4, r3
+	add	r3, r7, r4
+	asr	r8, r3, #1
+	sub	r3, r7, r4
+	asr	r4, r3, #1
+	mov	r7, r8
+	sub	r3, r5, r6
+	asr	r8, r3, #1
+	add	r3, r5, r6
+	asr	r5, r3, #1
+	mov	r6, r8
+	sub	r3, r5, r7
+	asr	r8, r3, #1
+	add	r3, r5, r7
+	asr	r10, r3, #1
+	mov	r2, r9
+	mov	r3, r2
+	lsl	r3, r3, #3
+	sub	r2, r3, r2
+	ldr	r3, [fp, #-36]
+	add	r3, r2, r3
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	lsl	r2, r8, #16
+	asr	r2, r2, #16
+	strh	r2, [r3]	@ movhi
+	ldr	r3, [fp, #-36]
+	mov	r2, r9
+	add	r3, r3, r2
+	lsl	r3, r3, #1
+	ldr	r2, [fp, #-32]
+	add	r3, r2, r3
+	lsl	r2, r10, #16
+	asr	r2, r2, #16
+	strh	r2, [r3]	@ movhi
+	mov	r2, r6
 	lsl	r2, r2, #1
-	add	r2, r2, r1
+	add	r2, r2, r6
 	lsl	r3, r2, #4
 	sub	r3, r3, r2
 	lsl	r3, r3, #2
-	add	r3, r3, r1
+	add	r3, r3, r6
 	lsl	r3, r3, #1
 	asr	r2, r3, #9
-	mov	r1, r10
+	mov	r1, r9
 	mov	r3, r1
 	lsl	r3, r3, #1
 	add	r1, r3, r1
@@ -638,17 +514,16 @@ loeffler_opt:
 	lsl	r2, r2, #16
 	asr	r2, r2, #16
 	strh	r2, [r3]	@ movhi
-	mov	r1, r6
-	mov	r2, r1
+	mov	r2, r4
 	lsl	r2, r2, #1
-	add	r2, r2, r1
+	add	r2, r2, r4
 	lsl	r3, r2, #4
 	sub	r3, r3, r2
 	lsl	r3, r3, #2
-	add	r3, r3, r1
+	add	r3, r3, r4
 	lsl	r3, r3, #1
 	asr	r2, r3, #9
-	mov	r1, r10
+	mov	r1, r9
 	mov	r3, r1
 	lsl	r3, r3, #2
 	add	r1, r3, r1

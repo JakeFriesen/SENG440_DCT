@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "header/dct_optimized.h"
+#include "../header/dct_optimized.h"
 
 /****************************************************
         Discrete Cosine Transform Operations
@@ -29,7 +29,7 @@ pointer.
 *    Registers variables could be used
 * 
 */
-static inline u_int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2){
+static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2){
     register int32_t result, temp;
     temp = val1 + val2;
     temp = temp * const1;
@@ -46,14 +46,15 @@ static inline u_int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, in
 * TODO: Optimize these for loops!!!
 */
 void dct_2d (int16_t* image, int16_t width, int16_t height){
-    for(int w = 0; w < width/8; w++){
-        for(int h = 0; h < height/8; h++){
+    int w, h, i;
+    for(w ^= w; w < (width>>3); w++){
+        for(h ^= h; h < (height>>3); h++){
 
-            for(int i = 0; i < 8; i++){
-                loeffler_opt(image, (i+ 8*h)*width + 8*w, 0);
+            for(i ^= i; i < 8; i++){
+                loeffler_opt(image, (i+ (h<<3))*width + (w<<3), 0);
             }
-            for(int i = 0; i < 8; i++){
-                loeffler_opt(image, (8*h*width + 8*w) + i, width);
+            for(i ^= i; i < 8; i++){
+                loeffler_opt(image, ((h<<3)*width + (w<<3)) + i, width);
             }
         }
     }
@@ -71,7 +72,7 @@ void dct_2d (int16_t* image, int16_t width, int16_t height){
 *   -Fixed Point Arithmetic used to eliminate float operations
 *   -Image Pointer is passed in to reduce mem copies
 */
-int loeffler_opt (int16_t *image, int start, int colsel){
+static int loeffler_opt (int16_t *image, int start, int colsel){
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
     register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
     register int inc; //Increment method to choose between row and columns
