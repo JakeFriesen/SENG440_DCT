@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "dct.h"
+#include "header/dct.h"
 
 
 int main(){

@@ -1,27 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "image_generation.h"
-#include "dct_optimized.h"
+#include "header/image_generation.h"
+#include "header/dct_optimized.h"
 
 
 int main(void){
-    u_int16_t width = 160;
-    u_int16_t height = 160;
+    u_int16_t width = 600;
+    u_int16_t height = 600;
     u_int16_t image [width][height];
 
     int16_t test_arr [8] = {255, 0, 100, 50, 255, 30, 255, 0};
     int16_t test_arr3[8][8] = {{10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {255, 0, 100, 50, 255, 30, 255, 0}, {10, 20, 30, 40, 50, 60, 70, 80},
                             {255, 0, 100, 50, 255, 30, 255, 0}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}};
 
-    //1D
-    for(int i = 0; i < 8; i++){
-        loeffler_opt((int16_t*)test_arr3, 8*i, 0);
-    }
-    //2D
-    for(int i = 0; i < 8; i++){
-        loeffler_opt((int16_t*)test_arr3, i, 8);
-    }
+
+    dct_2d((int16_t*)test_arr3, 8, 8);
+
 
     printf("2D Fixed point results\n");
     for(int i = 0; i < 8; i++){
@@ -33,20 +28,11 @@ int main(void){
     }
 
     // image_gen(width, height, (u_int16_t*)image, 0);
-    // // save_to_file(width, height, (u_int16_t*)image, "Image");
-    // // load_from_file("apollonian_gasket.ascii", (u_int16_t*)image);
-    // for(int w = 0; w < width/8; w++){
-    //     for(int h = 0; h < height/8; h++){
+    // save_to_file(width, height, (u_int16_t*)image, "Image");
+    load_from_file("test_img/apollonian_gasket.ascii", (u_int16_t*)image);
 
-    //         for(int i = 0; i < 8; i++){
-    //             loeffler_opt((u_int16_t*)image, (i+ 8*h)*width + 8*w, 0);
-    //         }
-    //         for(int i = 0; i < 8; i++){
-    //             loeffler_opt((u_int16_t*)image, (8*h*width + 8*w) + i, width);
-    //         }
-    //     }
-    // }
-    // save_to_file(width, height, (u_int16_t*)image, "Compressed_Image");
+    dct_2d((int16_t*)image, width, height);
+    save_to_file(width, height, (u_int16_t*)image, "Compressed_Image");
 
     return 0;
 }
@@ -60,6 +46,4 @@ int main(void){
   -65.8108  -26.3808   -0.2611  -50.9865  -19.6870  -38.0227   21.4172  -71.8625
    55.9675   22.4351    0.2221   43.3605   16.7424   32.3356  -18.2138   61.1141
   187.4132   75.1263    0.7437  145.1973   56.0638  108.2794  -60.9910  204.6472
-
-
 */

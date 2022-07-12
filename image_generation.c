@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "image_generation.h"
+#include "header/image_generation.h"
 
 /****************************************************
 Image Generation

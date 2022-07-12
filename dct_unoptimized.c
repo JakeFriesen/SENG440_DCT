@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "dct.h"
+#include "header/dct.h"
 
 // 1-D DCT using Loeffler method
 int loeffler (float *line_arr){

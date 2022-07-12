@@ -16,12 +16,12 @@
 	.fpu softvfp
 	.type	butterfly, %function
 butterfly:
-	@ args = 0, pretend = 0, frame = 8
+	@ args = 0, pretend = 0, frame = 16
 	@ frame_needed = 1, uses_anonymous_args = 0
 	@ link register save eliminated.
-	push	{r4, r5, fp}
-	add	fp, sp, #8
-	sub	sp, sp, #12
+	str	fp, [sp, #-4]!
+	add	fp, sp, #0
+	sub	sp, sp, #20
 	mov	ip, r0
 	mov	r0, r1
 	mov	r1, r2
@@ -34,35 +34,36 @@ butterfly:
 	strh	r3, [fp, #-18]	@ movhi
 	mov	r3, r2	@ movhi
 	strh	r3, [fp, #-20]	@ movhi
+	ldrsh	r3, [fp, #-18]
 	ldrsh	r2, [fp, #-14]
-	ldrsh	r3, [fp, #-16]
-	add	r5, r2, r3
-	ldrsh	r3, [fp, #-18]
-	mul	r5, r3, r5
-	ldrsh	r2, [fp, #-20]
-	ldrsh	r3, [fp, #-18]
-	sub	r3, r2, r3
-	ldrsh	r2, [fp, #-16]
-	mul	r3, r2, r3
-	add	r3, r5, r3
-	asr	r3, r3, #5
-	lsl	r4, r3, #16
-	lsr	r4, r4, #16
-	ldrsh	r2, [fp, #-18]
+	mul	r2, r3, r2
 	ldrsh	r3, [fp, #-20]
+	ldrsh	r1, [fp, #-16]
+	mul	r3, r1, r3
 	add	r3, r2, r3
-	rsb	r3, r3, #0
-	ldrsh	r2, [fp, #-14]
-	mul	r3, r2, r3
-	add	r3, r5, r3
 	asr	r3, r3, #5
 	lsl	r3, r3, #16
-	orr	r4, r4, r3
-	mov	r3, r4
+	lsr	r3, r3, #16
+	str	r3, [fp, #-8]
+	ldrsh	r3, [fp, #-20]
+	rsb	r3, r3, #0
+	ldrsh	r2, [fp, #-14]
+	mul	r2, r3, r2
+	ldrsh	r3, [fp, #-18]
+	ldrsh	r1, [fp, #-16]
+	mul	r3, r1, r3
+	add	r3, r2, r3
+	asr	r3, r3, #5
+	lsl	r3, r3, #16
+	mov	r2, r3
+	ldr	r3, [fp, #-8]
+	orr	r3, r3, r2
+	str	r3, [fp, #-8]
+	ldr	r3, [fp, #-8]
 	mov	r0, r3
-	sub	sp, fp, #8
+	add	sp, fp, #0
 	@ sp needed
-	pop	{r4, r5, fp}
+	ldr	fp, [sp], #4
 	bx	lr
 	.size	butterfly, .-butterfly
 	.align	2
@@ -243,43 +244,6 @@ loeffler_opt:
 	mov	r0, r5
 	bl	butterfly
 	str	r0, [fp, #-40]
-	mov	r2, r5
-	mov	r3, r2
-	lsl	r3, r3, #4
-	add	r3, r3, r2
-	lsl	r3, r3, #2
-	add	r3, r3, r2
-	lsl	r3, r3, #1
-	add	r0, r3, r2
-	mov	r1, r4
-	mov	r2, r1
-	lsl	r2, r2, #1
-	add	r2, r2, r1
-	lsl	r3, r2, #3
-	sub	r3, r3, r2
-	lsl	r3, r3, #3
-	sub	r3, r3, r1
-	lsl	r3, r3, #1
-	add	r3, r0, r3
-	asr	r3, r3, #5
-	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r5
-	ldr	r3, .L7+4
-	mul	r0, r3, r1
-	mov	r1, r4
-	mov	r3, r1
-	lsl	r3, r3, #4
-	add	r3, r3, r1
-	lsl	r3, r3, #2
-	add	r3, r3, r1
-	lsl	r3, r3, #1
-	add	r3, r3, r1
-	add	r3, r0, r3
-	asr	r3, r3, #5
-	lsl	r3, r3, #16
-	orr	r3, r2, r3
-	str	r3, [fp, #-40]
 	ldr	r3, [fp, #-40]
 	lsl	r3, r3, #16
 	asr	r5, r3, #16
@@ -440,41 +404,12 @@ loeffler_opt:
 	lsl	r2, r2, #16
 	asr	r2, r2, #16
 	strh	r2, [r3]	@ movhi
-	mov	r2, r6
-	mov	r3, r2
-	lsl	r3, r3, #3
-	add	r3, r3, r2
-	lsl	r3, r3, #3
-	sub	r3, r3, r2
-	lsl	r2, r3, #2
-	sub	r1, r2, r3
-	mov	r2, r4
-	mov	r3, r2
-	lsl	r3, r3, #3
-	add	r3, r3, r2
-	lsl	r3, r3, #3
-	sub	r3, r3, r2
-	lsl	r3, r3, #1
-	add	r3, r1, r3
-	asr	r3, r3, #5
-	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r6
-	mvn	r3, #141
-	mul	r0, r3, r1
+	mov	r3, #142
+	mov	r2, #213
 	mov	r1, r4
-	mov	r3, r1
-	lsl	r3, r3, #3
-	add	r3, r3, r1
-	lsl	r3, r3, #3
-	sub	r3, r3, r1
-	lsl	r1, r3, #2
-	sub	r3, r1, r3
-	add	r3, r0, r3
-	asr	r3, r3, #5
-	lsl	r3, r3, #16
-	orr	r3, r2, r3
-	str	r3, [fp, #-40]
+	mov	r0, r6
+	bl	butterfly
+	str	r0, [fp, #-40]
 	ldr	r3, [fp, #-40]
 	lsl	r3, r3, #16
 	asr	r6, r3, #16
@@ -482,37 +417,12 @@ loeffler_opt:
 	lsr	r3, r3, #16
 	lsl	r3, r3, #16
 	asr	r4, r3, #16
-	mov	r2, r8
-	mov	r3, r2
-	lsl	r3, r3, #6
-	sub	r3, r3, r2
-	lsl	r3, r3, #2
-	sub	r2, r3, r2
+	mov	r3, #50
+	mov	r2, #251
 	mov	r1, r5
-	mov	r3, r1
-	lsl	r3, r3, #2
-	add	r3, r3, r1
-	lsl	r1, r3, #2
-	add	r3, r3, r1
-	lsl	r3, r3, #1
-	add	r3, r2, r3
-	asr	r3, r3, #5
-	lsl	r2, r3, #16
-	lsr	r2, r2, #16
-	mov	r1, r8
-	mvn	r3, #49
-	mul	r0, r3, r1
-	mov	r1, r5
-	mov	r3, r1
-	lsl	r3, r3, #6
-	sub	r3, r3, r1
-	lsl	r3, r3, #2
-	sub	r3, r3, r1
-	add	r3, r0, r3
-	asr	r3, r3, #5
-	lsl	r3, r3, #16
-	orr	r3, r2, r3
-	str	r3, [fp, #-40]
+	mov	r0, r8
+	bl	butterfly
+	str	r0, [fp, #-40]
 	ldr	r3, [fp, #-40]
 	lsl	r3, r3, #16
 	asr	r8, r3, #16
@@ -626,7 +536,6 @@ loeffler_opt:
 	.align	2
 .L7:
 	.word	334
-	.word	-334
 	.size	loeffler_opt, .-loeffler_opt
 	.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
 	.section	.note.GNU-stack,"",%progbits

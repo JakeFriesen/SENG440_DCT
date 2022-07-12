@@ -8,3 +8,4 @@
 #define SQRT2SIN6 334   //SF of 2^7
 #define SQRT2FP 362     //SF of 2^8 (9bit)
 int loeffler_opt (int16_t *image, int start, int colsel);
+void dct_2d (int16_t* image, int16_t width, int16_t height);
