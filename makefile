@@ -9,9 +9,12 @@ assembly = test_dct_arm dct_image_compression_arm
 images = image.pgm Decompressed_Image.pgm Compressed_Image.pgm
 DIR_S = source
 DIR_O = obj
+DIR_CLEAN = $(patsubst %,$(DIR_O)/%,$(binaries))
 DIR_ASM = Assembly
 _SRC = dct_image_compression.c dct_optimized.c image_generation.c
 SRC = $(patsubst %,$(DIR_S)/%,$(_SRC))
+_DIR_IM = test_img
+DIR_IM = $(patsubst %,$(_DIR_IM)/%,$(images))
 
 all: clean native arm
 
@@ -31,4 +34,4 @@ asm : $(DIR_S)/dct_optimized.c
 .PHONY: clean
 
 clean: 
-	rm -f $(binaries) $(DIR_O)/* $(images)
+	rm -f $(DIR_CLEAN) $(DIR_IM)
