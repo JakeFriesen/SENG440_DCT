@@ -48,11 +48,19 @@ TODO Checklist:
 [X] Copy dct_optimized and write with the embedded ASM instruction
 [ ] Test out 16 vs 32 bit temporary variables, see if there are improvements
     - There are improvements, but it breaks at the moment when converting to 32 bit
-[ ] Try out compiler optimization flags
+    - Need to decide if this is work figuring out
+[X] Try out compiler optimization flags
+    - -O3 works quite well, -ftree-vectorize is even better but needs to be verified on system
 [ ] Check for saturation vs wraparound addition
 [X] Optimize for loops in dct_2d function
 [ ] Figure out how the butterfly macro is eliminating the multiplies
+
 File Handling:
 [ ] Negative number support in write/read to file functions
 [ ] Constant line length for saving images
+
+Other:
+[ ] Start UML documentation / Schematics
+[ ] Report - When is this due?
+[ ] Presentation - 15 slides, 15 minutes
 
