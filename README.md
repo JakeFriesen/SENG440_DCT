@@ -51,15 +51,22 @@ TODO Checklist:
     - Need to decide if this is work figuring out
 [X] Try out compiler optimization flags
     - -O3 works quite well, -ftree-vectorize is even better but needs to be verified on system
+    - Verified on VM -ftree-vectorize -O3 works the same
 [ ] Check for saturation vs wraparound addition
 [X] Optimize for loops in dct_2d function
 [X] Figure out how the butterfly macro is eliminating the multiplies
     - Automatically replaces mul with add and shifts
 [ ] Von Neuman rounding - should be performed at every truncation - currently not done at all?
+    -Added some basic non vn rouding, doesn't change results much
 
 File Handling:
-[ ] Negative number support in write/read to file functions
+[X] Negative number support in write/read to file functions
+    -Added, minimal testing done
 [ ] Constant line length for saving images
+
+ARM:
+[X] File can't be opened on VM
+    -Fixed, must run executable from top dir, otherwise the path for the image must be changed
 
 Other:
 [ ] Start UML documentation / Schematics

@@ -47,7 +47,7 @@ int print_image(u_int16_t width, u_int16_t height, u_int16_t * image)
 * and writes it to a file in .pgm format
 * TODO: Print negative numbers
 */
-int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * filename)
+int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * filename)
 {
     FILE * fp;
     char filename_ext [100];
@@ -74,18 +74,24 @@ int save_to_file(u_int16_t width, u_int16_t height, u_int16_t * image, char * fi
     // Write the image data
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
-            u_int16_t cur_bit = *((image+i*width)+j);
+            int16_t cur_bit = *((image+i*width)+j);
+            if(cur_bit < 0){
+                cur_bit = -cur_bit;
+            }
             int ascii [10];
             int mult = 1;
-            int i = 0;
+            int idx = 0;
             do{
-                ascii [i] = ((cur_bit/mult)%10) + 48;
-                i++;
+                ascii [idx] = ((cur_bit/mult)%10) + 48;
+                idx++;
                 mult*= 10;
-            }while(cur_bit/mult != 0 && i < 10);
-
-            for(int j = 0; j < i; j++){
-                fputc(ascii[i-j-1], fp);
+            }while(cur_bit/mult != 0 && idx < 10);
+            if(*((image+i*width)+j) < 0){//negative number
+                ascii[idx] = 45; //'-'
+                idx++;
+            }
+            for(int j = 0; j < idx; j++){
+                fputc(ascii[idx-j-1], fp);
             }
 
             fputc(32, fp);//add a space
@@ -186,9 +192,16 @@ int load_from_file(char * filename, u_int16_t * image)
 
             //num_arr is also storing the space, so index up to idx-1, use idx-k-2
             if(c != 0x0a){
-                for(int k = 0; k < idx-1; k++){
+                int k = 0;
+                if(num_arr[0] = 45){//'-'
+                    k++;
+                }
+                for(k; k < idx-1; k++){
                     cur_num += (num_arr[idx-k-2] - 48)*mult;
                     mult *= 10;
+                }
+                if(num_arr[0] = 45){
+                    cur_num = -cur_num;
                 }
             
                 *((image+i*width)+j) = cur_num;

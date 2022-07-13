@@ -4,8 +4,8 @@ native : CFLAGS= -static
 arm : CC=arm-linux-gnueabi-gcc
 arm : CFLAGS= -static
 
-binaries= test_dct test_dct_arm test_image_gen dct_image_compression test_optimize
-assembly = test_dct_arm dct_image_compression_arm
+binaries= test_image_gen dct_image_compression dct_image_compression_arm
+assembly = test_dct_arm dct_image_compression_arm 
 images = image.pgm Decompressed_Image.pgm Compressed_Image.pgm
 DIR_S = source
 DIR_O = obj

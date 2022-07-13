@@ -38,11 +38,16 @@ int main(void){
     }
 
     // image_gen(width, height, (u_int16_t*)image, 0);
-    // save_to_file(width, height, (u_int16_t*)image, "Image");
-    load_from_file("test_img/apollonian_gasket.ascii", (u_int16_t*)image);
+    // save_to_file(width, height, (int16_t*)image, "Image");
+    load_from_file("test_img/apollonian_gasket.ascii", (int16_t*)image);
 
     dct_2d((int16_t*)image, width, height);
-    save_to_file(width, height, (u_int16_t*)image, "Compressed_Image");
+    save_to_file(width, height, (int16_t*)image, "Compressed_Image");
+
+    //Test purely to check loading negative numbers, should use idct, which is not implemented
+    load_from_file("Compressed_Image", (int16_t*)image);
+    dct_2d((int16_t*)image, width, height);
+    save_to_file(width, height, (int16_t*)image, "Decompressed_Image");
 
     return 0;
 }
