@@ -20,7 +20,7 @@ native : $(SRC)
 	./$(DIR_O)/dct_image_compression
 
 arm : $(SRC)
-	$(CC) -o $(DIR_O)/dct_image_compression_arm  $(CFLAGS) $(SRC)
+	$(CC) -o $(DIR_O)/dct_image_compression_arm  $(CFLAGS) $(ARGS) $(SRC)
 
 image_gen : image_generation.c test_image_gen.c
 	$(CC) -o $(DIR_O)/test_image_gen $(CFLAGS) $(DIR_S)/test_image_gen.c $(DIR_S)/image_generation.c
