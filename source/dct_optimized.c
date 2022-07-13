@@ -9,9 +9,18 @@ Functions for performing DCT oprerations on an image
 pointer.
 ****************************************************/
 
+/*
+* QADD
+* Saturated addition implemented via inlined assembly
+*/
+#define QADD(a, b) __asm__ __volatile__ (\
+                    " qadd \t%0 , %1 , %2\ n"\
+                    : "=r" ( sum )\
+                    : "r" (a), "r" (b))
 
 /*
 * BUTTERFLY_MACRO
+* multiplications optimized out by compiler - reduced to 1 mul, rest are add and shifts
 */
 #define BUTTERFLY_MACRO(val1, val2, const1, const2) (((val1*const1 + val2*const2) >> 5) & 0xffff )| \
                                                     ((((-val1*const2 + val2*const1) >> 5) & 0xffff) << 16)
@@ -30,11 +39,21 @@ pointer.
 * 
 */
 static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2){
-    register int32_t result, temp;
+    register int32_t result, temp, res;
     temp = val1 + val2;
     temp = temp * const1;
-    result = (((const2 - const1)*val2 + temp) >> 5) & 0xffff;
-    result |= (((-(const1 + const2)*val1 + temp) >> 5) & 0xffff) << 16;
+    //result 1
+    res = const2 - const1;
+    res = res * val2;
+    res = res + temp;
+    res = (res >> 5) + (res>>4 & 1);//rounding. is this worth it? Doesn't change the results much
+    result = (res) & 0xffff;
+    //result 2
+    res = const1 + const2;
+    res = -res * val1;
+    res = res + temp;
+    res = (res >> 5) + (res>>4 & 1);//rounding
+    result |= ((res) & 0xffff) << 16;
     return result;
 }
 
@@ -118,8 +137,8 @@ int loeffler_opt (int16_t *image, int start, int colsel){
     local2 = local1 - local2;   //[0] - [1]
     local1 = temp1;             //[0] + [1]
 
-    temp1 = BUTTERFLY_MACRO(local3, local4, SQRT2COS6, SQRT2SIN6); //Butterfly [2] [3] SQRT2COS6
-    local3 = (temp1 & 0xffff);             
+    temp1 = butterfly(local3, local4, SQRT2COS6, SQRT2SIN6); //Butterfly [2] [3] SQRT2COS6
+    local3 = (temp1 & 0xffff);    
     local3 = local3 >>2; //separating the shift from the mask forces an arithmetic shift
     local4 = (temp1 & 0xffff0000) >> 16;
     local4 = local4 >>2; //separating the shift from the mask forces an arithmetic shift
@@ -136,11 +155,11 @@ int loeffler_opt (int16_t *image, int start, int colsel){
     *(image + start) = temp1 << 1;                                  //[0] Saved
 
     //Stage 2 - Odd Section
-    temp1 = BUTTERFLY_MACRO(local1, local4, COS3FP, SIN3FP);   //Butterfly [4] [7] COS3
+    temp1 = butterfly(local1, local4, COS3FP, SIN3FP);   //Butterfly [4] [7] COS3
     local1 = temp1 & 0xffff;
     local4 = (temp1 & 0xffff0000) >> 16;
 
-    temp1 = BUTTERFLY_MACRO(local2, local3, COS1FP, SIN1FP);   //Butterfly [5] [6] COS1
+    temp1 = butterfly(local2, local3, COS1FP, SIN1FP);   //Butterfly [5] [6] COS1
     local2 = temp1 & 0xffff;
     local3 = (temp1 & 0xffff0000) >> 16;
 

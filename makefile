@@ -26,7 +26,7 @@ image_gen : image_generation.c test_image_gen.c
 	$(CC) -o $(DIR_O)/test_image_gen $(CFLAGS) $(DIR_S)/test_image_gen.c $(DIR_S)/image_generation.c
 
 asm : $(DIR_S)/dct_optimized.c
-	arm-linux-gnueabi-gcc -o $(DIR_ASM)/dct_optimized.s -S -static  -O3 -ftree-vectorize $(DIR_S)/dct_optimized.c
+	arm-linux-gnueabi-gcc -o $(DIR_ASM)/dct_optimized.s -S -static $(ARGS) $(DIR_S)/dct_optimized.c
 
 .PHONY: clean
 

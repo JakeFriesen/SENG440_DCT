@@ -53,7 +53,9 @@ TODO Checklist:
     - -O3 works quite well, -ftree-vectorize is even better but needs to be verified on system
 [ ] Check for saturation vs wraparound addition
 [X] Optimize for loops in dct_2d function
-[ ] Figure out how the butterfly macro is eliminating the multiplies
+[X] Figure out how the butterfly macro is eliminating the multiplies
+    - Automatically replaces mul with add and shifts
+[ ] Von Neuman rounding - should be performed at every truncation - currently not done at all?
 
 File Handling:
 [ ] Negative number support in write/read to file functions
