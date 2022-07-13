@@ -136,7 +136,7 @@ static int loeffler_opt (int16_t *image, int start, int colsel){
     temp1 = ((local3 & 0xffff)<<16) | (local4 & 0xffff);
     temp2 = ((SQRT2COS6 & 0xffff)<<16) | (SQRT2SIN6 & 0xffff);
     __asm__ __volatile__ (
-        " butterfly \t%0 , %1 , %2\ n"
+        " butterfly \t%0 , %1 , %2\n"
         : "=r" ( temp1 )
         : "r" (temp1), "r" (temp2)
     );

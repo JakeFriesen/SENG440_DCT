@@ -12,11 +12,9 @@ pointer.
 /*
 * QADD
 * Saturated addition implemented via inlined assembly
+* Requires arm compiling only (use -march=armv6)
 */
-#define QADD(a, b) __asm__ __volatile__ (\
-                    " qadd \t%0 , %1 , %2\ n"\
-                    : "=r" ( sum )\
-                    : "r" (a), "r" (b))
+#define QADD(a, b, c) __asm__ __volatile__ (" qadd \t%0 , %1 , %2\n": "=r" ( c ): "r" (a), "r" (b))
 
 /*
 * BUTTERFLY_MACRO
@@ -125,7 +123,7 @@ int loeffler_opt (int16_t *image, int start, int colsel){
     local4 = *(image + start + inc*3) + *(image + start + inc*4);   //Load [3] + [4]
 
     //Stage 2 - Even Section
-    temp1 = local1 + local4;   
+    temp1 = local1 + local4;  
     temp2 = local2 + local3;   
     local3 = local2 - local3;   //[1] - [2]
     local4 = local1 - local4;   //[0] - [3]
