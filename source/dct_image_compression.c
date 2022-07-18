@@ -10,6 +10,7 @@ int main(void)
     u_int16_t width = 600;
     u_int16_t height = 600;
     u_int16_t image [width][height];
+    int i, j;
 
     int16_t test_arr3[8][8] = 
     // {{255, 255, 255, 255, 255, 255, 255, 255}, {255, 255, 255, 255, 255, 255, 255, 255}, {255, 255, 255, 255, 255, 255, 255, 255}, {255, 255, 255, 255, 255, 255, 255, 255},
@@ -20,9 +21,9 @@ int main(void)
     dct_2d((int16_t*)test_arr3, 8, 8);
 
     printf("2D Fixed point results\n");
-    for(int i = 0; i < 8; i++)
+    for(i = 0; i < 8; i++)
     {
-        for(int j = 0; j < 8; j++)
+        for(j = 0; j < 8; j++)
         {
             float f = (float)test_arr3[i][j] / (1<<5);//Cast to float to view result without scale factor
             printf("%.2f\t", f );

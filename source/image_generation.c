@@ -15,10 +15,11 @@ specified size.
 */
 int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image, int random)
 {
+    int i, j;
     //image is a matrix of width x height
-    for(int i = 0; i < height; i++)
+    for(i = 0; i < height; i++)
     {
-        for(int j = 0; j < width; j++)
+        for(j = 0; j < width; j++)
         {
             *((image+i*width) + j) = (random == 1) ? (rand()%255) : (i+j);
         }
@@ -33,9 +34,10 @@ int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image, int random)
 */
 int print_image(u_int16_t width, u_int16_t height, u_int16_t * image)
 {
-    for(int i = 0; i < height; i++)
+    int i, j;
+    for(i = 0; i < height; i++)
     {
-        for(int j = 0; j < width; j++)
+        for(j = 0; j < width; j++)
         {
             printf("%3d ",*((image+i*width) + j));
         }
@@ -53,6 +55,7 @@ int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * file
 {
     FILE * fp;
     char filename_ext [100];
+    int i, j, k;
     sprintf(filename_ext, "%s.pgm", filename);
     fp = fopen(filename_ext, "w+");
 
@@ -63,7 +66,7 @@ int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * file
     sprintf(header, "P2 \n%d %d \n255 \n", width, height);
 
     // Write header until the third newline is hit
-    for(int i = 0; i < 100; i++)
+    for(i = 0; i < 100; i++)
     {
         if(num_newline >= 3)
         {
@@ -77,9 +80,9 @@ int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * file
     }
 
     // Write the image data
-    for(int i = 0; i < height; i++)
+    for(i = 0; i < height; i++)
     {
-        for(int j = 0; j < width; j++)
+        for(j = 0; j < width; j++)
         {
             int16_t cur_bit = *((image+i*width)+j);
             if(cur_bit < 0)
@@ -99,9 +102,9 @@ int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * file
                 ascii[idx] = 45; //'-'
                 idx++;
             }
-            for(int j = 0; j < idx; j++)
+            for(k = 0; k < idx; k++)
             {
-                fputc(ascii[idx-j-1], fp);
+                fputc(ascii[idx-k-1], fp);
             }
 
             fputc(32, fp);//add a space
@@ -127,6 +130,7 @@ int load_from_file(char * filename, u_int16_t * image)
     int ascii [2];
     int dimensions[100];
     int i = 0;
+    int j;
     int c;
     int mul [4] = {1000, 100, 10, 1};
 
@@ -155,7 +159,7 @@ int load_from_file(char * filename, u_int16_t * image)
     }while(c != 0x0a);
 
     //Read Dimensions
-    for(int i = 0; i < 4; i++)
+    for(i = 0; i < 4; i++)
     {
         c = getc(fp);
         if(c == 0x20 || c == 0x0a)
@@ -165,7 +169,7 @@ int load_from_file(char * filename, u_int16_t * image)
         } 
         else width += (c-48)*mul[i];
     }
-    for(int i = 0; i < 4; i++)
+    for(i = 0; i < 4; i++)
     {
         c = getc(fp);
         if(c == 0x20 || c == 0x0a)
@@ -178,7 +182,7 @@ int load_from_file(char * filename, u_int16_t * image)
     printf("Width:%d, Height:%d\n", width, height);
 
     //Find newline * 2, skip over max num 
-    for(int i = 0; i < 2; i++)
+    for(i = 0; i < 2; i++)
     {
         do{
             c = getc(fp);
@@ -187,9 +191,9 @@ int load_from_file(char * filename, u_int16_t * image)
 
 
     //Write image data to the pointer
-    for(int i = 0; i < height; i++)
+    for(i = 0; i < height; i++)
     {
-        for(int j = 0; j < width; j++)
+        for(j = 0; j < width; j++)
         {
             cur_num = 0;
             int num_arr [10];
@@ -244,9 +248,10 @@ int load_from_file(char * filename, u_int16_t * image)
 */
 int get_matrix(u_int16_t * image, int width, int height, int mat_w, int mat_h, u_int16_t * matrix)
 {
-    for (int i = 0; i <  8; i++)
+    int i, j;
+    for (i = 0; i <  8; i++)
     {
-        for(int j = 0; j < 8; j++)
+        for(j = 0; j < 8; j++)
         {
             *(matrix + i*8+j) = *(image + ((i+(mat_h*8))*width) + (j+ 8*(mat_w)));
         }
@@ -259,9 +264,10 @@ int get_matrix(u_int16_t * image, int width, int height, int mat_w, int mat_h, u
 */
 int put_matrix(u_int16_t * image, int width, int height, int mat_w, int mat_h, u_int16_t * matrix)
 {
-    for(int i = 0; i < 8; i++)
+    int i, j;
+    for(i = 0; i < 8; i++)
     {
-        for(int j = 0; j < 8; j++)
+        for(j = 0; j < 8; j++)
         {
             *(image + ((i+(mat_h*8))*width) + (j+ 8*(mat_w))) = *(matrix + i*8+j);
         }
@@ -274,9 +280,10 @@ int put_matrix(u_int16_t * image, int width, int height, int mat_w, int mat_h, u
 */
 int print_matrix(u_int16_t* matrix)
 {
-    for(int i = 0; i < 8; i++)
+    int i, j;
+    for(i = 0; i < 8; i++)
     {
-        for(int j = 0; j < 8; j++)
+        for(j = 0; j < 8; j++)
         {
             printf("%3d ", *(matrix + i*8 + j));
         }
