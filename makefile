@@ -2,7 +2,7 @@ native : CC=gcc
 native : CFLAGS= -static
 
 arm : CC=arm-linux-gnueabi-gcc
-arm : CFLAGS= -static
+arm : CFLAGS= -static -O3 -march=armv6
 
 asm : CFLAGS = -static -O3 -ftree-vectorize -march=armv6
 
