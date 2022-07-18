@@ -6,6 +6,7 @@
 - [X] Try out compiler optimization flags
     - -O3 works quite well, -ftree-vectorize is even better but needs to be verified on system
     - Verified on VM -ftree-vectorize -O3 works the same
+    - Real ARM machine does not like -ftreevectorize, or march=armv6
 - [ ] Check for saturation vs wraparound addition
     - Want saturation for most additions, which isn't the default
     - Inline asm sort of added, has not been tested
