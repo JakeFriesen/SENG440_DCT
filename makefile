@@ -2,8 +2,9 @@ native : CC=gcc
 native : CFLAGS= -static
 
 arm : CC=arm-linux-gnueabi-gcc
-arm : CFLAGS= -static -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
+arm : CFLAGS= -static -O3 
 
+#-march=armv4t -mtune=arm920t -ftree-vectorize
 asm : CFLAGS = -static -O3 -ftree-vectorize -march=armv6
 
 binaries= test_image_gen dct_image_compression dct_image_compression_arm

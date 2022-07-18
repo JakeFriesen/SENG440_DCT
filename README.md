@@ -42,7 +42,7 @@
 - [ ] Start UML documentation / Schematics
 - [ ] Report - Due at the same time as presentation
 - [ ] Presentation - 15 slides, 15 minutes
-- [ ] Barr-C Standards
+- [X] Barr-C Standards
 
 
 ### list - Jake:
