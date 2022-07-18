@@ -117,6 +117,7 @@ int loeffler_opt (int16_t *image, int start, int colsel){
     inc = (colsel == 0) ? 1 : colsel;
 
     //Stage 1 - Even Section
+    //TODO: reduce operator strength - remove multiplies (inc is always a multiple of 8)
     local1 = *(image + start) + *(image + start + inc*7);           //Load [0] + [7]
     local2 = *(image + start + inc*1) + *(image + start + inc*6);   //Load [1] + [6]
     local3 = *(image + start + inc*2) + *(image + start + inc*5);   //Load [2] + [5]
