@@ -22,6 +22,7 @@ pointer.
 */
 #define BUTTERFLY_MACRO(val1, val2, const1, const2) (((val1*const1 + val2*const2) >> 5) & 0xffff )| \
                                                     ((((-val1*const2 + val2*const1) >> 5) & 0xffff) << 16)
+
 /*
 * butterfly
 * This inline function performs a butterfly operation (or rotation) using
@@ -34,9 +35,11 @@ pointer.
 *   -Function inlined
 *   -Packed return value chosen over pointers for val1, val2 so
 *    Registers variables could be used
+*   -Follow Barr-C Standards
 * 
 */
-static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2){
+static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2)
+{
     register int32_t result, temp, res;
     temp = val1 + val2;
     temp = temp * const1;
@@ -66,11 +69,15 @@ static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int1
 *    and intermediate signals
 *   -Loop unrolling for 1D and 2D DCT
 *   -1D and 2D DCT must be done sequentially
+*   -Follow Barr-C Standards
 */
-void dct_2d (int16_t* image, int16_t width, int16_t height){
+int dct_2d (int16_t* image, int16_t width, int16_t height)
+{
     int w, h, i, temp;
-    for(w ^= w; w < (width>>3); w++){
-        for(h ^= h; h < (height>>3); h++){
+    for(w ^= w; w < (width>>3); w++)
+    {
+        for(h ^= h; h < (height>>3); h++)
+        {
             // 1D DCT
             temp = w << 3;
             loeffler_opt(image, (0+ (h<<3))*width + temp, 0);
@@ -84,6 +91,7 @@ void dct_2d (int16_t* image, int16_t width, int16_t height){
 
             // 2D DCT
             temp = (h<<3)*width + (w<<3);
+
             loeffler_opt(image, temp + 0, width);
             loeffler_opt(image, temp + 1, width);
             loeffler_opt(image, temp + 2, width);
@@ -94,6 +102,7 @@ void dct_2d (int16_t* image, int16_t width, int16_t height){
             loeffler_opt(image, temp + 7, width);
         }
     }
+    return 1;
 }
 
 /*
@@ -107,17 +116,18 @@ void dct_2d (int16_t* image, int16_t width, int16_t height){
 *   -Local Variables set as register
 *   -Fixed Point Arithmetic used to eliminate float operations
 *   -Image Pointer is passed in to reduce mem copies
+*   -Follow Barr-C Standards
 */
-int loeffler_opt (int16_t *image, int start, int colsel){
+static int loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
+{
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
     register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
-    register int inc; //Increment method to choose between row and columns
+    register u_int32_t inc; //Increment method to choose between row and columns
 
     //Determine increment method
     inc = (colsel == 0) ? 1 : colsel;
 
     //Stage 1 - Even Section
-    //TODO: reduce operator strength - remove multiplies (inc is always a multiple of 8)
     local1 = *(image + start) + *(image + start + inc*7);           //Load [0] + [7]
     local2 = *(image + start + inc*1) + *(image + start + inc*6);   //Load [1] + [6]
     local3 = *(image + start + inc*2) + *(image + start + inc*5);   //Load [2] + [5]

@@ -11,55 +11,6 @@ pointer.
 
 
 /*
-* BUTTERFLY_MACRO
-*/
-#define BUTTERFLY_MACRO(val1, val2, const1, const2) (((val1*const1 + val2*const2) >> 5) & 0xffff )| \
-                                                    ((((-val1*const2 + val2*const1) >> 5) & 0xffff) << 16)
-/*
-* butterfly
-* This inline function performs a butterfly operation (or rotation) using
-* the 4 input values, and returns two packed int16_t values
-* This function has a built in scale shift of 2^5, to accomodate large
-* inputs.
-* Optimizations:
-*   -Simplified Rotator to reduce multiplications to 3
-*   -Register temporary variables
-*   -Function inlined
-*   -Packed return value chosen over pointers for val1, val2 so
-*    Registers variables could be used
-* 
-*/
-static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2){
-    register int32_t result, temp;
-    temp = val1 + val2;
-    temp = temp * const1;
-    result = (((const2 - const1)*val2 + temp) >> 5) & 0xffff;
-    result |= (((-(const1 + const2)*val1 + temp) >> 5) & 0xffff) << 16;
-    return result;
-}
-
-/*
-* dct_2d
-* Performs the 2D Discrete Cosine Transform in 8x8 matrices.
-* Given the image pointer, width and height, run 1D DCT for 
-* every row and every column in each 8x8 matrix
-* TODO: Optimize these for loops!!!
-*/
-void dct_2d (int16_t* image, int16_t width, int16_t height){
-    for(int w = 0; w < width/8; w++){
-        for(int h = 0; h < height/8; h++){
-
-            for(int i = 0; i < 8; i++){
-                loeffler_opt(image, (i+ 8*h)*width + 8*w, 0);
-            }
-            for(int i = 0; i < 8; i++){
-                loeffler_opt(image, (8*h*width + 8*w) + i, width);
-            }
-        }
-    }
-}
-
-/*
 * loeffler_opt
 * this function performs a 1D DCT via the Loeffler Algorithm
 * For every DCT operation, the input bit value increases by 4 bit
@@ -71,7 +22,8 @@ void dct_2d (int16_t* image, int16_t width, int16_t height){
 *   -Fixed Point Arithmetic used to eliminate float operations
 *   -Image Pointer is passed in to reduce mem copies
 */
-static int loeffler_opt (int16_t *image, int start, int colsel){
+static int loeffler_opt (int16_t *image, int start, int colsel)
+{
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
     register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
     register int inc; //Increment method to choose between row and columns

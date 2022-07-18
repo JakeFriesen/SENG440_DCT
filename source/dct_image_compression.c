@@ -5,7 +5,8 @@
 #include "../header/dct_optimized.h"
 
 
-int main(void){
+int main(void)
+{
     u_int16_t width = 600;
     u_int16_t height = 600;
     u_int16_t image [width][height];
@@ -17,37 +18,30 @@ int main(void){
     {{10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {255, 0, 100, 50, 255, 30, 255, 0}, {10, 20, 30, 40, 50, 60, 70, 80},
                             {255, 0, 100, 50, 255, 30, 255, 0}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}, {10, 20, 30, 40, 50, 60, 70, 80}};
 
-    loeffler_opt((int16_t*)test_arr, 0, 0);
-    printf("1D DCT Results:\n");
-    for(int i = 0; i < 8; i++){
-      float f = (float)test_arr[i] / 2;
-      printf("%.2f\t %d\n", f, test_arr[i]);
-    }
-    printf("\n");
-
     dct_2d((int16_t*)test_arr3, 8, 8);
 
-
     printf("2D Fixed point results\n");
-    for(int i = 0; i < 8; i++){
-        for(int j = 0; j < 8; j++){
-            float f = (float)test_arr3[i][j] / (1<<5);
+    for(int i = 0; i < 8; i++)
+    {
+        for(int j = 0; j < 8; j++)
+        {
+            float f = (float)test_arr3[i][j] / (1<<5);//Cast to float to view result without scale factor
             printf("%.2f\t", f );
         }
         printf("\n");
     }
 
-    // image_gen(width, height, (u_int16_t*)image, 0);
+    image_gen(width, height, (u_int16_t*)image, 0);                             //Cast image matrix to the image pointer
     // save_to_file(width, height, (int16_t*)image, "Image");
-    load_from_file("test_img/apollonian_gasket.ascii", (int16_t*)image);
+    // load_from_file("test_img/apollonian_gasket.ascii", (int16_t*)image);
 
-    dct_2d((int16_t*)image, width, height);
-    save_to_file(width, height, (int16_t*)image, "test_img/Compressed_Image");
+    dct_2d((int16_t*)image, width, height);                                     //Cast image matrix to the image pointer
+    save_to_file(width, height, (int16_t*)image, "test_img/Compressed_Image");  //Cast image matrix to the image pointer
 
     //Test purely to check loading negative numbers, should use idct, which is not implemented
-    load_from_file("Compressed_Image", (int16_t*)image);
-    dct_2d((int16_t*)image, width, height);
-    save_to_file(width, height, (int16_t*)image, "test_img/Decompressed_Image");
+    load_from_file("Compressed_Image", (int16_t*)image);                        //Cast image matrix to the image pointer
+    dct_2d((int16_t*)image, width, height);                                     //Cast image matrix to the image pointer
+    save_to_file(width, height, (int16_t*)image, "test_img/Decompressed_Image");//Cast image matrix to the image pointer
 
     return 0;
 }

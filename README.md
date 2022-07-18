@@ -44,3 +44,9 @@
 - [ ] Presentation - 15 slides, 15 minutes
 - [ ] Barr-C Standards
 
+
+### list - Jake:
+- [x] Barr-C
+- [ ] Get working on real ARM machine
+- [ ] 32 bit temp variables
+
