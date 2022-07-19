@@ -39,10 +39,9 @@ asm : $(DIR_S)/dct_optimized.c
 
 realarm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(ARGS) $(SRC)
-	lftp -c "open user4:q6coHjd7P@arm; put obj/dct_image_compression_realarm;"
-	telnet arm
-	(sleep 1; echo user4; sleep 1; echo q6coHjd7P; sleep 1; echo chmod +x dct_image_compression_realarm)
-	
+	lftp -c "open user4:q6coHjd7P@arm; mirror -R '/tmp/SENG440_DCT/obj' 'jake/obj'; mirror -R '/tmp/SENG440_DCT/test_img' 'jake/test_img';"
+	(sleep 1; echo user4; sleep 1; echo q6coHjd7P; sleep 1; echo "chmod +x jake/obj/dct_image_compression_realarm"; sleep 1; echo "cd jake"; echo "./obj/dct_image_compression_realarm"; sleep 5;) | telnet arm
+
 .PHONY: clean
 
 clean: 

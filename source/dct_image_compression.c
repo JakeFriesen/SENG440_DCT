@@ -31,17 +31,17 @@ int main(void)
         printf("\n");
     }
 
-    image_gen(width, height, (u_int16_t*)image, 0);                             //Cast image matrix to the image pointer
+    // image_gen(width, height, (u_int16_t*)image, 0);                             //Cast image matrix to the image pointer
     // save_to_file(width, height, (int16_t*)image, "Image");
-    // load_from_file("test_img/apollonian_gasket.ascii", (int16_t*)image);
+    load_from_file("test_img/apollonian_gasket.ascii", (int16_t*)image);
 
     dct_2d((int16_t*)image, width, height);                                     //Cast image matrix to the image pointer
     save_to_file(width, height, (int16_t*)image, "test_img/Compressed_Image");  //Cast image matrix to the image pointer
 
     //Test purely to check loading negative numbers, should use idct, which is not implemented
-    load_from_file("Compressed_Image", (int16_t*)image);                        //Cast image matrix to the image pointer
-    dct_2d((int16_t*)image, width, height);                                     //Cast image matrix to the image pointer
-    save_to_file(width, height, (int16_t*)image, "test_img/Decompressed_Image");//Cast image matrix to the image pointer
+    // load_from_file("test_img/Compressed_Image", (int16_t*)image);                        //Cast image matrix to the image pointer
+    // dct_2d((int16_t*)image, width, height);                                     //Cast image matrix to the image pointer
+    // save_to_file(width, height, (int16_t*)image, "test_img/Decompressed_Image");//Cast image matrix to the image pointer
 
     return 0;
 }
