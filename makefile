@@ -35,9 +35,9 @@ image_gen : image_generation.c test_image_gen.c
 	$(CC) -o $(DIR_O)/test_image_gen $(CFLAGS) $(DIR_S)/test_image_gen.c $(DIR_S)/image_generation.c
 
 asm : $(DIR_S)/dct_optimized.c
-	$(CC) -o $(DIR_ASM)/dct_opt_no_flags.s -S -static $(DIR_S)/dct_optimized.c
-	$(CC) -o $(DIR_ASM)/dct_opt_all_flags.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized.c
-	$(CC) -o $(DIR_ASM)/loeffler_asm_instr.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized_asm_instr.c
+	# $(CC) -o $(DIR_ASM)/dct_opt_no_flags.s -S -static $(DIR_S)/dct_optimized.c
+	$(CC) -o $(DIR_ASM)/dct_opt_all_flags_32bit.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized.c
+	# $(CC) -o $(DIR_ASM)/loeffler_asm_instr.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized_asm_instr.c
 
 realarm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(ARGS) $(SRC)
@@ -50,7 +50,7 @@ realarm : $(SRC)
 	echo "chmod +x jake/obj/dct_image_compre\ssion_realarm"; \
 	sleep 1; 			\
 	echo "cd jake"; 	\
-	echo "./obj/dct_image_compression_realarm"; \ 
+	echo "./obj/dct_image_compression_realarm";\
 	sleep 5; 			\
 	echo "cd ..";		\
 	sleep 1; 			\

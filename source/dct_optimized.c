@@ -121,7 +121,8 @@ int dct_2d (int16_t* image, int16_t width, int16_t height)
 static int loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
 {
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
-    register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
+    register int32_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
+    //32 bit variables in an attempt to reduce the asm instructions (left/right shifts for short ints)
     register u_int32_t inc; //Increment method to choose between row and columns
 
     //Determine increment method
