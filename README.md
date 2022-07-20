@@ -39,7 +39,7 @@
 - [ ] Ocsilliscope timing?
 
 #### Other:
-- [ ] Start UML documentation / Schematics
+- [X] Start UML documentation / Schematics
 - [ ] Report - Due at the same time as presentation
 - [ ] Presentation - 15 slides, 15 minutes
 - [X] Barr-C Standards
@@ -47,6 +47,8 @@
 
 ### list - Jake:
 - [x] Barr-C
-- [ ] Get working on real ARM machine
-- [ ] 32 bit temp variables
-
+- [X] Get working on real ARM machine
+- [ ] 32 bit temp variables - Priority 1
+- [ ] Saturation addition? - Priority 2
+- [ ] Packed Input file? - Priority 3
+- [X] Compile various asm files on real ARM - Done at the end

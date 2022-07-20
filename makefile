@@ -4,11 +4,11 @@ native : CFLAGS= -static
 arm : CC=arm-linux-gnueabi-gcc
 arm : CFLAGS= -static -O3 
 
-#-march=armv4t -mtune=arm920t -ftree-vectorize
-asm : CFLAGS = -static -O3 -ftree-vectorize -march=armv6
+asm : CC= /opt/arm/4.3.2/bin/arm-linux-gcc
+asm : CFLAGS = -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
 
 realarm : CC=arm-linux-gcc
-realarm : CFLAGS= -static -O3
+realarm : CFLAGS= -static -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
 
 binaries= test_image_gen dct_image_compression dct_image_compression_arm
 assembly = test_dct_arm dct_image_compression_arm 
@@ -35,12 +35,27 @@ image_gen : image_generation.c test_image_gen.c
 	$(CC) -o $(DIR_O)/test_image_gen $(CFLAGS) $(DIR_S)/test_image_gen.c $(DIR_S)/image_generation.c
 
 asm : $(DIR_S)/dct_optimized.c
-	arm-linux-gnueabi-gcc -o $(DIR_ASM)/dct_optimized.s -S $(CFLAGS) $(ARGS) $(DIR_S)/dct_optimized.c
+	$(CC) -o $(DIR_ASM)/dct_opt_no_flags.s -S -static $(DIR_S)/dct_optimized.c
+	$(CC) -o $(DIR_ASM)/dct_opt_all_flags.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized.c
+	$(CC) -o $(DIR_ASM)/loeffler_asm_instr.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized_asm_instr.c
 
 realarm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(ARGS) $(SRC)
 	lftp -c "open user4:q6coHjd7P@arm; mirror -R '/tmp/SENG440_DCT/obj' 'jake/obj'; mirror -R '/tmp/SENG440_DCT/test_img' 'jake/test_img';"
-	(sleep 1; echo user4; sleep 1; echo q6coHjd7P; sleep 1; echo "chmod +x jake/obj/dct_image_compression_realarm"; sleep 1; echo "cd jake"; echo "./obj/dct_image_compression_realarm"; sleep 5;) | telnet arm
+	(sleep 1; 			\
+	echo user4; 		\
+	sleep 1; 			\
+	echo q6coHjd7P; 	\
+	sleep 1; 			\
+	echo "chmod +x jake/obj/dct_image_compre\ssion_realarm"; \
+	sleep 1; 			\
+	echo "cd jake"; 	\
+	echo "./obj/dct_image_compression_realarm"; \ 
+	sleep 5; 			\
+	echo "cd ..";		\
+	sleep 1; 			\
+	echo "rm -rf jake"; \
+	sleep 1;) | telnet arm
 
 .PHONY: clean
 
