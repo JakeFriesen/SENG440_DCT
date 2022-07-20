@@ -1,6 +1,6 @@
 ## TODO Checklist:
 - [X] Copy dct_optimized and write with the embedded ASM instruction
-- [ ] Test out 16 vs 32 bit temporary variables, see if there are improvements
+- [X] Test out 16 vs 32 bit temporary variables, see if there are improvements
     - There are improvements, but it breaks at the moment when converting to 32 bit
     - Need to decide if this is worth figuring out
 - [X] Try out compiler optimization flags
@@ -48,7 +48,9 @@
 ### list - Jake:
 - [x] Barr-C
 - [X] Get working on real ARM machine
-- [ ] 32 bit temp variables - Priority 1
-- [ ] Saturation addition? - Priority 2
+- [X] 32 bit temp variables - Priority 1
+    - Isn't worth it, with heavy compile optimizations, it changes by 7 instructions
+- [X] Saturation addition? - Priority 2
+    - qadd unsupported in Samsung processor, couldn't find a substitute
 - [ ] Packed Input file? - Priority 3
 - [X] Compile various asm files on real ARM - Done at the end

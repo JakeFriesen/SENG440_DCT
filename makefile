@@ -37,6 +37,7 @@ image_gen : image_generation.c test_image_gen.c
 asm : $(DIR_S)/dct_optimized.c
 	$(CC) -o $(DIR_ASM)/dct_opt_no_flags.s -S -static $(DIR_S)/dct_optimized.c
 	$(CC) -o $(DIR_ASM)/dct_opt_all_flags.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized.c
+	$(CC) -o $(DIR_ASM)/dct_opt_all_flags_thumb.s -S -static -mthumb $(CFLAGS) $(DIR_S)/dct_optimized.c
 	$(CC) -o $(DIR_ASM)/loeffler_asm_instr.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized_asm_instr.c
 
 realarm : $(SRC)

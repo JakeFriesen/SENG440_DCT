@@ -10,13 +10,6 @@ pointer.
 ****************************************************/
 
 /*
-* QADD
-* Saturated addition implemented via inlined assembly
-* Requires arm compiling only (use -march=armv6)
-*/
-#define QADD(a, b, c) __asm__ __volatile__ (" qadd \t%0 , %1 , %2\n": "=r" ( c ): "r" (a), "r" (b))
-
-/*
 * BUTTERFLY_MACRO
 * multiplications optimized out by compiler - reduced to 1 mul, rest are add and shifts
 */
