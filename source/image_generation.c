@@ -120,12 +120,12 @@ int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * file
 * Function to load a pgm file from a filename string 
 * and store it in the given image matrix
 */
-int load_from_file(char * filename, u_int16_t * image)
+u_int32_t load_from_file(char * filename, u_int16_t * image)
 {
     FILE * fp;
     char filename_ext [100];
-    int width = 0;
-    int height = 0;
+    u_int16_t width = 0;
+    u_int16_t height = 0;
     int cur_num = 0;
     int ascii [2];
     int dimensions[100];
@@ -240,6 +240,7 @@ int load_from_file(char * filename, u_int16_t * image)
 
     // Close the File
     fclose(fp);
+    return ((width & 0xffff) << 16) | (height & 0xffff);
 }
 
 /*DEPRECATED - Remove

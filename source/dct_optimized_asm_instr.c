@@ -1,63 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../header/dct_optimized.h"
+#include "../header/dct_optimized_asm.h"
 
 /****************************************************
         Discrete Cosine Transform Operations
 Functions for performing DCT oprerations on an image
 pointer.
 ****************************************************/
-
-
-/*
-* QADD
-* Saturated addition implemented via inlined assembly
-* Requires arm compiling only (use -march=armv6)
-*/
-#define QADD(a, b, c) __asm__ __volatile__ (" qadd \t%0 , %1 , %2\n": "=r" ( c ): "r" (a), "r" (b))
-
-/*
-* BUTTERFLY_MACRO
-* multiplications optimized out by compiler - reduced to 1 mul, rest are add and shifts
-*/
-#define BUTTERFLY_MACRO(val1, val2, const1, const2) (((val1*const1 + val2*const2) >> 5) & 0xffff )| \
-                                                    ((((-val1*const2 + val2*const1) >> 5) & 0xffff) << 16)
-
-/*
-* butterfly
-* This inline function performs a butterfly operation (or rotation) using
-* the 4 input values, and returns two packed int16_t values
-* This function has a built in scale shift of 2^5, to accomodate large
-* inputs.
-* Optimizations:
-*   -Simplified Rotator to reduce multiplications to 3
-*   -Register temporary variables
-*   -Function inlined
-*   -Packed return value chosen over pointers for val1, val2 so
-*    Registers variables could be used
-*   -Follow Barr-C Standards
-* 
-*/
-static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2)
-{
-    register int32_t result, temp, res;
-    temp = val1 + val2;
-    temp = temp * const1;
-    //result 1
-    res = const2 - const1;
-    res = res * val2;
-    res = res + temp;
-    res = (res >> 5) + (res>>4 & 1);//rounding. is this worth it? Doesn't change the results much
-    result = (res) & 0xffff;
-    //result 2
-    res = const1 + const2;
-    res = -res * val1;
-    res = res + temp;
-    res = (res >> 5) + (res>>4 & 1);//rounding
-    result |= ((res) & 0xffff) << 16;
-    return result;
-}
 
 /*
 * dct_2d
@@ -72,7 +22,7 @@ static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int1
 *   -1D and 2D DCT must be done sequentially
 *   -Follow Barr-C Standards
 */
-int dct_2d (int16_t* image, int16_t width, int16_t height)
+int dct_2d_asm (int16_t* image, int16_t width, int16_t height)
 {
     int w, h, i, temp;
     for(w ^= w; w < (width>>3); w++)
@@ -118,7 +68,7 @@ int dct_2d (int16_t* image, int16_t width, int16_t height)
 *   -Fixed Point Arithmetic used to eliminate float operations
 *   -Image Pointer is passed in to reduce mem copies
 */
-static int loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
+static int loeffler_opt_asm (int16_t *image, u_int32_t start, u_int32_t colsel)
 {
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
     register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image

@@ -148,7 +148,7 @@ static int loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
     //Stage 4 - Even Section AND Stage 1 - Odd Section
     temp1 = local1;
     local1 = *(image + start + inc*3) - *(image + start + inc*4);   //[3] -[4]
-    *(image + start + inc*4) = local2 << 1;                         //[4] Saved
+    *(image + start + inc*4) = local2 << 1;                         //[3] Saved
     local2 = *(image + start + inc*2) - *(image + start + inc*5);   //[2] - [5]
     *(image + start + inc*2) = local3;                              //[2] Saved
     local3 = *(image + start + inc*1) - *(image + start + inc*6);   //[1] - [6]

@@ -1,8 +1,8 @@
 native : CC=gcc
 native : CFLAGS= -static
 
-arm : CC=arm-linux-gnueabi-gcc
-arm : CFLAGS= -static -O3 
+CC= arm-linux-gcc
+CFLAGS= -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
 
 asm : CC= /opt/arm/4.3.2/bin/arm-linux-gcc
 asm : CFLAGS = -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
@@ -22,14 +22,14 @@ SRC = $(patsubst %,$(DIR_S)/%,$(_SRC))
 _DIR_IM = test_img
 DIR_IM = $(patsubst %,$(_DIR_IM)/%,$(images))
 
-all: clean native arm
+all: clean arm realarm
 
 native : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression  $(CFLAGS) $(SRC)
 	./$(DIR_O)/dct_image_compression
 
 arm : $(SRC)
-	$(CC) -o $(DIR_O)/dct_image_compression_arm  $(CFLAGS) $(ARGS) $(SRC)
+	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(ARGS) $(SRC)
 
 image_gen : image_generation.c test_image_gen.c
 	$(CC) -o $(DIR_O)/test_image_gen $(CFLAGS) $(DIR_S)/test_image_gen.c $(DIR_S)/image_generation.c
@@ -41,22 +41,18 @@ asm : $(DIR_S)/dct_optimized.c
 	$(CC) -o $(DIR_ASM)/loeffler_asm_instr.s -S -static $(CFLAGS) $(DIR_S)/dct_optimized_asm_instr.c
 
 realarm : $(SRC)
-	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(ARGS) $(SRC)
+	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(SRC)
 	lftp -c "open user4:q6coHjd7P@arm; mirror -R '/tmp/SENG440_DCT/obj' 'jake/obj'; mirror -R '/tmp/SENG440_DCT/test_img' 'jake/test_img';"
-	(sleep 1; 			\
-	echo user4; 		\
-	sleep 1; 			\
-	echo q6coHjd7P; 	\
-	sleep 1; 			\
-	echo "chmod +x jake/obj/dct_image_compre\ssion_realarm"; \
-	sleep 1; 			\
-	echo "cd jake"; 	\
-	echo "./obj/dct_image_compression_realarm"; \ 
-	sleep 5; 			\
-	echo "cd ..";		\
-	sleep 1; 			\
-	echo "rm -rf jake"; \
-	sleep 1;) | telnet arm
+	./telnet_script.sh | telnet arm
+	lftp -c "open user4:q6coHjd7P@arm; mirror 'jake/test_img' '/tmp/SENG440_DCT/test_img';"
+
+statistics : $(SRC)
+	$(CC) -o $(DIR_O)/only_loeffler_opt  $(CFLAGS) $(ARGS) $(DIR_S)/dct_optimized.c
+	$(CC) -o $(DIR_O)/only_loeffler_opt_asm_instr  $(CFLAGS) $(ARGS) $(DIR_S)/dct_optimized_asm_instr.c
+	# valgrind --tool=callgrind ./obj/dct_image_compression_realarm
+	# callgrind_annotate callgrind.out.PID | grep loeffler
+	# valgrind --tool=cachegrind --branch-sim=yes ./obj/dct_image_compression_realarm
+	# valgrind --tool=cachegrind --branch-sim=yes ./obj/dct_image_compression_arm
 
 .PHONY: clean
 
