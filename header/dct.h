@@ -9,4 +9,6 @@
 #define SQRT8 2.8284271
 #define PI 3.1415927
 #define DEBUG 0
+int loeffler2d(float arr[8][8]);
+int loeffler (float *line_arr);
 

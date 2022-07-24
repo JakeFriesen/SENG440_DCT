@@ -7,6 +7,6 @@
 #define SQRT2COS6 139   //SF of 2^8
 #define SQRT2SIN6 334   //SF of 2^8 (9bit)
 #define SQRT2FP 362     //SF of 2^8 (9bit)
-int dct_2d (int16_t* image, int16_t width, int16_t height);
-static int loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel);
+int32_t dct_2d (int16_t* image, int16_t width, int16_t height);
+static int32_t loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel);
 static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2);

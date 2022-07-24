@@ -9,7 +9,7 @@ int main( int argc, char *argv[])
 {
     u_int16_t width = 320;
     u_int16_t height = 240;
-    u_int16_t image [1000][1000];//Support up to 1000x1000 image, IDK what the best way to dynamically change this is
+    u_int16_t image [1000][1000];//Support up to 1000x1000 image
     u_int32_t return_val;
     char image_name [100];
 
@@ -30,14 +30,7 @@ int main( int argc, char *argv[])
       save_to_file(width, height, (int16_t*)image, "test_img/Image");
       dct_2d((int16_t*)image, width, height);                                     //Cast image matrix to the image pointer
       save_to_file(width, height, (int16_t*)image, "test_img/Compressed_Image");  //Cast image matrix to the image pointer
-    }
-    
-    // return_val = load_from_file("test_img/apollonian_gasket.ascii", (int16_t*)image);
-    // width = (return_val>>16) & 0xffff;
-    // height = return_val&0xffff;
-    // printf("width: %d, height: %d\n", width, height);
-
-    
+    }    
 
     return 0;
 }
