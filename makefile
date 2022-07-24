@@ -2,7 +2,7 @@ native : CC=gcc
 native : CFLAGS= -static
 
 CC= arm-linux-gcc
-CFLAGS= -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
+CFLAGS= -static -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
 
 asm : CC= /opt/arm/4.3.2/bin/arm-linux-gcc
 asm : CFLAGS = -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
@@ -33,6 +33,7 @@ native : $(SRC)
 
 arm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(ARGS) $(SRC)
+	$(CC) -o $(DIR_O)/dct_image_compression_realarm_noflags  -static $(ARGS) $(SRC)
 
 image_gen : image_generation.c test_image_gen.c
 	$(CC) -o $(DIR_O)/test_image_gen $(CFLAGS) $(DIR_S)/test_image_gen.c $(DIR_S)/image_generation.c
@@ -50,9 +51,9 @@ realarm : $(SRC)
 	lftp -c "open user4:q6coHjd7P@arm; mirror 'jake/test_img' '/tmp/SENG440_DCT/test_img';"
 
 statistics : $(SRC) $(DIR_S)/dct_unoptimized.c
-	$(CC) -o $(DIR_O)/comp_unoptimized -static -pg $(DIR_T)/comp_test_unoptimized.c  $(TESTBENCH)
-	$(CC) -o $(DIR_O)/comp_optimized  -static -pg $(DIR_T)/comp_test_optimized.c $(TESTBENCH)
-	$(CC) -o $(DIR_O)/comp_optimized_flags  -static -pg $(CFLAGS) $(DIR_T)/comp_test_optimized.c $(TESTBENCH)
+	# $(CC) -o $(DIR_O)/comp_unoptimized -static -pg $(DIR_T)/comp_test_unoptimized.c  $(TESTBENCH)
+	# $(CC) -o $(DIR_O)/comp_optimized  -static -pg $(DIR_T)/comp_test_optimized.c $(TESTBENCH)
+	# $(CC) -o $(DIR_O)/comp_optimized_flags  -static -pg $(CFLAGS) $(DIR_T)/comp_test_optimized.c $(TESTBENCH)
 	# ./$(DIR_O)/comp_unoptimized
 	# gprof
 	# ./$(DIR_O)/comp_optimized
