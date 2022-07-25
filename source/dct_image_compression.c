@@ -32,5 +32,8 @@ int main( int argc, char *argv[])
       save_to_file(width, height, (int16_t*)image, "test_img/Compressed_Image");  //Cast image matrix to the image pointer
     }    
 
+    //Decompression Test
+    // inverse_dct_2d((int16_t*)image, width, height);
+    // save_to_file(width, height, (int16_t*)image, "test_img/Decompressed_Image");
     return 0;
 }

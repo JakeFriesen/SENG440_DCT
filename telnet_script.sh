@@ -6,7 +6,7 @@ sleep 1;
 echo "chmod +x jake/obj/dct_image_compression_realarm"; 
 sleep 1;
 echo "cd jake";
-echo ./obj/dct_image_compression_realarm $(ARGS);
+echo ./obj/dct_image_compression_realarm;
 sleep 5;
 echo "cd ..";
 sleep 1;

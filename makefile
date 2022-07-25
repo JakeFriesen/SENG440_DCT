@@ -1,5 +1,5 @@
 native : CC=gcc
-native : CFLAGS= -static
+native : CFLAGS = -static
 
 CC= arm-linux-gcc
 CFLAGS= -static -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
@@ -18,9 +18,9 @@ DIR_S = source
 DIR_O = obj
 DIR_CLEAN = $(patsubst %,$(DIR_O)/%,$(binaries))
 DIR_ASM = Assembly
-_TESTBENCH = dct_optimized.c dct_unoptimized.c image_generation.c
+_TESTBENCH = dct_optimized.c dct_unoptimized.c image_generation.c dct_inverse.c
 TESTBENCH = $(patsubst %,$(DIR_S)/%,$(_TESTBENCH))
-_SRC = dct_image_compression.c dct_optimized.c image_generation.c
+_SRC = dct_image_compression.c dct_optimized.c image_generation.c dct_inverse.c
 SRC = $(patsubst %,$(DIR_S)/%,$(_SRC))
 _DIR_IM = test_img
 DIR_IM = $(patsubst %,$(_DIR_IM)/%,$(images))
@@ -48,7 +48,7 @@ asm : $(DIR_S)/dct_optimized.c $(DIR_T)/butterfly.c
 
 realarm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(SRC)
-	lftp -c "open user4:q6coHjd7P@arm; mirror -R '/tmp/SENG440_DCT/obj' 'jake/obj'; mirror -R '/tmp/SENG440_DCT/test_img' 'jake/test_img';"
+	lftp -c "open user4:q6coHjd7P@arm; mirror -P 10 -R '/tmp/SENG440_DCT/obj' 'jake/obj'; mirror -R '/tmp/SENG440_DCT/test_img' 'jake/test_img';"
 	./telnet_script.sh | telnet arm
 	lftp -c "open user4:q6coHjd7P@arm; mirror 'jake/test_img' '/tmp/SENG440_DCT/test_img';"
 
