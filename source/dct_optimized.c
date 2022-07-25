@@ -128,7 +128,7 @@ int32_t dct_2d (int16_t* image, int16_t width, int16_t height)
 *                               Single exit point via return at end of function
 *                               Private functions declared static
 */
-static int32_t loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
+ int32_t loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
 {
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
     register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image

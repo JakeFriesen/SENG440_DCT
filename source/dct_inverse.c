@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../header/dct_optimized.h"
+#include "../header/dct.h"
 
 /*
 * BUTTERFLY_MACRO
 * multiplications optimized out by compiler - reduced to 1 mul, rest are add and shifts
 */
-#define BUTTERFLY_MACRO(val1, val2, const1, const2) (((val1*const1 + val2*const2) >> 5) & 0xffff )| \
-                                                    ((((-val1*const2 + val2*const1) >> 5) & 0xffff) << 16)
+#define INV_BUTTERFLY_MACRO(val1, val2, const1, const2) (((val1*const1 - val2*const2) >> 5) & 0xffff )| \
+                                                    ((((val2*const1 + val1*const2) >> 5) & 0xffff) << 16)
 
 int32_t inverse_dct_2d (int16_t* image, int16_t width, int16_t height)
 {
@@ -44,81 +45,97 @@ int32_t inverse_dct_2d (int16_t* image, int16_t width, int16_t height)
 }
 
 
-static int32_t inverse_loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
+ int32_t inverse_loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
 {
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
     register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
     register u_int32_t inc; //Increment method to choose between row and columns
-    int16_t temp_arr [4];
+    int16_t temp_arr [8];
+    float temp_fl;
 
     //Determine increment method
     inc = (colsel == 0) ? 1 : colsel;
 
-    //Stage 4 - Odd Section
-    local1 = *(image + start + inc*7);
-    local2 = *(image + start + inc*3)*INVSQRT2FP;
-    local3 = *(image + start + inc*5)*INVSQRT2FP;
-    local4 = *(image + start + inc*1);
-    temp1 = (local4 - local1);
-    local4 = (local4 + local1); 
-    local1 = temp1;
+    temp_arr[0] = *(image + start);// / (1 << 5);
+    temp_arr[1] = *(image + start + inc*4) ;/// (1 << 5);
+    temp_arr[2] = *(image + start + inc*2); // / (1 << 5);
+    temp_arr[3] = *(image + start + inc*6); // / (1 << 5);
+    temp_arr[4] = *(image + start + inc*7); // / (1 << 5);
+    temp_arr[5] = *(image + start + inc*3); // / (1 << 5);
+    temp_arr[6] = *(image + start + inc*5); // / (1 << 5);
+    temp_arr[7] = *(image + start + inc*1); // / (1 << 5);
 
-    //Stage 3 - Odd Section
-    temp1 = (local1 + local3);
-    local3 = (local1 - local3);    //[4] - [6]
-    local1 = temp1;                //[4] + [6]
-    temp1 = (local4 - local2);     
-    local4 = (local4 + local2);    //[7] + [5]
-    local2 = temp1;                //[7] - [5]
+    //stage 1
+    temp1 = (temp_arr[4] + temp_arr[7])  >> 1;
+    temp_arr[7] = (temp_arr[7] - temp_arr[4])  >> 1;
+    temp_arr[4] = temp1;
+    temp_arr[5] = (temp_arr[5] * INVSQRT2FP )>> 8;
+    temp_arr[6] = (temp_arr[6] * INVSQRT2FP )>> 8;
+    
+    printf("Stage 1 \n");
+    for(int i = 0; i < 8; i++){
+        printf("%d ", temp_arr[i]);
+    }
+    printf("\n");
 
-    //Stage 2 - Odd Section
-    temp1 = BUTTERFLY_MACRO(local1, local4, INVCOS3FP, INVSIN3FP);   //Butterfly [4] [7] COS3
-    local1 = temp1 & 0xffff;
-    local4 = (temp1 & 0xffff0000) >> 16;
 
-    temp1 = BUTTERFLY_MACRO(local2, local3, INVCOS1FP, INVSIN1FP);   //Butterfly [5] [6] COS1
-    local2 = temp1 & 0xffff;
-    local3 = (temp1 & 0xffff0000) >> 16;
+    temp1 = (temp_arr[0] + temp_arr[1]) >> 1;
+    temp_arr[1] = (temp_arr[0] - temp_arr[1])  >> 1;
+    temp_arr[0] = temp1;
+    
+    temp1 = INV_BUTTERFLY_MACRO(temp_arr[2], temp_arr[3], SQRT2COS6, SQRT2SIN6);
+    temp_arr[2] = temp1 & 0xffff;
+    temp_arr[3] = (temp1 & 0xffff0000) >> 16;
+    temp_arr[2] = (temp_arr[2]) >> 3;
+    temp_arr[3] = (temp_arr[3]) >> 3;
 
-    //Stage 4 - Even Section AND Stage 1 - Odd Section
-    temp_arr[0] = local1;
-    temp_arr[1] = local2;
-    temp_arr[2] = local3;
-    temp_arr[3] = local4;
+    temp1 = (temp_arr[4] + temp_arr[6])  >> 1;
+    temp_arr[6] = (temp_arr[4] - temp_arr[6])  >> 1;
+    temp_arr[4] = temp1;
+    temp1 = (temp_arr[7] - temp_arr[5])  >> 1;
+    temp_arr[5] = (temp_arr[7] + temp_arr[5])  >> 1;
+    temp_arr[7] = temp1;
 
-    local1 = *(image + start) >> 1;
-    local2 = *(image + start + inc*4) >> 1;
-    local3 = *(image + start + inc*2);
-    local4 = *(image + start + inc*6);
 
-    //Stage 3 - Even Section
-    temp1 = local1 + local2;
-    local2 = local1 - local2;   //[0] - [1]
-    local1 = temp1;             //[0] + [1]
+    printf("Stage 2 \n");
+    for(int i = 0; i < 8; i++){
+        printf("%d ", temp_arr[i]);
+    }
+    printf("\n");
 
-    temp1 = BUTTERFLY_MACRO(local3, local4, INVSQRT2COS6, INVSQRT2SIN6); //Butterfly [2] [3] SQRT2COS6
-    local3 = (temp1 & 0xffff);    
-    local3 = local3 >>2; //separating the shift from the mask forces an arithmetic shift
-    local4 = (temp1 & 0xffff0000) >> 16;
-    local4 = local4 >>2; //separating the shift from the mask forces an arithmetic shift
+    temp1 = (temp_arr[0] + temp_arr[3])  >> 1;
+    temp_arr[3] = (temp_arr[0] - temp_arr[3])  >> 1;
+    temp_arr[0] = temp1;
+    temp1 = (temp_arr[1] + temp_arr[2])  >> 1;
+    temp_arr[2] = (temp_arr[1] - temp_arr[2])  >> 1;
+    temp_arr[1] = temp1;
 
-    //Stage 2 - Even Section
-    temp1 = local1 + local4;  
-    temp2 = local2 + local3;   
-    local3 = local2 - local3;   //[1] - [2]
-    local4 = local1 - local4;   //[0] - [3]
-    local1 = temp1;             //[0] + [3]
-    local2 = temp2;             //[1] + [2]
+    temp1 = INV_BUTTERFLY_MACRO(temp_arr[4], temp_arr[7], COS3FP, SIN3FP);
+    temp_arr[4] = temp1 & 0xffff;
+    temp_arr[7] = (temp1 & 0xffff0000) >> 16;
+    temp_arr[4] = temp_arr[4] >> 3;
+    temp_arr[7] = temp_arr[7] >> 3;
 
-    //Stage 1 - Even Section
-    *(image + start) = (local1 + temp_arr[3]) >> 1;
-    *(image + start + inc*1) = (local2 + temp_arr[2]) >> 1;
-    *(image + start + inc*2) = (local3 + temp_arr[1]) >> 1;
-    *(image + start + inc*3) = (local4 + temp_arr[0]) >> 1;
-    *(image + start + inc*4) = (local4 - temp_arr[0]) >> 1;
-    *(image + start + inc*5) = (local3 - temp_arr[1]) >> 1;
-    *(image + start + inc*6) = (local2 - temp_arr[2]) >> 1;
-    *(image + start + inc*7) = (local1 - temp_arr[3]) >> 1;
+    temp1 = INV_BUTTERFLY_MACRO(temp_arr[5], temp_arr[6], COS1FP, SIN1FP);
+    temp_arr[5] = temp1 & 0xffff;
+    temp_arr[6] = (temp1 & 0xffff0000) >> 16;
+    temp_arr[5] = temp_arr[5] >> 3;
+    temp_arr[6] = temp_arr[6] >> 3;
+
+    printf("Stage 3 \n");
+    for(int i = 0; i < 8; i++){
+        printf("%d ", temp_arr[i]);
+    }
+    printf("\n");
+
+    *(image + start) = (temp_arr[0] + temp_arr[7])  >> 2;
+    *(image + start + inc*1) = (temp_arr[1] + temp_arr[6])  >> 2;
+    *(image + start + inc*2) = (temp_arr[2] + temp_arr[5])  >> 2;
+    *(image + start + inc*3) = (temp_arr[3] + temp_arr[4])  >> 2;
+    *(image + start + inc*4) = (temp_arr[3] - temp_arr[4])  >> 2;
+    *(image + start + inc*5) = (temp_arr[2] - temp_arr[5])  >> 2;
+    *(image + start + inc*6) = (temp_arr[1] - temp_arr[6])  >> 2;
+    *(image + start + inc*7) = (temp_arr[0] - temp_arr[7])  >> 2;
     
     return 1;
 }
