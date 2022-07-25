@@ -4,6 +4,26 @@
 #include "../header/dct_optimized.h"
 #include "../header/dct.h"
 
+#define C1 251
+#define C2 236
+#define C3 213
+#define C4 181
+#define C5 142
+#define C6 98
+#define C7 50
+
+int16_t C [8] [8] = {   {C4, C2, C4, C6, 0, 0, 0, 0},
+                        {C4, C6, -C4, -C2, 0, 0, 0, 0},
+                        {C4, -C6, -C4, C2, 0, 0, 0, 0},
+                        {C4, -C2, C4, -C6, 0, 0, 0, 0},
+                        {0, 0, 0, 0, C1, C3, C5, C7},
+                        {0, 0, 0, 0, C3, -C7, -C1, -C5},
+                        {0, 0, 0, 0, C5, -C1, C7, C3},
+                        {0, 0, 0, 0, C7, -C5, C3, -C1},
+};
+
+
+
 /*
 * BUTTERFLY_MACRO
 * multiplications optimized out by compiler - reduced to 1 mul, rest are add and shifts
@@ -47,95 +67,120 @@ int32_t inverse_dct_2d (int16_t* image, int16_t width, int16_t height)
 
  int32_t inverse_loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
 {
-    register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
-    register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
-    register u_int32_t inc; //Increment method to choose between row and columns
-    int16_t temp_arr [8];
-    float temp_fl;
-
-    //Determine increment method
+    int idx [8] = {0,2,4,6,1,3,5,7};
+    int inc;
+    int16_t local [8];
+    int32_t temp;
     inc = (colsel == 0) ? 1 : colsel;
+    local[0] = *(image + start) + *(image + start + inc*7);
+    local[1] = *(image + start + inc*1) + *(image + start + inc*6);
+    local[2] = *(image + start + inc*2) + *(image + start + inc*5);
+    local[3] = *(image + start + inc*3) + *(image + start + inc*4);
+    local[4] = *(image + start + inc*0) + *(image + start + inc*7);
+    local[5] = *(image + start + inc*1) + *(image + start + inc*6);
+    local[6] = *(image + start + inc*2) + *(image + start + inc*5);
+    local[7] = *(image + start + inc*3) + *(image + start + inc*4);
 
-    temp_arr[0] = *(image + start);// / (1 << 5);
-    temp_arr[1] = *(image + start + inc*4) ;/// (1 << 5);
-    temp_arr[2] = *(image + start + inc*2); // / (1 << 5);
-    temp_arr[3] = *(image + start + inc*6); // / (1 << 5);
-    temp_arr[4] = *(image + start + inc*7); // / (1 << 5);
-    temp_arr[5] = *(image + start + inc*3); // / (1 << 5);
-    temp_arr[6] = *(image + start + inc*5); // / (1 << 5);
-    temp_arr[7] = *(image + start + inc*1); // / (1 << 5);
+    for(int i = 0; i < 8; i++){
+        temp = 0;
+        for (int j = 0; j < 8; j++){
+            temp += (C[i][j] * local[j])>>11;
+        }
+        *(image + start + inc*idx[i]) = temp;
+    }
 
-    //stage 1
-    temp1 = (temp_arr[4] + temp_arr[7])  >> 1;
-    temp_arr[7] = (temp_arr[7] - temp_arr[4])  >> 1;
-    temp_arr[4] = temp1;
-    temp_arr[5] = (temp_arr[5] * INVSQRT2FP )>> 8;
-    temp_arr[6] = (temp_arr[6] * INVSQRT2FP )>> 8;
+
+
+
+    // register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
+    // register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
+    // register u_int32_t inc; //Increment method to choose between row and columns
+    // int16_t temp_arr [8];
+    // float temp_fl;
+
+    // //Determine increment method
+    // inc = (colsel == 0) ? 1 : colsel;
+
+    // temp_arr[0] = *(image + start);// / (1 << 5);
+    // temp_arr[1] = *(image + start + inc*4) ;/// (1 << 5);
+    // temp_arr[2] = *(image + start + inc*2); // / (1 << 5);
+    // temp_arr[3] = *(image + start + inc*6); // / (1 << 5);
+    // temp_arr[4] = *(image + start + inc*7); // / (1 << 5);
+    // temp_arr[5] = *(image + start + inc*3); // / (1 << 5);
+    // temp_arr[6] = *(image + start + inc*5); // / (1 << 5);
+    // temp_arr[7] = *(image + start + inc*1); // / (1 << 5);
+
+    // //stage 1
+    // temp1 = (temp_arr[4] + temp_arr[7])  >> 1;
+    // temp_arr[7] = (temp_arr[7] - temp_arr[4])  >> 1;
+    // temp_arr[4] = temp1;
+    // temp_arr[5] = (temp_arr[5] * INVSQRT2FP )>> 8;
+    // temp_arr[6] = (temp_arr[6] * INVSQRT2FP )>> 8;
     
-    printf("Stage 1 \n");
-    for(int i = 0; i < 8; i++){
-        printf("%d ", temp_arr[i]);
-    }
-    printf("\n");
+    // printf("Stage 1 \n");
+    // for(int i = 0; i < 8; i++){
+    //     printf("%d ", temp_arr[i]);
+    // }
+    // printf("\n");
 
 
-    temp1 = (temp_arr[0] + temp_arr[1]) >> 1;
-    temp_arr[1] = (temp_arr[0] - temp_arr[1])  >> 1;
-    temp_arr[0] = temp1;
+    // temp1 = (temp_arr[0] + temp_arr[1]) >> 1;
+    // temp_arr[1] = (temp_arr[0] - temp_arr[1])  >> 1;
+    // temp_arr[0] = temp1;
     
-    temp1 = INV_BUTTERFLY_MACRO(temp_arr[2], temp_arr[3], SQRT2COS6, SQRT2SIN6);
-    temp_arr[2] = temp1 & 0xffff;
-    temp_arr[3] = (temp1 & 0xffff0000) >> 16;
-    temp_arr[2] = (temp_arr[2]) >> 3;
-    temp_arr[3] = (temp_arr[3]) >> 3;
+    // temp1 = INV_BUTTERFLY_MACRO(temp_arr[2], temp_arr[3], SQRT2COS6, SQRT2SIN6);
+    // temp_arr[2] = temp1 & 0xffff;
+    // temp_arr[3] = (temp1 & 0xffff0000) >> 16;
+    // temp_arr[2] = (temp_arr[2]) >> 3;
+    // temp_arr[3] = (temp_arr[3]) >> 3;
 
-    temp1 = (temp_arr[4] + temp_arr[6])  >> 1;
-    temp_arr[6] = (temp_arr[4] - temp_arr[6])  >> 1;
-    temp_arr[4] = temp1;
-    temp1 = (temp_arr[7] - temp_arr[5])  >> 1;
-    temp_arr[5] = (temp_arr[7] + temp_arr[5])  >> 1;
-    temp_arr[7] = temp1;
+    // temp1 = (temp_arr[4] + temp_arr[6])  >> 1;
+    // temp_arr[6] = (temp_arr[4] - temp_arr[6])  >> 1;
+    // temp_arr[4] = temp1;
+    // temp1 = (temp_arr[7] - temp_arr[5])  >> 1;
+    // temp_arr[5] = (temp_arr[7] + temp_arr[5])  >> 1;
+    // temp_arr[7] = temp1;
 
 
-    printf("Stage 2 \n");
-    for(int i = 0; i < 8; i++){
-        printf("%d ", temp_arr[i]);
-    }
-    printf("\n");
+    // printf("Stage 2 \n");
+    // for(int i = 0; i < 8; i++){
+    //     printf("%d ", temp_arr[i]);
+    // }
+    // printf("\n");
 
-    temp1 = (temp_arr[0] + temp_arr[3])  >> 1;
-    temp_arr[3] = (temp_arr[0] - temp_arr[3])  >> 1;
-    temp_arr[0] = temp1;
-    temp1 = (temp_arr[1] + temp_arr[2])  >> 1;
-    temp_arr[2] = (temp_arr[1] - temp_arr[2])  >> 1;
-    temp_arr[1] = temp1;
+    // temp1 = (temp_arr[0] + temp_arr[3])  >> 1;
+    // temp_arr[3] = (temp_arr[0] - temp_arr[3])  >> 1;
+    // temp_arr[0] = temp1;
+    // temp1 = (temp_arr[1] + temp_arr[2])  >> 1;
+    // temp_arr[2] = (temp_arr[1] - temp_arr[2])  >> 1;
+    // temp_arr[1] = temp1;
 
-    temp1 = INV_BUTTERFLY_MACRO(temp_arr[4], temp_arr[7], COS3FP, SIN3FP);
-    temp_arr[4] = temp1 & 0xffff;
-    temp_arr[7] = (temp1 & 0xffff0000) >> 16;
-    temp_arr[4] = temp_arr[4] >> 3;
-    temp_arr[7] = temp_arr[7] >> 3;
+    // temp1 = INV_BUTTERFLY_MACRO(temp_arr[4], temp_arr[7], COS3FP, SIN3FP);
+    // temp_arr[4] = temp1 & 0xffff;
+    // temp_arr[7] = (temp1 & 0xffff0000) >> 16;
+    // temp_arr[4] = temp_arr[4] >> 3;
+    // temp_arr[7] = temp_arr[7] >> 3;
 
-    temp1 = INV_BUTTERFLY_MACRO(temp_arr[5], temp_arr[6], COS1FP, SIN1FP);
-    temp_arr[5] = temp1 & 0xffff;
-    temp_arr[6] = (temp1 & 0xffff0000) >> 16;
-    temp_arr[5] = temp_arr[5] >> 3;
-    temp_arr[6] = temp_arr[6] >> 3;
+    // temp1 = INV_BUTTERFLY_MACRO(temp_arr[5], temp_arr[6], COS1FP, SIN1FP);
+    // temp_arr[5] = temp1 & 0xffff;
+    // temp_arr[6] = (temp1 & 0xffff0000) >> 16;
+    // temp_arr[5] = temp_arr[5] >> 3;
+    // temp_arr[6] = temp_arr[6] >> 3;
 
-    printf("Stage 3 \n");
-    for(int i = 0; i < 8; i++){
-        printf("%d ", temp_arr[i]);
-    }
-    printf("\n");
+    // printf("Stage 3 \n");
+    // for(int i = 0; i < 8; i++){
+    //     printf("%d ", temp_arr[i]);
+    // }
+    // printf("\n");
 
-    *(image + start) = (temp_arr[0] + temp_arr[7])  >> 2;
-    *(image + start + inc*1) = (temp_arr[1] + temp_arr[6])  >> 2;
-    *(image + start + inc*2) = (temp_arr[2] + temp_arr[5])  >> 2;
-    *(image + start + inc*3) = (temp_arr[3] + temp_arr[4])  >> 2;
-    *(image + start + inc*4) = (temp_arr[3] - temp_arr[4])  >> 2;
-    *(image + start + inc*5) = (temp_arr[2] - temp_arr[5])  >> 2;
-    *(image + start + inc*6) = (temp_arr[1] - temp_arr[6])  >> 2;
-    *(image + start + inc*7) = (temp_arr[0] - temp_arr[7])  >> 2;
+    // *(image + start) = (temp_arr[0] + temp_arr[7])  >> 2;
+    // *(image + start + inc*1) = (temp_arr[1] + temp_arr[6])  >> 2;
+    // *(image + start + inc*2) = (temp_arr[2] + temp_arr[5])  >> 2;
+    // *(image + start + inc*3) = (temp_arr[3] + temp_arr[4])  >> 2;
+    // *(image + start + inc*4) = (temp_arr[3] - temp_arr[4])  >> 2;
+    // *(image + start + inc*5) = (temp_arr[2] - temp_arr[5])  >> 2;
+    // *(image + start + inc*6) = (temp_arr[1] - temp_arr[6])  >> 2;
+    // *(image + start + inc*7) = (temp_arr[0] - temp_arr[7])  >> 2;
     
     return 1;
 }

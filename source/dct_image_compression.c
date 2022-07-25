@@ -55,7 +55,7 @@ int main( int argc, char *argv[])
     inverse_loeffler_opt((int16_t*)vec, 0, 0);
     printf("Inverse DCT\n");
     for(int i = 0; i < 8; i++){
-      printf("%d ", vec[i]);
+      printf("%.2f ", (float)vec[i]/1.414);
     }
     printf("\n");
 
