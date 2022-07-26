@@ -14,13 +14,13 @@ specified size.
 * with values from 0 to 255
 */
 int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image, int random)
-{
+{// Barr-C 1.3 Braces (pg.10)
     int i, j;
     //image is a matrix of width x height
     for(i = 0; i < height; i++)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         for(j = 0; j < width; j++)
-        {
+        {// Barr-C 1.3 Braces (pg.10)
             *((image+i*width) + j) = (random == 1) ? (rand()%255) : (i+j)%255;
         }
     }
@@ -33,12 +33,12 @@ int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image, int random)
 * image matrix to the console in decimal format
 */
 int print_image(u_int16_t width, u_int16_t height, u_int16_t * image)
-{
+{// Barr-C 1.3 Braces (pg.10)
     int i, j;
     for(i = 0; i < height; i++)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         for(j = 0; j < width; j++)
-        {
+        {// Barr-C 1.3 Braces (pg.10)
             printf("%3d ",*((image+i*width) + j));
         }
         printf("\n");
@@ -52,7 +52,7 @@ int print_image(u_int16_t width, u_int16_t height, u_int16_t * image)
 * and writes it to a file in .txt file (width by height, suitable for MATLAB matrices)
 */
 int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * filename)
-{
+{// Barr-C 1.3 Braces (pg.10)
     FILE * fp;
     char filename_ext [100];
     int i, j, k;
@@ -67,18 +67,19 @@ int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * file
 
     // Write the image data
     for(i = 0; i < height; i++)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         for(j = 0; j < width; j++)
-        {
+        {// Barr-C 1.3 Braces (pg.10)
             int16_t cur_bit = *((image+i*width)+j);
             if(cur_bit < 0)
-            {
+            {// Barr-C 1.3 Braces (pg.10)
                 cur_bit = -cur_bit;
             }
             int ascii [10];
             int mult = 1;
             int idx = 0;
-            do{
+            do
+            {// Barr-C 1.3 Braces (pg.10)
                 ascii [idx] = ((cur_bit/mult)%10) + 48;
                 idx++;
                 mult*= 10;
@@ -107,7 +108,7 @@ int save_to_file(u_int16_t width, u_int16_t height, int16_t * image, char * file
 * and store it in the given image matrix
 */
 u_int32_t load_from_file(char * filename, u_int16_t * image)
-{
+{// Barr-C 1.3 Braces (pg.10)
     FILE * fp;
     char filename_ext [100];
     u_int16_t width = 0;
@@ -124,7 +125,7 @@ u_int32_t load_from_file(char * filename, u_int16_t * image)
     sprintf(filename_ext, "%s.pgm", filename);
     fp = fopen(filename_ext, "r");
     if(fp == NULL)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         printf("File Cannot Be Opened");
         return -1;
     }
@@ -133,33 +134,34 @@ u_int32_t load_from_file(char * filename, u_int16_t * image)
     ascii[0] = fgetc(fp);
     ascii[1] = fgetc(fp);
     if(ascii[0] != 80 || ascii[1] != 50)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         printf("This is not a PGM file!");
         printf("Header is: %c%c", ascii[0], ascii[1]);
         return -1;
     }
 
     //Find newline
-    do{
+    do
+    {// Barr-C 1.3 Braces (pg.10)
         c = getc(fp);
     }while(c != 0x0a);
 
     //Read Dimensions
     for(i = 0; i < 4; i++)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         c = getc(fp);
         if(c == 0x20 || c == 0x0a)
-        {
+        {// Barr-C 1.3 Braces (pg.10)
             width = width / (mul[i-1]);
             break;
         } 
         else width += (c-48)*mul[i];
     }
     for(i = 0; i < 4; i++)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         c = getc(fp);
         if(c == 0x20 || c == 0x0a)
-        { 
+        { // Barr-C 1.3 Braces (pg.10)
             height = height / (mul[i-1]);
             break;
         }
@@ -169,18 +171,20 @@ u_int32_t load_from_file(char * filename, u_int16_t * image)
 
     //Find newline * 2, skip over max num 
     for(i = 0; i < 1; i++)
-    {
-        do{
+    {// Barr-C 1.3 Braces (pg.10)
+        do
+        {// Barr-C 1.3 Braces (pg.10)
             c = getc(fp);
-        }while(c != 0x0a);
+        }
+        while(c != 0x0a);
     }
 
 
     //Write image data to the pointer
     for(i = 0; i < height; i++)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         for(j = 0; j < width; j++)
-        {
+        {// Barr-C 1.3 Braces (pg.10)
             cur_num = 0;
             int num_arr [10];
             int idx = 0;
@@ -188,10 +192,11 @@ u_int32_t load_from_file(char * filename, u_int16_t * image)
             int k;
 
             //Grab the current number, break if a space or newline
-            do{
+            do
+            {// Barr-C 1.3 Braces (pg.10)
                 c = fgetc(fp);
                 if(c != 0x0a && c != 0x20)//skip the newline characters
-                {
+                {// Barr-C 1.3 Braces (pg.10)
                     num_arr[idx] = c;
                     idx ++;
                 }
@@ -199,7 +204,7 @@ u_int32_t load_from_file(char * filename, u_int16_t * image)
             if(c == EOF)break;
 
             for(k = 0; k < idx; k++)
-            {
+            {// Barr-C 1.3 Braces (pg.10)
                 if(num_arr[k] != 45)
                 {
                 cur_num += (num_arr[idx-k-1] - 48)*mult;
@@ -211,7 +216,7 @@ u_int32_t load_from_file(char * filename, u_int16_t * image)
             *((image+i*width)+j) = cur_num;
             
             if(c != 0x20)
-            {
+            {// Barr-C 1.3 Braces (pg.10)
                 printf("Not a Space, Invalid File!");
                 return -1;
             }

@@ -37,7 +37,8 @@ pointer.
 * 
 */
 static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int16_t const2)
-{
+{// Barr-C 1.3 Braces (pg.10)
+    //Barr-C 5.2 Fixed Width Integers (pg.34)
     register int32_t result, temp, res;
     temp = val1 + val2;
     temp = temp * const1;
@@ -46,6 +47,7 @@ static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int1
     res = res * val2;
     res = res + temp;
     //Include a bit reduction of 5
+    //Barr-C 1.4 Parentheses (pg.11)
     res = (res >> 5) + (res>>4 & 1);//rounding
     result = (res) & 0xffff;
 
@@ -54,8 +56,11 @@ static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int1
     res = -res * val1;
     res = res + temp;
     //Include a bit reduction of 5
+    //Barr-C 1.4 Parentheses (pg.11)
     res = (res >> 5) + (res>>4 & 1);//rounding
     result |= ((res) & 0xffff) << 16;
+    
+    //Barr-C 6.2 Functions (pg.42) Single exit point
     return result;
 }
 
@@ -78,14 +83,16 @@ static inline int32_t butterfly(int16_t val1, int16_t val2, int16_t const1, int1
 *                               Private functions declared static
 */
 int32_t dct_2d (int16_t* image, int16_t width, int16_t height)
-{
+{// Barr-C 1.3 Braces (pg.10)
+    //Barr-C 5.2 Fixed Width Integers (pg.34)
     int32_t w, h, i, temp;
     for(w ^= w; w < (width>>3); w++)
-    {
+    {// Barr-C 1.3 Braces (pg.10)
         for(h ^= h; h < (height>>3); h++)
-        {
+        {// Barr-C 1.3 Braces (pg.10)
             // 1D DCT - Horizontal
             temp = w << 3;  //Store temp shift to minimize multiplies
+            //Barr-C 1.4 Parentheses (pg.11)
             loeffler_opt(image, (0+ (h<<3))*width + temp, 0);
             loeffler_opt(image, (1+ (h<<3))*width + temp, 0);
             loeffler_opt(image, (2+ (h<<3))*width + temp, 0);
@@ -96,6 +103,7 @@ int32_t dct_2d (int16_t* image, int16_t width, int16_t height)
             loeffler_opt(image, (7+ (h<<3))*width + temp, 0);
 
             // 2D DCT - Vertical
+            //Barr-C 1.4 Parentheses (pg.11)
             temp = (h<<3)*width + (w<<3); //Store temp shift to minimize multiplies
             loeffler_opt(image, temp + 0, width);
             loeffler_opt(image, temp + 1, width);
@@ -107,6 +115,7 @@ int32_t dct_2d (int16_t* image, int16_t width, int16_t height)
             loeffler_opt(image, temp + 7, width);
         }
     }
+    //Barr-C 6.2 Functions (pg.42) Single exit point
     return 1;
 }
 
@@ -129,7 +138,8 @@ int32_t dct_2d (int16_t* image, int16_t width, int16_t height)
 *                               Private functions declared static
 */
 static int32_t loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
-{
+{// Barr-C 1.3 Braces (pg.10)
+    //Barr-C 5.2 Fixed Width Integers (pg.34)
     register int32_t temp1, temp2; //32bit temp variables to accomodate larger values before rounding
     register int16_t local1, local2, local3, local4; //16bit local variables to manipulate and copy back to image
     register u_int32_t inc; //Increment method to choose between row and columns
@@ -159,7 +169,7 @@ static int32_t loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
     temp1 = butterfly(local3, local4, SQRT2COS6, SQRT2SIN6); //Butterfly [2] [3] SQRT2COS6
     local3 = (temp1 & 0xffff);    
     local3 = local3 >>2; //separating the shift from the mask forces an arithmetic shift
-    local4 = (temp1 & 0xffff0000) >> 16;
+    local4 = (temp1 & 0xffff0000) >> 16;//Barr-C 1.4 Parentheses (pg.11)
     local4 = local4 >>2; //separating the shift from the mask forces an arithmetic shift
 
     //Stage 4 - Even Section AND Stage 1 - Odd Section
@@ -198,5 +208,6 @@ static int32_t loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
     *(image + start + inc*3) = (local2*SQRT2FP) >> 10;   //[3]*SQRT2 Saved
     *(image + start + inc*5) = (local3*SQRT2FP) >> 10;   //[5]*SQRT2 Saved
 
+    //Barr-C 6.2 Functions (pg.42) Single exit point
     return 1;
 }

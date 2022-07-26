@@ -60,10 +60,11 @@
     - [ ] valgrind - for unoptimized, optimized, asm instruction
     - [ ] gprof
     - [ ] perf
-- [ ] Think about scale facotr, maybe increase to SF=4 after DCT is finished
-- [ ] Debug MATLAB code to see why its shifting some pixels (on known good one too)
+- [ ] Think about scale factor, maybe increase to SF=4 after DCT is finished
+- [x] Debug MATLAB code to see why its shifting some pixels (on known good one too)
 - [ ] Make sure testbench is operable and can be run by the TAs
+- [X] Barr-C comments specifically how Sima wanted
 - [ ] Report
-    - [ ] Get design challenges done (accuracy, reduced operator cost, time latency)
+    - [x] Get design challenges done (accuracy, reduced operator cost, time latency)
     - [ ] Get numerical analysis done, probably also the discussion
 
