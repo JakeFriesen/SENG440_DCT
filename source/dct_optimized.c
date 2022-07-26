@@ -165,13 +165,13 @@ static int32_t loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
     //Stage 4 - Even Section AND Stage 1 - Odd Section
     temp1 = local1;
     local1 = *(image + start + inc*3) - *(image + start + inc*4);   //[3] -[4]
-    *(image + start + inc*4) = local2 << 1;                         //[3] Saved
+    *(image + start + inc*4) = local2;// << 1;                         //[3] Saved
     local2 = *(image + start + inc*2) - *(image + start + inc*5);   //[2] - [5]
-    *(image + start + inc*2) = local3;                              //[2] Saved
+    *(image + start + inc*2) = local3 >> 1;                              //[2] Saved
     local3 = *(image + start + inc*1) - *(image + start + inc*6);   //[1] - [6]
-    *(image + start + inc*6) = local4;                              //[6] Saved
+    *(image + start + inc*6) = local4 >> 1;                              //[6] Saved
     local4 = *(image + start) - *(image + start + inc*7);           //[0] - [7]
-    *(image + start) = temp1 << 1;                                  //[0] Saved
+    *(image + start) = temp1;// << 1;                                  //[0] Saved
 
     //Stage 2 - Odd Section
     temp1 = butterfly(local1, local4, COS3FP, SIN3FP);   //Butterfly [4] [7] COS3
@@ -191,12 +191,12 @@ static int32_t loeffler_opt (int16_t *image, u_int32_t start, u_int32_t colsel)
     local2 = temp1;                     //[7] - [5]
 
     //Stage 4 - Odd Section
-    temp1 = (local4 - local1) >> 1;                     //[7] - [4]
-    temp2 = (local4 + local1) >> 1;                     //[7] + [4]
+    temp1 = (local4 - local1) >> 2;                     //[7] - [4]
+    temp2 = (local4 + local1) >> 2;                     //[7] + [4]
     *(image + start + inc*7) = temp1;                   //[7] Saved
     *(image + start + inc*1) = temp2;                   //[1] Saved
-    *(image + start + inc*3) = (local2*SQRT2FP) >> 9;   //[3]*SQRT2 Saved
-    *(image + start + inc*5) = (local3*SQRT2FP) >> 9;   //[5]*SQRT2 Saved
+    *(image + start + inc*3) = (local2*SQRT2FP) >> 10;   //[3]*SQRT2 Saved
+    *(image + start + inc*5) = (local3*SQRT2FP) >> 10;   //[5]*SQRT2 Saved
 
     return 1;
 }

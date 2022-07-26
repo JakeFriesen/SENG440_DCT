@@ -21,7 +21,7 @@ int image_gen(u_int16_t width, u_int16_t height, u_int16_t * image, int random)
     {
         for(j = 0; j < width; j++)
         {
-            *((image+i*width) + j) = (random == 1) ? (rand()%255) : (i+j);
+            *((image+i*width) + j) = (random == 1) ? (rand()%255) : (i+j)%255;
         }
     }
     return 1;
@@ -203,39 +203,44 @@ u_int32_t load_from_file(char * filename, u_int16_t * image)
             //Grab the current number, break if a space or newline
             do{
                 c = fgetc(fp);
-                if(c == 0x0a)break;
-                num_arr[idx] = c;
-                idx ++;
-            }while(c != 0x20);
+                if(c != 0x0a && c != 0x20)//skip the newline characters
+                {
+                    num_arr[idx] = c;
+                    idx ++;
+                }
+            }while(c != 0x20 && c != EOF);
+            if(c == EOF)break;
 
-            //num_arr is also storing the space, so index up to idx-1, use idx-k-2
-            if(c != 0x0a)
+            int k = 0;
+            // if(num_arr[0] = 45)//'-'
+            // {
+            //     k++;
+            // }
+            for(k = 0; k < idx; k++)
             {
-                int k = 0;
-                if(num_arr[0] = 45)
-                {//'-'
-                    k++;
-                }
-                for(k; k < idx-1; k++)
+                if(num_arr[k] != 45)
                 {
-                    cur_num += (num_arr[idx-k-2] - 48)*mult;
-                    mult *= 10;
+                cur_num += (num_arr[idx-k-1] - 48)*mult;
+                mult *= 10;
+                num_arr[idx-k-1] = 0;
                 }
-                if(num_arr[0] = 45)
-                {
-                    cur_num = -cur_num;
-                }
+            }
+            // if(num_arr[0] = 45)//'-'
+            // {
+            //     cur_num = -cur_num;
+            // }
             
-                *((image+i*width)+j) = cur_num;
-                
-                if(c != 0x20)
-                {
-                    printf("Not a Space, Invalid File!");
-                    return -1;
-                }
+            *((image+i*width)+j) = cur_num;
+            // if(j = 0)printf("%d", cur_num);
+            
+            if(c != 0x20)
+            {
+                printf("Not a Space, Invalid File!");
+                return -1;
             }
 
         }   
+        // printf("%d \n",i);
     }
 
     // Close the File

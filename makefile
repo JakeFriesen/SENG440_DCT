@@ -29,7 +29,7 @@ all: clean arm realarm
 
 native : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression  $(CFLAGS) $(SRC)
-	./$(DIR_O)/dct_image_compression
+	./$(DIR_O)/dct_image_compression $(ARGS)
 
 arm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(ARGS) $(SRC)
