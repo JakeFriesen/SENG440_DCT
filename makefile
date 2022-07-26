@@ -12,7 +12,7 @@ realarm : CFLAGS= -static -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
 
 binaries= test_image_gen dct_image_compression dct_image_compression_arm dct_image_compression_realarm
 assembly = test_dct_arm dct_image_compression_arm 
-images = image.pgm Decompressed_Image.pgm Compressed_Image.pgm
+images = Image.pgm Decompressed_Image.pgm Compressed_Image.pgm Image.txt Compressed_Image.txt
 DIR_T = testbench
 DIR_S = source
 DIR_O = obj

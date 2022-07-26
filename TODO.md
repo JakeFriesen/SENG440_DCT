@@ -56,17 +56,14 @@
 
 
 ### list - Jake:
-- [x] Barr-C
-- [X] Get working on real ARM machine
-- [X] 32 bit temp variables - Priority 1
-    - Isn't worth it, with heavy compile optimizations, it changes by 7 instructions
-- [X] Saturation addition? - Priority 2
-    - qadd unsupported in Samsung processor, couldn't find a substitute
-- [x] Packed Input file? - Priority 3
-- [X] Compile various asm files on real ARM - Done at the end
 - [ ] Performance Evaluation
     - [ ] valgrind - for unoptimized, optimized, asm instruction
     - [ ] gprof
     - [ ] perf
-- [x] Comments about what barr-C things were specifically used
-- [X] README - update for Sima to show how to compile
+- [ ] Think about scale facotr, maybe increase to SF=4 after DCT is finished
+- [ ] Debug MATLAB code to see why its shifting some pixels (on known good one too)
+- [ ] Make sure testbench is operable and can be run by the TAs
+- [ ] Report
+    - [ ] Get design challenges done (accuracy, reduced operator cost, time latency)
+    - [ ] Get numerical analysis done, probably also the discussion
+
