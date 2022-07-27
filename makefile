@@ -1,13 +1,13 @@
 native : CC=gcc
 native : CFLAGS= -static
 
-CC= arm-linux-gcc
+CC= /opt/arm/4.3.2/bin/arm-linux-gcc
 CFLAGS= -static -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
 
 asm : CC= /opt/arm/4.3.2/bin/arm-linux-gcc
 asm : CFLAGS = -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
 
-realarm : CC=arm-linux-gcc
+realarm : CC=/opt/arm/4.3.2/bin/arm-linux-gcc
 realarm : CFLAGS= -static -O3 -march=armv4t -mtune=arm920t -ftree-vectorize
 
 binaries= test_image_gen dct_image_compression dct_image_compression_arm dct_image_compression_realarm
@@ -32,8 +32,8 @@ native : $(SRC)
 	./$(DIR_O)/dct_image_compression $(ARGS)
 
 arm : $(SRC)
-	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(ARGS) $(SRC)
-	$(CC) -o $(DIR_O)/dct_image_compression_realarm_noflags  -static $(ARGS) $(SRC)
+	$(CC) -o $(DIR_O)/dct_image_compression_realarm $(CFLAGS) $(ARGS) $(SRC)
+	$(CC) -o $(DIR_O)/dct_image_compression_realarm_noflags -static $(ARGS) $(SRC)
 
 image_gen : image_generation.c test_image_gen.c
 	$(CC) -o $(DIR_O)/test_image_gen $(CFLAGS) $(DIR_S)/test_image_gen.c $(DIR_S)/image_generation.c
@@ -48,9 +48,11 @@ asm : $(DIR_S)/dct_optimized.c $(DIR_T)/butterfly.c
 
 realarm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(SRC)
-	lftp -c "open user4:q6coHjd7P@arm; mirror -R '/tmp/SENG440_DCT/obj' 'jake/obj'; mirror -R '/tmp/SENG440_DCT/test_img' 'jake/test_img';"
+	lftp -c "open user3:q6coHjd7P@arm; mirror -P 10 -R '/tmp/SENG440_DCT/obj' 'jake/obj'; mirror -R '/tmp/SENG440_DCT/test_img' 'jake/test_img';"
 	./telnet_script.sh | telnet arm
-	lftp -c "open user4:q6coHjd7P@arm; mirror 'jake/test_img' '/tmp/SENG440_DCT/test_img';"
+	sleep 5
+	lftp -c "open user3:q6coHjd7P@arm; get1 jake/test_img/Compressed_Image.txt -o test_img/Compressed_Image.txt;"
+	./telnet_close_script.sh | telnet arm
 
 statistics : $(SRC) $(DIR_S)/dct_unoptimized.c
 	# $(CC) -o $(DIR_O)/comp_unoptimized -static -pg $(DIR_T)/comp_test_unoptimized.c  $(TESTBENCH)

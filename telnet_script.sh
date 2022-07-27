@@ -1,12 +1,12 @@
 sleep 1;
-echo user4;
+echo user3;
 sleep 1;
 echo q6coHjd7P;
 sleep 1;
 echo "chmod +x jake/obj/dct_image_compression_realarm"; 
 sleep 1;
 echo "cd jake";
-echo ./obj/dct_image_compression_realarm $(ARGS);
+echo "./obj/dct_image_compression_realarm";
 sleep 5;
 echo "cd ..";
 sleep 1;
