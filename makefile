@@ -50,31 +50,7 @@ realarm : $(SRC)
 	$(CC) -o $(DIR_O)/dct_image_compression_realarm  $(CFLAGS) $(SRC)
 	lftp -c "open user3:q6coHjd7P@arm; mirror -P 10 -R '/tmp/SENG440_DCT/obj' 'jake/obj'; mirror -R '/tmp/SENG440_DCT/test_img' 'jake/test_img';"
 	./telnet_script.sh | telnet arm
-	sleep 5
-	lftp -c "open user3:q6coHjd7P@arm; get1 jake/test_img/Compressed_Image.txt -o test_img/Compressed_Image.txt;"
-	./telnet_close_script.sh | telnet arm
-
-statistics : $(SRC) $(DIR_S)/dct_unoptimized.c
-	# $(CC) -o $(DIR_O)/comp_unoptimized -static -pg $(DIR_T)/comp_test_unoptimized.c  $(TESTBENCH)
-	# $(CC) -o $(DIR_O)/comp_optimized  -static -pg $(DIR_T)/comp_test_optimized.c $(TESTBENCH)
-	# $(CC) -o $(DIR_O)/comp_optimized_flags  -static -pg $(CFLAGS) $(DIR_T)/comp_test_optimized.c $(TESTBENCH)
-	# ./$(DIR_O)/comp_unoptimized
-	# gprof
-	# ./$(DIR_O)/comp_optimized
-	# gprof
-	# ./$(DIR_O)/comp_optimized_flags
-	# gprof
-
-	# valgrind --tool=callgrind --log-file="unoptimized_cachegrind" ./obj/comp_unoptimized
-	# valgrind --tool=callgrind --log-file="optimized_cachegrind" ./obj/comp_optimized
-	# valgrind --tool=callgrind --log-file="optimized_flags_cachegrind" ./obj/comp_optimized_flags
-	# callgrind_annotate unoptimized_cachegrind | grep loeffler2d
-	# callgrind_annotate optimized_cachegrind | grep loeffler
-	# callgrind_annotate optimized_flags_cachegrind | grep loeffler
-	# valgrind --tool=cachegrind --branch-sim=yes ./obj/comp_unoptimized
-	# valgrind --tool=cachegrind --branch-sim=yes ./obj/comp_optimized
-	# valgrind --tool=cachegrind --branch-sim=yes ./obj/comp_optimized_flags
-
+	
 .PHONY: clean
 
 clean: 

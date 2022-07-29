@@ -462,14 +462,9 @@ loeffler_opt:
 	add	r3, r2, r3
 	mov	r2, r3, asl #1
 	ldr	r3, [fp, #-16]
-	add	r2, r3, r2
-	ldr	r1, [fp, #-36]
-	mov	r3, r1, asl #16
-	mov	r3, r3, asr #16
-	mov	r3, r3, asl #1
-	mov	r3, r3, asl #16
-	mov	r3, r3, lsr #16
-	strh	r3, [r2, #0]	@ movhi
+	add	r3, r3, r2
+	ldr	r2, [fp, #-36]
+	strh	r2, [r3, #0]	@ movhi
 	mov	r2, r4, asl #1
 	ldr	r3, [fp, #-20]
 	add	r3, r2, r3
@@ -499,9 +494,14 @@ loeffler_opt:
 	add	r3, r2, r3
 	mov	r2, r3, asl #1
 	ldr	r3, [fp, #-16]
-	add	r3, r3, r2
-	ldr	r2, [fp, #-32]
-	strh	r2, [r3, #0]	@ movhi
+	add	r2, r3, r2
+	ldr	r1, [fp, #-32]
+	mov	r3, r1, asl #16
+	mov	r3, r3, asr #16
+	mov	r3, r3, asr #1
+	mov	r3, r3, asl #16
+	mov	r3, r3, lsr #16
+	strh	r3, [r2, #0]	@ movhi
 	ldr	r3, [fp, #-20]
 	add	r3, r4, r3
 	mov	r2, r3, asl #1
@@ -534,9 +534,14 @@ loeffler_opt:
 	add	r3, r2, r3
 	mov	r2, r3, asl #1
 	ldr	r3, [fp, #-16]
-	add	r3, r3, r2
+	add	r2, r3, r2
 	ldr	r1, [fp, #-28]
-	strh	r1, [r3, #0]	@ movhi
+	mov	r3, r1, asl #16
+	mov	r3, r3, asr #16
+	mov	r3, r3, asr #1
+	mov	r3, r3, asl #16
+	mov	r3, r3, lsr #16
+	strh	r3, [r2, #0]	@ movhi
 	ldr	r3, [fp, #-20]
 	mov	r2, r3, asl #1
 	ldr	r3, [fp, #-16]
@@ -564,8 +569,7 @@ loeffler_opt:
 	ldr	r3, [fp, #-16]
 	add	r2, r3, r2
 	ldr	r1, [fp, #-48]
-	mov	r3, r1, asl #1
-	mov	r3, r3, asl #16
+	mov	r3, r1, asl #16
 	mov	r3, r3, lsr #16
 	strh	r3, [r2, #0]	@ movhi
 	ldr	r2, [fp, #-40]
@@ -667,7 +671,7 @@ loeffler_opt:
 	mov	r3, r1, asl #16
 	mov	r3, r3, asr #16
 	rsb	r3, r3, r2
-	mov	r3, r3, asr #1
+	mov	r3, r3, asr #2
 	str	r3, [fp, #-48]
 	ldr	r2, [fp, #-28]
 	mov	r3, r2, asl #16
@@ -676,7 +680,7 @@ loeffler_opt:
 	mov	r3, r1, asl #16
 	mov	r3, r3, asr #16
 	add	r3, r2, r3
-	mov	r3, r3, asr #1
+	mov	r3, r3, asr #2
 	str	r3, [fp, #-44]
 	mov	r3, r4
 	mov	r3, r3, asl #3
@@ -718,7 +722,7 @@ loeffler_opt:
 	rsb	r3, r2, r3
 	add	r3, r3, r1
 	mov	r3, r3, asl #1
-	mov	r3, r3, asr #9
+	mov	r3, r3, asr #10
 	mov	r3, r3, asl #16
 	mov	r3, r3, lsr #16
 	strh	r3, [r0, #0]	@ movhi
@@ -741,7 +745,7 @@ loeffler_opt:
 	rsb	r3, r2, r3
 	add	r3, r3, r1
 	mov	r3, r3, asl #1
-	mov	r3, r3, asr #9
+	mov	r3, r3, asr #10
 	mov	r3, r3, asl #16
 	mov	r3, r3, lsr #16
 	strh	r3, [r0, #0]	@ movhi

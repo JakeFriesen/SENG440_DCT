@@ -31,33 +31,33 @@ int dct_2d_asm (int16_t* image, int16_t width, int16_t height)
         {
             // 1D DCT
             temp = w << 3;
-            loeffler_opt(image, (0+ (h<<3))*width + temp, 0);
-            loeffler_opt(image, (1+ (h<<3))*width + temp, 0);
-            loeffler_opt(image, (2+ (h<<3))*width + temp, 0);
-            loeffler_opt(image, (3+ (h<<3))*width + temp, 0);
-            loeffler_opt(image, (4+ (h<<3))*width + temp, 0);
-            loeffler_opt(image, (5+ (h<<3))*width + temp, 0);
-            loeffler_opt(image, (6+ (h<<3))*width + temp, 0);
-            loeffler_opt(image, (7+ (h<<3))*width + temp, 0);
+            loeffler_opt_asm(image, (0+ (h<<3))*width + temp, 0);
+            loeffler_opt_asm(image, (1+ (h<<3))*width + temp, 0);
+            loeffler_opt_asm(image, (2+ (h<<3))*width + temp, 0);
+            loeffler_opt_asm(image, (3+ (h<<3))*width + temp, 0);
+            loeffler_opt_asm(image, (4+ (h<<3))*width + temp, 0);
+            loeffler_opt_asm(image, (5+ (h<<3))*width + temp, 0);
+            loeffler_opt_asm(image, (6+ (h<<3))*width + temp, 0);
+            loeffler_opt_asm(image, (7+ (h<<3))*width + temp, 0);
 
             // 2D DCT
             temp = (h<<3)*width + (w<<3);
 
-            loeffler_opt(image, temp + 0, width);
-            loeffler_opt(image, temp + 1, width);
-            loeffler_opt(image, temp + 2, width);
-            loeffler_opt(image, temp + 3, width);
-            loeffler_opt(image, temp + 4, width);
-            loeffler_opt(image, temp + 5, width);
-            loeffler_opt(image, temp + 6, width);
-            loeffler_opt(image, temp + 7, width);
+            loeffler_opt_asm(image, temp + 0, width);
+            loeffler_opt_asm(image, temp + 1, width);
+            loeffler_opt_asm(image, temp + 2, width);
+            loeffler_opt_asm(image, temp + 3, width);
+            loeffler_opt_asm(image, temp + 4, width);
+            loeffler_opt_asm(image, temp + 5, width);
+            loeffler_opt_asm(image, temp + 6, width);
+            loeffler_opt_asm(image, temp + 7, width);
         }
     }
     return 1;
 }
 
 /*
-* loeffler_opt
+* loeffler_opt_asm
 * this function performs a 1D DCT via the Loeffler Algorithm
 * For every DCT operation, the input bit value increases by 4 bit
 *   i.e 1D- original 8-bit values to 12-bit

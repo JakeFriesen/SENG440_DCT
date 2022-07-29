@@ -23,7 +23,7 @@ loeffler_opt:
 	mov	r4, r8
 	push	{r4, r5, r6, r7}
 	mov	r4, r1
-	sub	sp, sp, #28
+	sub	sp, sp, #36
 	mov	r1, r2
 	cmp	r2, #0
 	beq	.LCB8
@@ -38,93 +38,95 @@ loeffler_opt:
 	mov	r5, #7
 	mov	r6, #6
 	mov	r8, r3
-	mov	fp, r7
-	str	r1, [sp, #20]
+	mov	sl, r7
+	mov	fp, r1
 .L3:
 	lsl	r3, r4, #1
-	add	r7, r0, r3
 	add	r2, r2, r4
-	add	r3, r5, r4
-	add	r6, r6, r4
-	lsl	r3, r3, #1
+	add	r7, r0, r3
 	lsl	r2, r2, #1
-	add	r3, r0, r3
-	add	r2, r0, r2
-	lsl	r6, r6, #1
-	ldrh	r1, [r3]
-	str	r2, [sp, #4]
-	str	r3, [sp]
-	mov	sl, r6
-	ldrh	r3, [r7]
-	add	sl, sl, r0
-	ldr	r5, [sp, #4]
-	add	r1, r1, r3
-	mov	r3, sl
-	ldrh	r2, [r3]
-	mov	r9, r4
-	ldrh	r3, [r5]
-	add	r9, r9, ip
-	add	r2, r2, r3
-	mov	r3, r9
-	mov	r5, r8
-	lsl	r3, r3, #1
-	mov	r9, r3
 	add	r3, r5, r4
-	add	r9, r9, r0
-	lsl	r3, r3, #1
-	add	r3, r0, r3
-	mov	r6, r9
-	ldrh	r5, [r3]
-	str	r3, [sp, #8]
-	ldrh	r3, [r6]
-	mov	r6, fp
-	add	r5, r5, r3
-	add	r3, r6, r4
-	ldr	r6, [sp, #20]
-	lsl	r3, r3, #1
+	add	r2, r0, r2
 	add	r6, r6, r4
+	lsl	r3, r3, #1
+	str	r2, [sp, #16]
+	add	r3, r0, r3
+	lsl	r2, r6, #1
+	ldrh	r1, [r3]
+	str	r3, [sp, #12]
+	mov	r9, r2
+	ldrh	r3, [r7]
+	add	r9, r9, r0
+	ldr	r5, [sp, #16]
+	add	r1, r1, r3
+	mov	r3, r9
+	ldrh	r2, [r3]
+	ldrh	r3, [r5]
+	mov	r5, r8
+	add	r2, r2, r3
+	mov	r3, ip
+	add	r6, r3, r4
+	add	r3, r5, r4
 	lsl	r6, r6, #1
-	mov	ip, r6
+	lsl	r3, r3, #1
+	add	r6, r0, r6
+	add	r3, r0, r3
+	ldrh	r5, [r3]
+	str	r3, [sp, #20]
+	mov	ip, r4
+	ldrh	r3, [r6]
+	add	ip, ip, sl
+	add	r5, r5, r3
+	mov	r3, ip
+	mov	ip, r4
+	add	ip, ip, fp
+	mov	r4, ip
+	lsl	r4, r4, #1
+	mov	ip, r4
 	add	ip, ip, r0
+	lsl	r3, r3, #1
 	add	r3, r0, r3
 	mov	r0, ip
 	ldrh	r0, [r0]
-	str	r3, [sp, #12]
+	str	r3, [sp, #24]
 	ldrh	r3, [r3]
-	lsl	r1, r1, #16
+	str	r0, [sp, #28]
 	mov	r8, r3
 	mov	r3, r0
 	add	r3, r3, r8
 	lsl	r3, r3, #16
-	str	r0, [sp, #16]
-	lsr	r6, r3, #16
+	lsr	r0, r3, #16
+	lsl	r1, r1, #16
+	mov	fp, r0
 	lsl	r2, r2, #16
 	lsl	r5, r5, #16
 	lsr	r0, r1, #16
 	asr	r3, r3, #16
 	asr	r1, r1, #16
-	mov	fp, r6
 	add	r3, r3, r1
 	lsr	r4, r2, #16
 	lsr	r1, r5, #16
 	asr	r2, r2, #16
-	sub	r4, r4, r1
 	asr	r5, r5, #16
-	mov	r1, fp
 	add	r5, r5, r2
-	sub	r0, r0, r1
-	lsl	r3, r3, #16
 	lsl	r5, r5, #16
+	lsr	r2, r5, #16
+	lsl	r3, r3, #16
+	str	r2, [sp, #4]
+	sub	r4, r4, r1
+	lsr	r2, r3, #16
+	mov	r1, fp
+	asr	r3, r3, #16
+	asr	r5, r5, #16
+	add	r5, r5, r3
+	sub	r0, r0, r1
+	ldr	r3, [sp, #4]
 	lsl	r4, r4, #16
 	lsl	r0, r0, #16
 	asr	r4, r4, #16
 	asr	r0, r0, #16
-	lsr	r2, r5, #16
-	lsr	r6, r3, #16
-	asr	r5, r5, #16
-	asr	r3, r3, #16
-	add	r5, r5, r3
-	sub	r6, r6, r2
+	sub	r2, r2, r3
+	mov	sl, r2
 	mov	r3, #139
 	add	r2, r0, r4
 	mov	r1, r3
@@ -152,36 +154,32 @@ loeffler_opt:
 	asr	r3, r1, #5
 	asr	r1, r1, #4
 	and	r1, r1, r4
-	add	r2, r2, r0
-	lsl	r6, r6, #1
-	mov	r0, ip
-	strh	r6, [r0]
 	add	r1, r1, r3
-	mov	r3, r9
-	ldrh	r3, [r3]
-	ldr	r4, [sp, #8]
+	add	r2, r2, r0
+	mov	r3, sl
+	mov	r0, ip
+	strh	r3, [r0]
+	ldr	r0, [sp, #20]
+	ldrh	r4, [r6]
+	ldrh	r3, [r0]
 	lsl	r2, r2, #16
-	mov	r0, r9
-	mov	ip, r3
-	asr	r2, r2, #18
-	ldrh	r3, [r4]
-	mov	r6, ip
-	strh	r2, [r0]
+	asr	r2, r2, #19
+	strh	r2, [r6]
+	sub	r4, r4, r3
+	ldr	r2, [sp, #16]
 	lsl	r1, r1, #16
-	ldr	r2, [sp, #4]
-	mov	r4, sl
-	mov	r0, sl
-	sub	r6, r6, r3
-	asr	r1, r1, #18
+	mov	r0, r9
+	mov	ip, r4
+	asr	r1, r1, #19
+	mov	r4, r9
 	ldrh	r3, [r4]
-	mov	ip, r6
 	ldrh	r6, [r2]
 	strh	r1, [r0]
-	ldr	r1, [sp]
+	ldr	r1, [sp, #12]
 	sub	r6, r6, r3
 	ldrh	r2, [r1]
 	ldrh	r3, [r7]
-	ldr	r4, [sp, #16]
+	ldr	r4, [sp, #28]
 	sub	r3, r3, r2
 	mov	r2, r8
 	sub	r2, r2, r4
@@ -197,7 +195,6 @@ loeffler_opt:
 	lsl	r2, r3, #26
 	sub	r2, r2, r3
 	lsl	r2, r2, #3
-	lsl	r5, r5, #1
 	sub	r2, r2, r3
 	strh	r5, [r7]
 	lsl	r2, r2, #3
@@ -236,8 +233,8 @@ loeffler_opt:
 	add	r2, r2, r6
 	lsl	r0, r3, #6
 	lsl	r2, r2, #3
-	sub	r0, r0, r3
 	sub	r2, r2, r6
+	sub	r0, r0, r3
 	lsl	r0, r0, #2
 	lsl	r2, r2, #3
 	sub	r0, r0, r3
@@ -255,14 +252,14 @@ loeffler_opt:
 	lsl	r3, r3, #2
 	add	r3, r3, ip
 	sub	r0, r0, r3
-	mov	r6, fp
+	mov	r7, fp
 	asr	r3, r0, #5
 	asr	r0, r0, #4
-	and	r0, r0, r6
-	ldr	r7, .L6
+	and	r0, r0, r7
+	ldr	r1, .L6
 	add	r0, r0, r3
 	add	r2, r2, r5
-	and	r2, r2, r7
+	and	r2, r2, r1
 	lsl	r0, r0, #16
 	orr	r0, r0, r2
 	asr	r2, r0, #16
@@ -276,31 +273,31 @@ loeffler_opt:
 	add	r2, r2, r3
 	asr	r1, r1, #1
 	asr	r2, r2, #1
+	ldr	r7, [sp, #12]
 	sub	r3, r1, r2
 	sub	r4, r4, r0
 	add	r2, r2, r1
-	ldr	r0, [sp]
-	ldr	r1, [sp, #4]
-	asr	r3, r3, #1
-	asr	r2, r2, #1
-	strh	r3, [r0]
-	strh	r2, [r1]
+	ldr	r0, [sp, #16]
+	asr	r3, r3, #2
+	asr	r2, r2, #2
+	strh	r3, [r7]
+	strh	r2, [r0]
 	mov	r2, #181
 	lsl	r2, r2, #1
 	asr	r4, r4, #1
 	mov	r3, r2
 	mul	r3, r4
-	ldr	r4, [sp, #12]
-	asr	r3, r3, #9
+	ldr	r1, [sp, #24]
 	asr	r5, r5, #1
-	strh	r3, [r4]
+	asr	r3, r3, #10
+	strh	r3, [r1]
 	mov	r3, r2
 	mul	r3, r5
-	ldr	r5, [sp, #8]
-	asr	r3, r3, #9
-	add	sp, sp, #28
-	strh	r3, [r5]
+	ldr	r2, [sp, #20]
+	asr	r3, r3, #10
+	add	sp, sp, #36
 	mov	r0, #1
+	strh	r3, [r2]
 	@ sp needed for prologue
 	pop	{r2, r3, r4, r5}
 	mov	r8, r2
@@ -319,9 +316,9 @@ loeffler_opt:
 	lsl	r3, r1, #2
 	add	r7, r3, r1
 	lsl	r6, r2, #1
-	mov	fp, r2
+	mov	sl, r2
 	mov	r8, r7
-	str	r3, [sp, #20]
+	mov	fp, r3
 	mov	r2, r1
 	b	.L3
 .L7:

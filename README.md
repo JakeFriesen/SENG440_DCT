@@ -3,6 +3,8 @@ Calem Bardy - V00890988
 Jake Friesen - V00906053
 
 ## Project Overview
+z
+
 
 ### Compilation Process
 To compile the project to compute the 2D-DCT of a test file:
