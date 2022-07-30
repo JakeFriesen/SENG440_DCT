@@ -1,1 +1,0 @@
--wto "27e724713f6e4ecb9fc8b3344a631af7" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "adder_multiplier_test_behav" "xil_defaultlib.adder_multiplier_test" -log "elaborate.log" 

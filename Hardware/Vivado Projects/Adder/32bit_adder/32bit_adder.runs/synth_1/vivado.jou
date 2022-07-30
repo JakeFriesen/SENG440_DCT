@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:48:16 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Sun Jul 24 16:14:28 2022
+# Process ID: 7940
+# Current directory: C:/Git/SENG440_DCT/Hardware/Adder/32bit_adder/32bit_adder.runs/synth_1
+# Command line: vivado.exe -log mult.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source mult.tcl
+# Log file: C:/Git/SENG440_DCT/Hardware/Adder/32bit_adder/32bit_adder.runs/synth_1/mult.vds
+# Journal file: C:/Git/SENG440_DCT/Hardware/Adder/32bit_adder/32bit_adder.runs/synth_1\vivado.jou
+# Running On: DESKTOP-V98EE8P, OS: Windows, CPU Frequency: 4200 MHz, CPU Physical cores: 4, Host memory: 17135 MB
+#-----------------------------------------------------------
+source mult.tcl -notrace

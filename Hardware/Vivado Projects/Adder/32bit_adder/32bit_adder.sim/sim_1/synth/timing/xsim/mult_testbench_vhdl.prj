@@ -1,0 +1,6 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../../32bit_adder.srcs/sim_1/new/adder_multiplier_test.vhd" \
+
+# Do not sort compile order
+nosort

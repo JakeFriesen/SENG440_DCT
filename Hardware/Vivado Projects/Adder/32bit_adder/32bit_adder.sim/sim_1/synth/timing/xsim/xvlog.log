@@ -1,0 +1,3 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Git/SENG440_DCT/Hardware/Adder/32bit_adder/32bit_adder.sim/sim_1/synth/timing/xsim/mult_testbench_time_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mult
+INFO: [VRFC 10-311] analyzing module glbl

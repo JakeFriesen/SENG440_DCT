@@ -1,0 +1,42 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:48:16 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Sun Jul 24 16:37:35 2022
+# Process ID: 5856
+# Current directory: C:/Git/SENG440_DCT/Hardware/test_multiplier_adder
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent2240 C:\Git\SENG440_DCT\Hardware\test_multiplier_adder\test_multiplier_adder.xpr
+# Log file: C:/Git/SENG440_DCT/Hardware/test_multiplier_adder/vivado.log
+# Journal file: C:/Git/SENG440_DCT/Hardware/test_multiplier_adder\vivado.jou
+# Running On: DESKTOP-V98EE8P, OS: Windows, CPU Frequency: 4200 MHz, CPU Physical cores: 4, Host memory: 17135 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Git/SENG440_DCT/Hardware/test_multiplier_adder/test_multiplier_adder.xpr
+update_compile_order -fileset sources_1
+reset_simulation -simset sim_1 -mode post-synthesis -type timing
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_simulation -simset sim_1 -mode post-synthesis -type timing
+launch_simulation
+source mult_testbench.tcl
+launch_simulation -mode post-synthesis -type timing
+source mult_testbench.tcl
+close_sim
+close_sim
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+close_design
+launch_simulation -mode post-synthesis -type timing
+launch_simulation -mode post-synthesis -type timing
+reset_run synth_1
+launch_runs synth_1 -jobs 4
+wait_on_run synth_1
+close_design
+launch_simulation -mode post-synthesis -type timing
+source mult_testbench.tcl
+close_sim

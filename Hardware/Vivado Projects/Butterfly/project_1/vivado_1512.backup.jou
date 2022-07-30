@@ -1,0 +1,21 @@
+#-----------------------------------------------------------
+# Vivado v2022.1 (64-bit)
+# SW Build 3526262 on Mon Apr 18 15:48:16 MDT 2022
+# IP Build 3524634 on Mon Apr 18 20:55:01 MDT 2022
+# Start of session at: Sun Jul 24 15:26:11 2022
+# Process ID: 1512
+# Current directory: C:/Git/SENG440_DCT/Hardware/Butterfly/project_1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent19168 C:\Git\SENG440_DCT\Hardware\Butterfly\project_1\project_1.xpr
+# Log file: C:/Git/SENG440_DCT/Hardware/Butterfly/project_1/vivado.log
+# Journal file: C:/Git/SENG440_DCT/Hardware/Butterfly/project_1\vivado.jou
+# Running On: DESKTOP-V98EE8P, OS: Windows, CPU Frequency: 4200 MHz, CPU Physical cores: 4, Host memory: 17135 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Git/SENG440_DCT/Hardware/Butterfly/project_1/project_1.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+source butterfly_testbench.tcl
+open_run impl_1
+open_run impl_1
+report_timing_summary -delay_type min_max -report_unconstrained -check_timing_verbose -max_paths 10 -input_pins -routable_nets -name timing_1
+close_sim

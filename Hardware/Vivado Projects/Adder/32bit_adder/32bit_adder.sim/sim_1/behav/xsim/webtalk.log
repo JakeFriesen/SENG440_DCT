@@ -1,0 +1,17 @@
+#-----------------------------------------------------------
+# Webtalk v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Fri Jun 10 15:11:14 2022
+# Process ID: 6336
+# Current directory: C:/Users/jakef/OneDrive/Documents/uvic/Summer 2022/SENG440/test_multiplier_adder/test_multiplier_adder.sim/sim_1/behav/xsim
+# Command line: wbtcv.exe -mode batch -source C:/Users/jakef/OneDrive/Documents/uvic/Summer 2022/SENG440/test_multiplier_adder/test_multiplier_adder.sim/sim_1/behav/xsim/xsim.dir/adder_multiplier_test_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: C:/Users/jakef/OneDrive/Documents/uvic/Summer 2022/SENG440/test_multiplier_adder/test_multiplier_adder.sim/sim_1/behav/xsim/webtalk.log
+# Journal file: C:/Users/jakef/OneDrive/Documents/uvic/Summer 2022/SENG440/test_multiplier_adder/test_multiplier_adder.sim/sim_1/behav/xsim\webtalk.jou
+#-----------------------------------------------------------
+source C:/Users/jakef/OneDrive/Documents/uvic/Summer -notrace
+invalid command name "%"
+    while executing
+"% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current"
+    (file "C:/Users/jakef/OneDrive/Documents/uvic/Summer" line 1)
+INFO: [Common 17-206] Exiting Webtalk at Fri Jun 10 15:11:14 2022...

@@ -1,5 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/jakef/OneDrive/Documents/uvic/Summer 2022/SENG440/test_multiplier_adder/test_multiplier_adder.sim/sim_1/synth/timing/xsim/adder_multiplier_test_time_synth.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module adder_multiplier
-INFO: [VRFC 10-311] analyzing module glbl
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/jakef/OneDrive/Documents/uvic/Summer 2022/SENG440/test_multiplier_adder/test_multiplier_adder.srcs/sim_1/new/adder_multiplier_test.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'adder_multiplier_test'

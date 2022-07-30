@@ -1,0 +1,5 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Git/SENG440_DCT/Hardware/Vivado Projects/test_multiplier_adder/test_multiplier_adder.sim/sim_1/synth/timing/xsim/mult_testbench_time_synth.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mult
+INFO: [VRFC 10-311] analyzing module glbl
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Git/SENG440_DCT/Hardware/Vivado Projects/test_multiplier_adder/test_multiplier_adder.srcs/sim_1/new/adder_multiplier_test.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'mult_testbench'

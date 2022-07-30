@@ -1,0 +1,2 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Git/SENG440_DCT/Hardware/Adder/32bit_adder/32bit_adder.srcs/sim_1/new/adder_multiplier_test.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'mult_testbench'
