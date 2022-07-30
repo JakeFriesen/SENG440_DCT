@@ -1,0 +1,15 @@
+sleep 1;
+echo user3;
+sleep 1;
+echo q6coHjd7P;
+sleep 1;
+echo "chmod +x jake/obj/dct_image_compression_realarm"; 
+sleep 1;
+echo "cd jake";
+echo "./obj/dct_image_compression_realarm";
+sleep 5;
+echo "cd ..";
+sleep 1;
+# echo "rm -rf jake";
+echo exit;
+sleep 5;
