@@ -41,7 +41,7 @@ The Discrete Cosine Transform was implemented using the Loeffler algorithm to tr
 To compile the project to compute the 2D-DCT of a test file:  
 ***arm-linux-gcc -o obj/dct_image_compression_realarm  -O3 -march=armv4t -mtune=arm920t -ftree-vectorize  source/dct_image_compression.c source/dct_optimized.c source/image_generation.c***  
 or use the makefile:  
-***make arm***
+***make arm***  
 To run the project with the binary  
 ***./obj/dct_image_compression_realarm***  
 By default, this will generate a random image of size 360 x 240. An image can also be specified:  
