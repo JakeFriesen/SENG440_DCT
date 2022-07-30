@@ -4,7 +4,11 @@
 #include "../header/image_generation.h"
 #include "../header/dct_optimized.h"
 
-
+/*
+* com_test_optimized
+* This is a testbech to compare between various stages of the project for a 
+* single 8x8 matrix
+*/
 int main(void)
 {
     u_int16_t width = 600;

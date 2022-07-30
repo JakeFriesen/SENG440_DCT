@@ -63,12 +63,12 @@
 - [x] Think about scale factor, maybe increase to SF=4 after DCT is finishedd
     -SF of 3 set, not changing
 - [x] Debug MATLAB code to see why its shifting some pixels (on known good one too)
-- [ ] Code Cleanup
-    - [ ] Make sure testbench is operable and can be run by the TAs
-    - [ ] Remove anything that isn't being used (including previous versions, KEEP everything for unoptimized version)
-    - [ ] Update Readme with more general usage (MATLAB for comparisons, general walkthrough of where everything is, what files are the final ones, etc...)
-    - [ ] Clean up makefile, remove the comments stuff, remove things that shouldn't be recompiled/rerun
-    - [ ] Remove unnessessary binaries
+- [x] Code Cleanup
+    - [x] Make sure testbench is operable and can be run by the TAs
+    - [x] Remove anything that isn't being used (including previous versions, KEEP everything for unoptimized version)
+    - [x] Update Readme with more general usage (MATLAB for comparisons, general walkthrough of where everything is, what files are the final ones, etc...)
+    - [x] Clean up makefile, remove the comments stuff, remove things that shouldn't be recompiled/rerun
+    - [x] Remove unnessessary binaries
     - [x] Cleanup testbench files, a lot are unnessessary
 - [ ] Report - Talk about thumb implementation? It was not much longer
 - [x] Report - Talk about PSNR

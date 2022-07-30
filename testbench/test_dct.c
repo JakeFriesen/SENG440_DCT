@@ -3,7 +3,11 @@
 #include <string.h>
 #include "../header/dct.h"
 
-
+/*
+* test_dct
+* This is a testbech for the unoptimized project using floating point
+* arithmetic and no additional optimizations
+*/
 int main(){
     // Define testing arrays
     float test_arr [8] = {255, 0, 100, 50, 255, 30, 255, 0};

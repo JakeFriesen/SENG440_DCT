@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../header/image_generation.h"
-
+/*
+* test_image_gen
+* This is a testbech for image generation support functions
+*/
 int main(void)
 {
     printf("Image Generation Tests");
