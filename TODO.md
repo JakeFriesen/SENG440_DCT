@@ -77,6 +77,6 @@
 - [x] Report
     - [x] Get design challenges done (accuracy, reduced operator cost, time latency)
     - [x] Get numerical analysis done, probably also the discussion
-- [ ] Hardware needs to be updated
-    - [ ] Include a timing waveform file
-
+- [x] Hardware needs to be updated
+    - [x] Include a timing waveform file
+- [ ] REMEMBER TO MAKE A NEW OBJ FILE BEFORE SUBMITTING!!!!

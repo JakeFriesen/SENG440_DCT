@@ -1,5 +1,5 @@
 # 2-D Discrete Cosine Transform
-Calem Bardy - V00890988
+Calem Bardy - V00890988  
 Jake Friesen - V00906053
 
 ## Project Overview
