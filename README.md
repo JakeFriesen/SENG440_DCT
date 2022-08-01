@@ -46,7 +46,7 @@ To run the project with the binary
 ***./obj/dct_image_compression_realarm***  
 By default, this will generate a random image of size 360 x 240. An image can also be specified:  
 ***./obj/dct_image_compression_realarm path/to/image***  
-This works for ascii encoded PGM files only, with a maximum size of 1000 x 1000. Do not add the extension to the image path. Two sample images are provided in *test_img/*  
+This works for ascii encoded PGM files only, with a maximum size of 1024 x 1024. Do not add the extension to the image path. Two sample images are provided in *test_img/*  
   
 To compile and run on the real arm machine (while on seng440 machine):  
 ***make realarm***   

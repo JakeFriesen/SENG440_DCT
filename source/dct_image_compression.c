@@ -10,7 +10,7 @@ int main( int argc, char *argv[])
   //Barr-C 5.2 Fixed Width Integers (pg.34)
   u_int16_t width = 320;
   u_int16_t height = 240;
-  u_int16_t image [1000][1000];//Support up to 1000x1000 image
+  u_int16_t image [1024][1024];//Support up to 1024x1024 image
   u_int32_t return_val;
   char image_name [100];
 
