@@ -55,17 +55,6 @@ int loeffler (float *line_arr){
 int loeffler2d(float arr[8][8]){
     int i = 0, j = 0;
     float buffer[8];
-    
-    if (DEBUG){
-        printf("\nInput Array\n");
-        for(i = 0; i < 8; i++){
-            for(j = 0; j < 8; j++){
-                printf("%.3f ", arr[i][j]);
-            }
-            printf("\n");
-        }
-    }
-
 
     // Run loeffler for each row
     for(i = 0; i < 8; i++){
@@ -82,16 +71,6 @@ int loeffler2d(float arr[8][8]){
         }
     }
 
-    if (DEBUG){
-        printf("\nInput Array\n");
-        for(i = 0; i < 8; i++){
-            for(j = 0; j < 8; j++){
-                printf("%.3f ", arr[i][j]);
-            }
-            printf("\n");
-        }
-    }
-
     // Run loeffler for each column
     for(i = 0; i < 8; i++){
         // Copy row to buffer
@@ -104,16 +83,6 @@ int loeffler2d(float arr[8][8]){
         // Copy back to array
         for(j = 0; j < 8; j++){
             arr[j][i] = buffer[j];
-        }
-    }
-
-    if (DEBUG){
-        printf("\nInput Array\n");
-        for(i = 0; i < 8; i++){
-            for(j = 0; j < 8; j++){
-                printf("%.3f ", arr[i][j]);
-            }
-            printf("\n");
         }
     }
 
